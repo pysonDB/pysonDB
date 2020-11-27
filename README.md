@@ -26,7 +26,7 @@
 * Supports __CRUD__ commands.
 * No Database drivers required.
 * __Unique ID__ assigned for each JSON document added.
-* Strict about __Schemma__ of data added. 
+* Strict about __Schema__ of data added. 
 * __Inbuilt CLI__ to delete,display,create JSON database.
 
 ```python
@@ -77,7 +77,7 @@ See more Documentation [here]()
 
 * CLI support to create,delete and display database.
 * Unique Id automatically assigned for each JSON data added.
-* Schemma regularity is checked.
+* Schema regularity is checked.
 <h2>What pysonDB can't do.</h2>
 
 * Cannot store images,videos etc.
