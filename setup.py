@@ -6,7 +6,7 @@ with open("README.md") as readme_file:
 setup(
     author="Fredy Somy",
     author_email="fredysomy@gmail.com",
-    python_requires=">=3.6",
+    python_requires=">=3",
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
         "License :: OSI Approved :: Apache Software License",
@@ -19,7 +19,7 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     
-    version="0.1.8",
+    version="0.2.1",
     keywords="pysondb,database,json",
     name="pysondb",
     packages=['pysondb'],
