@@ -9,7 +9,6 @@
 
 </div>
 
-
 <div align="center">
 
  [![PyPI version](https://badge.fury.io/py/pysondb.svg)](https://badge/pysondb)
