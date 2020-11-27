@@ -1,13 +1,12 @@
 <h1 align="center"><u>PysonDB</u></h1>
 
-* [Documentation]()
-* [Install]()
-* [Example Code]()
-* [Command Line Operations]()
-* [Adding Data]()
-* [Get data]()
-* [Update Data]()
-* [Delete Data]()
+* [Install](https://github.com/fredysomy/pysonDB)
+* [Example Code](https://github.com/fredysomy/pysonDB/example)
+* [Command Line Operations](https://markdownitweb.herokuapp.com/cli-0e4d)
+* [Adding Data](https://markdownitweb.herokuapp.com/add_data-c37f)
+* [Get data](http://markdownitweb.herokuapp.com/getdata-fd3b)
+* [Update Data](https://markdownitweb.herokuapp.com/updatedata-fd97)
+* [Delete Data](https://markdownitweb.herokuapp.com/deletedata-6ead)
 
 
 <h2>Add Data</h2>
@@ -54,7 +53,5 @@ But the second data will be added.
 >>a.getAll()
 {"name":"pysondb","type":"DB"},{"name":"py_cli","type":"CLI"},{"name":"py_cli2","type":"CLI"}]
 ```
-* See full examples [here]().
-* If You have any queries or doubts join the discord server [here]()
-
- 
+* See full examples [here](https://github.com/fredysomy/pysonDB/example).
+* If You have any queries or doubts join the discord server [here](https://discord.gg/SZyk2dCgwg)

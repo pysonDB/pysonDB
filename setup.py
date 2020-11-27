@@ -8,7 +8,7 @@ setup(
     author_email="fredysomy@gmail.com",
     python_requires=">=3",
     classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
+        "Development Status :: 2 - Alpha",
         "License :: OSI Approved :: Apache Software License",
         "Natural Language :: English",
         "Programming Language :: Python :: 3",
@@ -19,7 +19,7 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     
-    version="0.2.1",
+    version="0.2.4",
     keywords="pysondb,database,json",
     name="pysondb",
     packages=['pysondb'],

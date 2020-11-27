@@ -1,15 +1,19 @@
-<div align="center">
-<img width="80%" src="https://raw.githubusercontent.com/fredysomy/pysonDB/master/images/file2son.png?token=APXKHAH6EDEJ7RUG3QOD2OC7ZHQZG">
-</div>
 
 
-<div align="center">
+![data](https://raw.githubusercontent.com/fredysomy/pysonDB/master/images/file2son.png?token=APXKHAH6EDEJ7RUG3QOD2OC7ZHQZG)
 
-<h2>A Simple, Lightweight, Efficent JSON based DataBase for Python.</h2>
 
-</div>
 
-<div align="center">
+***
+
+
+
+## A Simple, Lightweight, Efficent JSON based DataBase for Python
+
+
+***
+
+
 
  [![PyPI version](https://badge.fury.io/py/pysondb.svg)](https://badge/pysondb)
  ![PyPI - Downloads](https://img.shields.io/pypi/dm/pysondb)
@@ -18,10 +22,11 @@
  [![Discord](https://img.shields.io/discord/781486602778050590)](https://discord.gg/SZyk2dCgwg)
  ![GitHub Repo stars](https://img.shields.io/github/stars/fredysomy/pysonDB?style=plastic)
  ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/fredysomy/pysonDB)
+
  
- </div>
+ ***
  
-<h2>Features</h2>
+## Features
 
 * __Lightweight__ JSON based database.
 * Supports __CRUD__ commands.
@@ -39,23 +44,23 @@
 ```
 * See its simple..
 
-<h2>Quick Links</h2>
+## Quick Links
 
-* [Documentation]()
-* [Install]()
-* [Example Code]()
-* [Command Line Operations]()
-* [Adding Data]()
-* [Get data]()
-* [Update Data]()
-* [Delete Data]()
 
-<h2 id="install">Install</h2>
+* [Install](https://github.com/fredysomy/pysonDB) 
+* [Example Code](https://github.com/fredysomy/pysonDB/example) 
+* [Command Line Operations](https://markdownitweb.herokuapp.com/cli-0e4d) 
+* [Adding Data](https://markdownitweb.herokuapp.com/add_data-c37f) 
+* [Get data](https://markdownitweb.herokuapp.com/getdata-fd3b) 
+* [Update Data](https://markdownitweb.herokuapp.com/updatedata-fd97) 
+* [Delete Data](https://markdownitweb.herokuapp.com/deletedata-6ead)
+
+## Install
 
 ```python
 pip install pysondb
 ```
-<h2>Create a database</h2>
+## Create a database
 
 * You can create a database usinf CLI.
 ```bash
@@ -72,24 +77,25 @@ a=db.getDb("db.json')
 * The above piece of code will create a database with ``` {data:[]}``` in it.
 * Even if the json file exists there is no problem.
 
-See more Documentation [here]()
+See more Documentation [here](https://markdownitweb.herokuapp.com/maindocs-2d9c)
 
-<h2>What makes pysonDB different</h2>
+## What makes pysonDB different
 
 * CLI support to create,delete and display database.
 * Unique Id automatically assigned for each JSON data added.
 * Schema regularity is checked.
-<h2>What pysonDB can't do.</h2>
+
+## What pysonDB can't do.
 
 * Cannot store images,videos etc.
 
-<h2>TODO</h2>
+## TODO
 
 - [ ] CLI to convert CSV to pysonDB required json.
 - [ ] Use CSV file in the database.
 - [ ] Make the database available to use local servers (Flask,Django)
 
-<h2>Contributing</h2>
+## Contributing
 
 Whether reporting bugs, discussing improvements and new ideas or writing extensions: Contributions to pysonDB are welcome! Here's how to get started:
 
@@ -99,7 +105,3 @@ Whether reporting bugs, discussing improvements and new ideas or writing extensi
 * Create a new branch off the master branch.
 * Write a test which shows that the bug was fixed or that the feature works as expected.
 * Send a pull request to us and wait till it get merged.
-
-
- 
-
