@@ -81,6 +81,7 @@ See more Documentation [here]()
 
 Whether reporting bugs, discussing improvements and new ideas or writing extensions: Contributions to pysonDB are welcome! Here's how to get started:
 
+* Join Discord channel [Here](https://discord.gg/SZyk2dCgwg)
 * Check for issues or open a issue or open a feature requests.
 * Fork the repository on Github
 * Create a new branch off the master branch.
