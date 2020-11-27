@@ -15,7 +15,6 @@
  ![PyPI - Downloads](https://img.shields.io/pypi/dm/pysondb)
  [![CodeFactor](https://www.codefactor.io/repository/github/fredysomy/pysondb/badge?s=a6ba6d3cb7fd5a89bbfab163b1f9b370df61ea5f)](https://www.codefactor.io/repository/github/fredysomy/pysondb)
  [![Discord](https://img.shields.io/discord/781486602778050590)](https://discord.gg/SZyk2dCgwg)
- ![GitHub repo size](https://img.shields.io/github/repo-size/fredysomy/pysonDB)
  ![GitHub Repo stars](https://img.shields.io/github/stars/fredysomy/pysonDB?style=plastic)
  ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/fredysomy/pysonDB)
  
