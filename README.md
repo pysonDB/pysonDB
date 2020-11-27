@@ -9,6 +9,11 @@
 
 </div>
 
+
+<div align="center">
+ ![https://img.shields.io/badge/Discord-JOIN-blue](https://discord.gg/SZyk2dCgwg)
+ </div>
+ 
 <h2>Features</h2>
 
 * Lightweight JSON based database.
