@@ -13,6 +13,7 @@
 <div align="center">
  
  [![Discord](https://img.shields.io/badge/Discord-JOIN-blue)](https://discord.gg/SZyk2dCgwg)
+ ![GitHub repo size](https://img.shields.io/github/repo-size/fredysomy/pysonDB)
  
  </div>
  
