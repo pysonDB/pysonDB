@@ -21,12 +21,12 @@
  
 <h2>Features</h2>
 
-* Lightweight JSON based database.
-* Supports CRUD commands.
+* __Lightweight__ JSON based database.
+* Supports __CRUD__ commands.
 * No Database drivers required.
-* Unique ID assigned for each JSON document added.
-* Strict about Schemma of data added. 
-* Inbuilt CLI to delete,display,create JSON database.
+* __Unique ID__ assigned for each JSON document added.
+* Strict about __Schemma__ of data added. 
+* __Inbuilt CLI__ to delete,display,create JSON database.
 
 ```python
 >> from pysondb import db
