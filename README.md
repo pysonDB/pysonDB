@@ -35,7 +35,7 @@
 >> a.getAll()
 >> [{"name":"pysondb","type":"DB"},{"name":"pysondb-cli","type":"CLI"}]
 ```
-See its simple..
+* See its simple..
 
 <h2>Quick Links</h2>
 
@@ -77,9 +77,12 @@ See more Documentation [here]()
 * CLI support to create,delete and display database.
 * Unique Id automatically assigned for each JSON data added.
 * Schemma regularity is checked.
+<h2>What pysonDB can't do.</h2>
+
+* Cannot store images,videos etc.
 
 <h2>TODO</h2>
-
+- [ ] CLI to convert CSV to pysonDB required json.
 - [ ] Use CSV file in the database.
 - [ ] Make the database available to use local servers (Flask,Django)
 
