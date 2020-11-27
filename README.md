@@ -13,6 +13,7 @@
 <div align="center">
 
  [![PyPI version](https://badge.fury.io/py/pysondb.svg)](https://badge/pysondb)
+ [![download](https://pypip.in/d/pysondb/badge.svg)]()
  [![Discord](https://img.shields.io/badge/Discord-JOIN-blue)](https://discord.gg/SZyk2dCgwg)
  ![GitHub repo size](https://img.shields.io/github/repo-size/fredysomy/pysonDB)
  ![GitHub Repo stars](https://img.shields.io/github/stars/fredysomy/pysonDB?style=plastic)
