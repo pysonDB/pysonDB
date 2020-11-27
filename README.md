@@ -82,6 +82,7 @@ See more Documentation [here]()
 * Cannot store images,videos etc.
 
 <h2>TODO</h2>
+
 - [ ] CLI to convert CSV to pysonDB required json.
 - [ ] Use CSV file in the database.
 - [ ] Make the database available to use local servers (Flask,Django)
