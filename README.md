@@ -66,7 +66,7 @@ from pysondb import db
 
 a=db.getDb("db.json')
 ```
-
+See more Documentation [here]()
 * The above piece of code will create a database with ``` {data:[]}``` in it.
 * Even if the json file exists there is no problem.
 <h2>TODO</h2>
