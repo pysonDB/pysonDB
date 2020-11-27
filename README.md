@@ -8,12 +8,7 @@
 
 
 ## A Simple, Lightweight, Efficent JSON based DataBase for Python
-
-
-
-
-
-
+ 
  [![PyPI version](https://badge.fury.io/py/pysondb.svg)](https://badge/pysondb)
  ![PyPI - Downloads](https://img.shields.io/pypi/dm/pysondb)
  ![.github/workflows/Build.yml](https://github.com/fredysomy/pysonDB/workflows/.github/workflows/Build.yml/badge.svg)
