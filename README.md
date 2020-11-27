@@ -76,7 +76,7 @@ a=db.getDb("db.json')
 
 <h2>Contributing</h2>
 
-Whether reporting bugs, discussing improvements and new ideas or writing extensions: Contributions to TinyDB are welcome! Here's how to get started:
+Whether reporting bugs, discussing improvements and new ideas or writing extensions: Contributions to pysonDB are welcome! Here's how to get started:
 
 * Check for issues or open a issue or open a feature requests.
 * Fork the repository on Github
