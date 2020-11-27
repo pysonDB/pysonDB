@@ -4,14 +4,13 @@
 
 
 
-***
 
 
 
 ## A Simple, Lightweight, Efficent JSON based DataBase for Python
 
 
-***
+
 
 
 
