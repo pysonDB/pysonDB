@@ -72,6 +72,12 @@ a=db.getDb("db.json')
 
 See more Documentation [here]()
 
+<h2>What makes pysonDB different</h2>
+
+* CLI support to create,delete and display database.
+* Unique Id automatically assigned for each JSON data added.
+* Schemma regularity is checked.
+
 <h2>TODO</h2>
 
 - [ ] Use CSV file in the database.
