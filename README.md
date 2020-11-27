@@ -61,8 +61,8 @@ a=db.getDb("db.json')
 * Even if the json file exists there is no problem.
 <h2>TODO</h2>
 
-- [] Use CSV file in the database.
-- [] Make the database available to use local servers (Flask,Django)
+- [ ] Use CSV file in the database.
+- [ ] Make the database available to use local servers (Flask,Django)
 
 <h2>Contributing</h2>
 
