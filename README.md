@@ -27,7 +27,7 @@
 ```
 See its simple..
 
-<h4>Quick Links</h4>
+<h2>Quick Links</h2>
 
 * [Documentation]()
 * [Install]()
@@ -38,12 +38,12 @@ See its simple..
 * [Update Data]()
 * [Delete Data]()
 
-<h4 id="install">Install</h4>
+<h2 id="install">Install</h2>
 
 ```python
 pip install pysondb
 ```
-<h4>Create a database</h4>
+<h2>Create a database</h2>
 
 * You can create a database usinf CLI.
 ```bash
@@ -60,7 +60,7 @@ a=db.getDb("db.json')
 * The above piece of code will create a database with ``` {data:[]}``` in it.
 * Even if the json file exists there is no problem.
 
-<h4>Contributing</h4>
+<h2>Contributing</h2>
 
 Whether reporting bugs, discussing improvements and new ideas or writing extensions: Contributions to TinyDB are welcome! Here's how to get started:
 
