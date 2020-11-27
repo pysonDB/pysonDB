@@ -11,7 +11,7 @@
 
 
 <div align="center">
- ![https://img.shields.io/badge/Discord-JOIN-blue](https://discord.gg/SZyk2dCgwg)
+ ![![Discord](https://img.shields.io/badge/Discord-JOIN-blue)](https://discord.gg/SZyk2dCgwg)
  </div>
  
 <h2>Features</h2>
