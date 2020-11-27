@@ -2,10 +2,6 @@
 
 ![data](https://raw.githubusercontent.com/fredysomy/pysonDB/master/images/file2son.png?token=APXKHAH6EDEJ7RUG3QOD2OC7ZHQZG)
 
-<<<<<<< HEAD
-=======
-<h2>A Simple, Lightweight, Efficent JSON based DATABASE for Python.</h2>
->>>>>>> e93ba9b24b7faf3ca25a6996ec1c58251f35059d
 
 
 ***
