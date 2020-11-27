@@ -2,7 +2,7 @@
 <img width="80%" src="https://raw.githubusercontent.com/fredysomy/pysonDB/master/images/file2son.png?token=APXKHAH6EDEJ7RUG3QOD2OC7ZHQZG">
 </div>
 
-***
+
 <div align="center">
 
 <h2>A simple,lightweight,efficent JSON based database for python.</h2>
