@@ -5,7 +5,7 @@
 ***
 <div align="center">
 
-<h4>A simple,lightweight,efficent JSON based database for python.</h4>
+<h2>A simple,lightweight,efficent JSON based database for python.</h2>
 
 </div>
 
