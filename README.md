@@ -14,6 +14,8 @@
  
  [![Discord](https://img.shields.io/badge/Discord-JOIN-blue)](https://discord.gg/SZyk2dCgwg)
  ![GitHub repo size](https://img.shields.io/github/repo-size/fredysomy/pysonDB)
+ ![GitHub Repo stars](https://img.shields.io/github/stars/fredysomy/pysonDB?style=plastic)
+ ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/fredysomy/pysonDB)
  
  </div>
  
