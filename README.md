@@ -85,8 +85,8 @@ See more Documentation [here](https://markdownitweb.herokuapp.com/maindocs-2d9c)
 
 ## TODO
 
-- [ ] CLI to convert CSV to pysonDB required json.
-- [ ] Use CSV file in the database.
+- [X] CLI to convert CSV to pysonDB required json.
+- [X] Use CSV file in the database.
 - [ ] Make the database available to use local servers (Flask,Django)
 
 ## Contributing

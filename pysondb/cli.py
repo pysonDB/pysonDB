@@ -3,16 +3,16 @@ from pathlib import Path
 import json
 from beautifultable import BeautifulTable
 import os
+import csv
+import random
 def create(name):
-    sdx=Path(name)
-    
     """ 
     The below function checks if there is a similar .json file
     If the file exists It does nothing and it will add the filename variable to the class. 
     But if the file is not present it will add {data:[]} and will add the filename variable to the class.
     """
 
-    
+    sdx=Path(name)
     if sdx.exists():
         x=open(name,'r+')
         yt=x.read()
@@ -55,13 +55,31 @@ def delete(name):
             print("Action terminated")    
     else:
         print("The file does not exist")
-def convert(csvfile,destfile):
-    pass
+def convert(c,d):
+    print("Reading data from {}".format(c))
+    arr=[]
+    with open (c) as csvFile:
+        csvReader = csv.DictReader(csvFile)
+        for csvRow in csvReader:
+            csvRow['id']=random.randint(1000000000,9999999999)
+            arr.append(csvRow)
+
+
+    print("Writing data into {}".format(d))
+    x={}
+    x["data"]=arr
+    y=json.dumps(x)
+    filetowrite=open(d,"w")
+    filetowrite.write(y)
+    filetowrite.close()
+    print("Conversion Succesfull")
+
 def main():
     fire.Fire({
         'create':create,
         'display':display,
-        'delete':delete
+        'delete':delete,
+        'convert':convert
     })
 
 

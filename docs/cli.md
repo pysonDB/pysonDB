@@ -17,8 +17,23 @@
   * [name] => name of json file. 
 * pysondb display [name] 
   * [name] => name of json file.
+* pysondb display [name] 
+  * [name] => name of json file.
 
-<h3>Use</h3>
+<h3 id="convert">Use</h3>
+<h4><code> pysondb convert --c [csv file destination] --d [json file to write]</code></h4>
+
+```bash
+Microsoft Windows [Version 6.1.7601]
+Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
+
+C:\Users\Admin\Desktop\pysondb>pysondb convert --c file.csv --d file.json
+Reading data from file.csv
+Writing data into file.json
+Conversion Succesfull
+
+
+```
 
 <h4><code> pysondb create [name]</code></h4>
 
