@@ -10,7 +10,7 @@
 ## A Simple, Lightweight, Efficent JSON based DataBase for Python
  
  [![PyPI version](https://badge.fury.io/py/pysondb.svg)](https://badge/pysondb)
- ![PyPI - Downloads](https://img.shields.io/pypi/dm/pysondb)
+ [![PyPI download day](https://img.shields.io/pypi/dd/pysondb.svg)](https://pypi.python.org/pypi/pysondb)
  ![.github/workflows/Build.yml](https://github.com/fredysomy/pysonDB/workflows/.github/workflows/Build.yml/badge.svg)
  [![CodeFactor](https://www.codefactor.io/repository/github/fredysomy/pysondb/badge?s=a6ba6d3cb7fd5a89bbfab163b1f9b370df61ea5f)](https://www.codefactor.io/repository/github/fredysomy/pysondb)
  [![Discord](https://img.shields.io/discord/781486602778050590)](https://discord.gg/SZyk2dCgwg)
@@ -42,7 +42,7 @@
 
 
 * [Install](https://github.com/fredysomy/pysonDB) 
-* [Example Code](https://github.com/fredysomy/pysonDB/example) 
+* [Example Code](https://github.com/fredysomy/pysonDB/tree/master/example) 
 * [Command Line Operations](https://markdownitweb.herokuapp.com/cli-0e4d) 
 * [Adding Data](https://markdownitweb.herokuapp.com/add_data-c37f) 
 * [Get data](https://markdownitweb.herokuapp.com/getdata-fd3b) 
