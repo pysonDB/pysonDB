@@ -19,7 +19,7 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     
-    version="0.3.0",
+    version="0.3.1",
     keywords="pysondb,database,json",
     name="pysondb",
     packages=['pysondb'],
