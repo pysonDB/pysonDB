@@ -16,16 +16,7 @@ class getDb:
         try:
             x=open(sdx,'r+')
             yt=x.read()
-            try:
-                cd=json.loads(yt)
-                d=cd['data']
-                x.close()
-                self.filename=filename
-            except:
-                xy={'data':[]}
-                x.write(json.dumps(xy))
-                x.close()
-                self.filename=filename
+            self.filename=filename
         except:
             xy={'data':[]}
             y=open(sdx,'a')
