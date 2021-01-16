@@ -99,7 +99,7 @@ class getDb:
 
         # The getAll() function can get all the data available in the database selected>
 
-        with open(self.filename, "r") as fi:
+        with open(self.filename, "r", encoding='utf8') as fi:
             data = json.load(fi)
         return(data['data'])   
 
@@ -107,7 +107,7 @@ class getDb:
 
         # The get(n) function gets n number of data , and default is 1
         try:
-            with open(self.filename, "r") as fi:
+            with open(self.filename, "r", encoding='utf8') as fi:
                 data = json.load(fi)  
             data_retrun=[]  
             if num<=len(data['data']):
