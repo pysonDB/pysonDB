@@ -14,12 +14,12 @@ class getDb:
         # But if the file is not present it will add {data:[]} and will add the filename variable to the class.
         print(sdx)
         try:
-            x=open(sdx,'r+')
+            x=open(filename,'r+')
             yt=x.read()
             self.filename=filename
         except:
             xy={'data':[]}
-            y=open(sdx,'a')
+            y=open(filename,'a')
             y.write(json.dumps(xy))
             y.close()
             self.filename=filename
