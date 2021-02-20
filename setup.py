@@ -14,21 +14,16 @@ setup(
         "Programming Language :: Python :: 3",
     ],
     description="A Python JSON based lightweight Database.",
-    install_requires=['fire','beautifultable'],
+    install_requires=["fire", "beautifultable"],
     license="Apache Software License 2.0",
     long_description=readme,
     long_description_content_type="text/markdown",
-    
     version="0.3.7",
     keywords="pysondb,database,json",
     name="pysondb",
-    packages=['pysondb'],
-    entry_points={
-        'console_scripts':[
-        'pysondb=pysondb.cli:main']
-    },
+    packages=["pysondb"],
+    entry_points={"console_scripts": ["pysondb=pysondb.cli:main"]},
     setup_requires=[],
     url="https://github.com/fredysomy/pysonDB",
-  
     zip_safe=False,
 )
