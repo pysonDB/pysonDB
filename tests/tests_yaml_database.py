@@ -4,8 +4,8 @@ import uuid
 import pytest
 import yaml
 
-from pysondb.db import (DataNotFoundError, IdNotFoundError, SchemaError,
-                        UuidDatabase, YamlDatabase)
+from pysondb.db import (Database, DataNotFoundError, IdNotFoundError,
+                        SchemaError)
 
 ID_FIXTURE = {"data": [{"id": 9999999999, "name": "test"}]}
 ID_FIXTURE_STR = yaml.dump(ID_FIXTURE)
@@ -13,17 +13,17 @@ EMPTY_FIXTURE_STR = yaml.dump({"data": []})
 
 
 def test_database_add(tmpdir):
-    file = tmpdir.join("test.db.json")
+    file = tmpdir.join("test.db.yaml")
     file.write(EMPTY_FIXTURE_STR)
-    db = YamlDatabase(file.strpath)
+    db = Database().on(file.strpath, uuid=False)
     x = db.add({"name": "test"})
     assert int(x)
 
 
 def test_database_add_many(tmpdir):
-    file = tmpdir.join("test.db.json")
+    file = tmpdir.join("test.db.yaml")
     file.write(EMPTY_FIXTURE_STR)
-    db = YamlDatabase(file.strpath)
+    db = Database().on(file.strpath, uuid=False)
     db.addMany([{"name": "test"}, {"name": "test2"}])
     data = db.getAll()
     assert len(data) == 2
@@ -32,9 +32,9 @@ def test_database_add_many(tmpdir):
 
 
 def test_database_get(tmpdir):
-    file = tmpdir.join("test.db.json")
+    file = tmpdir.join("test.db.yaml")
     file.write(EMPTY_FIXTURE_STR)
-    db = YamlDatabase(file.strpath)
+    db = Database().on(file.strpath, uuid=False)
     fixture = [
         {"name": "test", "getbyfield": "row1"},
         {"name": "test works!", "getbyfield": "row2"},
@@ -47,9 +47,9 @@ def test_database_get(tmpdir):
 
 
 def test_database_get_by(tmpdir):
-    file = tmpdir.join("test.db.json")
+    file = tmpdir.join("test.db.yaml")
     file.write(EMPTY_FIXTURE_STR)
-    db = YamlDatabase(file.strpath)
+    db = Database().on(file.strpath, uuid=False)
     fixture = [
         {"name": "test", "getbyfield": "row1"},
         {"name": "test works!", "getbyfield": "row2"},
@@ -63,17 +63,17 @@ def test_database_get_by(tmpdir):
 
 
 def test_database_add_invalid_schema_exception(tmpdir):
-    file = tmpdir.join("test.db.json")
+    file = tmpdir.join("test.db.yaml")
     file.write(ID_FIXTURE_STR)
-    db = YamlDatabase(file.strpath)
+    db = Database().on(file.strpath, uuid=False)
     with pytest.raises(SchemaError):
         db.add({"namme": "sd"})
 
 
 def test_database_update(tmpdir):
-    file = tmpdir.join("test.db.json")
+    file = tmpdir.join("test.db.yaml")
     file.write(ID_FIXTURE_STR)
-    db = YamlDatabase(file.strpath)
+    db = Database().on(file.strpath, uuid=False)
     db.update({"name": "test"}, {"name": "test works!"})
     assert db.get()[0]["name"] == "test works!"
     with pytest.raises(DataNotFoundError):
@@ -83,26 +83,26 @@ def test_database_update(tmpdir):
 
 
 def test_database_update_by_id(tmpdir):
-    file = tmpdir.join("test.db.json")
+    file = tmpdir.join("test.db.yaml")
     file.write(ID_FIXTURE_STR)
-    db = YamlDatabase(file.strpath)
+    db = Database().on(file.strpath, uuid=False)
     db.updateById(ID_FIXTURE["data"][0]["id"], {"name": "test works!"})
     x = db.get()[0]["name"]
     assert db.get()[0]["name"] == "test works!"
 
 
 def test_database_update_by_id_not_found(tmpdir):
-    file = tmpdir.join("test.db.json")
+    file = tmpdir.join("test.db.yaml")
     file.write(ID_FIXTURE_STR)
-    db = YamlDatabase(file.strpath)
+    db = Database().on(file.strpath, uuid=False)
     with pytest.raises(IdNotFoundError):
         db.updateById(123, {"name": "not found :("})
 
 
 def test_database_delete_by_id(tmpdir):
-    file = tmpdir.join("test.db.json")
+    file = tmpdir.join("test.db.yaml")
     file.write(ID_FIXTURE_STR)
-    db = YamlDatabase(file.strpath)
+    db = Database().on(file.strpath, uuid=False)
     assert db.deleteById(ID_FIXTURE["data"][0]["id"])
     assert not bool(len(db.get()))
     fixture = [

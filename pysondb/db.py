@@ -40,7 +40,7 @@ class SchemaError(Exception):
         self.args = args
 
 
-class Database:
+class JsonDatabase:
     def __init__(self, filename, id_fieldname="id"):
         sdx = Path(filename)
         self._id_fieldname = id_fieldname
@@ -231,7 +231,7 @@ class Database:
                     )
 
 
-class UuidDatabase(Database):
+class UuidDatabase(JsonDatabase):
     def _get_id(self):
         return str(uuid.uuid4())
 
@@ -239,7 +239,7 @@ class UuidDatabase(Database):
         return pk
 
 
-class YamlDatabase(Database):
+class YamlDatabase(JsonDatabase):
     def _get_load_function(self):
         return yaml.safe_load
 
@@ -247,8 +247,21 @@ class YamlDatabase(Database):
         return yaml.dump
 
 
+class JsonUuidDatabase(UuidDatabase):
+    pass
+
+
 class YamlUuidDatabase(UuidDatabase, YamlDatabase):
     pass
 
 
-getDb = Database  # for legacy support.
+class Database:
+    def on(self, filename, uuid=True):
+        if filename.split(".")[-1:][0] == "json":
+            return JsonUuidDatabase(filename) if uuid else JsonDatabase(filename)
+        if filename.split(".")[-1:][0] == "yaml":
+            return YamlUuidDatabase(filename) if uuid else YamlDatabase(filename)
+        raise NotImplementedError
+
+
+getDb = JsonDatabase  # for legacy support.
