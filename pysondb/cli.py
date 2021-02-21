@@ -3,8 +3,8 @@ import json
 import os
 import random
 
-from beautifultable import BeautifulTable
 import fire
+from beautifultable import BeautifulTable
 
 
 def create_if_not_exist(file_name: str):
@@ -56,7 +56,7 @@ def convert(csv_file, json_db):
     x["data"] = arr
     with open(json_db, "w") as json_file:
         json.dump(x, json_file)
-    print("Conversion succesful")
+    print("Conversion successful")
 
 
 def main():
