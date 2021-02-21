@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 import random
 import uuid
 from pathlib import Path
@@ -255,11 +256,22 @@ class YamlUuidDatabase(UuidDatabase, YamlDatabase):
     pass
 
 
+EMPTY_DATA = {"data": []}
+
+
 class Database:
-    def on(self, filename, uuid=True):
+    def create(self, filename, data):
+        with open(filename, "w") as db_file:
+            db_file.write(data)
+
+    def on(self, filename, uuid=True, create=True):
         if filename.split(".")[-1:][0] == "json":
+            if create and not os.path.exists(filename):
+                self.create(filename, json.dumps(EMPTY_DATA))
             return JsonUuidDatabase(filename) if uuid else JsonDatabase(filename)
         if filename.split(".")[-1:][0] == "yaml":
+            if create and not os.path.exists(filename):
+                self.create(filename, json.dumps(EMPTY_DATA))
             return YamlUuidDatabase(filename) if uuid else YamlDatabase(filename)
         raise NotImplementedError
 

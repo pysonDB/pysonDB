@@ -27,3 +27,16 @@ def test_yaml_filending():
 def test_yaml_filending_uuid():
     db = Database().on("test.yaml", uuid=True)
     assert isinstance(db, YamlUuidDatabase)
+
+
+def test_create():
+    db = Database().on("test.yaml", uuid=True)
+    assert isinstance(db, YamlUuidDatabase)
+    db.add({"test": "hello"})
+
+
+def test_create_false():
+    db = Database().on("test_fail.yaml", uuid=True, create=False)
+    assert isinstance(db, YamlUuidDatabase)
+    with pytest.raises(FileNotFoundError):
+        db.add({"test": "hello"})
