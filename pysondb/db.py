@@ -47,7 +47,7 @@ class Database:
         self.filename = filename
 
     def _get_id(self):
-        # TODO - avoid collision feature for integer based id?
+        # FIXME: - avoid collision feature for integer based id?
         return random.randint(1000000000, 9999999999)
 
     def _cast_id(self, pk):
