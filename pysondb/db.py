@@ -5,6 +5,7 @@ import uuid
 from pathlib import Path
 
 import yaml
+from filelock import FileLock
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("pysondb")
@@ -45,6 +46,7 @@ class Database:
         self._id_fieldname = id_fieldname
         logger.info("Database Filename: {0}".format(sdx))
         self.filename = filename
+        self.lock = FileLock("{}.lock".format(self.filename))
 
     def _get_id(self):
         # FIXME: - avoid collision feature for integer based id?
@@ -64,155 +66,169 @@ class Database:
         return self._id_fieldname
 
     def add(self, new_data):
-        with open(self.filename, "r+") as db_file:
-            db_data = self._get_load_function()(db_file)
-            try:
-                if set(db_data["data"][0].keys()) == set(new_data.keys()).union(
-                    [self.id_fieldname]
-                ):
-                    new_data[self.id_fieldname] = self._get_id()
-                    logger.debug("Append new data; {0}".format(new_data))
-                    db_data["data"].append(new_data)
-                    db_file.seek(0)
-                    self._get_dump_function()(db_data, db_file)
-                    return new_data[self.id_fieldname]
-                else:
-                    raise SchemaError(
-                        "db_keys: " + ",".join(sorted(list(db_data["data"][0].keys()))),
-                        "new_data_keys: "
-                        + ",".join(sorted(list(new_data.keys()) + [self.id_fieldname])),
-                    )
-            except IndexError:
-                new_data[self.id_fieldname] = self._get_id()
-                db_data["data"].append(new_data)
-                logger.debug("Add first data entry; {0}".format(new_data))
-                db_file.seek(0)
-                self._get_dump_function()(db_data, db_file)
-            return new_data[self.id_fieldname]
-
-    def addMany(self, new_data):
-        with open(self.filename, "r+") as db_file:
-            db_data = self._get_load_function()(db_file)
-            try:
-                for d in new_data:
-                    if set(db_data["data"][0].keys()) == set(d.keys()).union(
+        with self.lock:
+            with open(self.filename, "r+") as db_file:
+                db_data = self._get_load_function()(db_file)
+                try:
+                    if set(db_data["data"][0].keys()) == set(new_data.keys()).union(
                         [self.id_fieldname]
                     ):
-                        d[self.id_fieldname] = self._get_id()
-                        db_data["data"].append(d)
+                        new_data[self.id_fieldname] = self._get_id()
+                        logger.debug("Append new data; {0}".format(new_data))
+                        db_data["data"].append(new_data)
                         db_file.seek(0)
                         self._get_dump_function()(db_data, db_file)
-            except:
-                keys = list(new_data[0].keys())
-                for d in new_data:
-                    if set(keys) == set(d.keys()):
-                        d[self.id_fieldname] = self._get_id()
-                        db_data["data"].append(d)
-                        db_file.seek(0)
-                        self._get_dump_function()(db_data, db_file)
+                        return new_data[self.id_fieldname]
+                    else:
+                        raise SchemaError(
+                            "db_keys: "
+                            + ",".join(sorted(list(db_data["data"][0].keys()))),
+                            "new_data_keys: "
+                            + ",".join(
+                                sorted(list(new_data.keys()) + [self.id_fieldname])
+                            ),
+                        )
+                except IndexError:
+                    new_data[self.id_fieldname] = self._get_id()
+                    db_data["data"].append(new_data)
+                    logger.debug("Add first data entry; {0}".format(new_data))
+                    db_file.seek(0)
+                    self._get_dump_function()(db_data, db_file)
+                return new_data[self.id_fieldname]
+
+    def addMany(self, new_data):
+        with self.lock:
+            with open(self.filename, "r+") as db_file:
+                db_data = self._get_load_function()(db_file)
+                try:
+                    for d in new_data:
+                        if set(db_data["data"][0].keys()) == set(d.keys()).union(
+                            [self.id_fieldname]
+                        ):
+                            d[self.id_fieldname] = self._get_id()
+                            db_data["data"].append(d)
+                            db_file.seek(0)
+                            self._get_dump_function()(db_data, db_file)
+                except:
+                    keys = list(new_data[0].keys())
+                    for d in new_data:
+                        if set(keys) == set(d.keys()):
+                            d[self.id_fieldname] = self._get_id()
+                            db_data["data"].append(d)
+                            db_file.seek(0)
+                            self._get_dump_function()(db_data, db_file)
 
     def getAll(self):
-        with open(self.filename, "r", encoding="utf8") as db_file:
-            db_data = self._get_load_function()(db_file)
-        return db_data["data"]
-
-    def get(self, num=1):
-        try:
+        with self.lock:
             with open(self.filename, "r", encoding="utf8") as db_file:
                 db_data = self._get_load_function()(db_file)
-            if num <= len(db_data["data"]):
-                return db_data["data"][0 : int(num)]
-            else:
-                logger.info(
-                    "The length you have given {} \n Length of the database items= {}".format(
-                        num, len(db_data["data"])
+            return db_data["data"]
+
+    def get(self, num=1):
+        with self.lock:
+            try:
+                with open(self.filename, "r", encoding="utf8") as db_file:
+                    db_data = self._get_load_function()(db_file)
+                if num <= len(db_data["data"]):
+                    return db_data["data"][0 : int(num)]
+                else:
+                    logger.info(
+                        "The length you have given {} \n Length of the database items= {}".format(
+                            num, len(db_data["data"])
+                        )
                     )
-                )
+                    return []
+            except:
                 return []
-        except:
-            return []
 
     def getBy(self, query):
-        result = []
-        with open(self.filename, "r") as db_file:
-            db_data = self._get_load_function()(db_file)
-            for d in db_data["data"]:
-                if all(x in d and d[x] == query[x] for x in query):
-                    result.append(d)
-        return result
+        with self.lock:
+            result = []
+            with open(self.filename, "r") as db_file:
+                db_data = self._get_load_function()(db_file)
+                for d in db_data["data"]:
+                    if all(x in d and d[x] == query[x] for x in query):
+                        result.append(d)
+            return result
 
     def updateById(self, pk, new_data):
-        with open(self.filename, "r+") as db_file:
-            db_data = self._get_load_function()(db_file)
-            result = []
-            if set(new_data.keys()).issubset(db_data["data"][0].keys()):
-                for d in db_data["data"]:
-                    if d[self.id_fieldname] == self._cast_id(pk):
-                        d.update(new_data)
-                        result.append(d)
-                    else:
-                        raise IdNotFoundError(pk)
-                db_data["data"] = result
-                db_file.seek(0)
-                db_file.truncate()
-                self._get_dump_function()(db_data, db_file)
-            else:
-                raise SchemaError(
-                    "db_keys: " + ",".join(sorted(data.keys())),
-                    "new_keys: " + ",".join(sorted(y[0].keys())),
-                )
+        with self.lock:
+            with open(self.filename, "r+") as db_file:
+                db_data = self._get_load_function()(db_file)
+                result = []
+                if set(new_data.keys()).issubset(db_data["data"][0].keys()):
+                    for d in db_data["data"]:
+                        if d[self.id_fieldname] == self._cast_id(pk):
+                            d.update(new_data)
+                            result.append(d)
+                        else:
+                            raise IdNotFoundError(pk)
+                    db_data["data"] = result
+                    db_file.seek(0)
+                    db_file.truncate()
+                    self._get_dump_function()(db_data, db_file)
+                else:
+                    raise SchemaError(
+                        "db_keys: " + ",".join(sorted(data.keys())),
+                        "new_keys: " + ",".join(sorted(y[0].keys())),
+                    )
 
     def deleteById(self, pk):
-        with open(self.filename, "r+") as db_file:
-            db_data = self._get_load_function()(db_file)
-            result = []
-            found = False
+        with self.lock:
+            with open(self.filename, "r+") as db_file:
+                db_data = self._get_load_function()(db_file)
+                result = []
+                found = False
 
-            for d in db_data["data"]:
-                if d[self.id_fieldname] == self._cast_id(pk):
-                    found = True
-                else:
-                    result.append(d)
-
-            if not found:
-                raise IdNotFoundError(pk)
-
-            db_data["data"] = result
-            db_file.seek(0)
-            db_file.truncate()
-            self._get_dump_function()(db_data, db_file)
-        return True
-
-    def update(self, db_dataset, new_dataset):
-        with open(self.filename, "r+") as db_file:
-            db_data = self._get_load_function()(db_file)
-            result = []
-            found = False
-            if set(db_dataset.keys()).issubset(db_data["data"][0].keys()) and set(
-                new_dataset.keys()
-            ).issubset(db_data["data"][0].keys()):
                 for d in db_data["data"]:
-                    if all(x in d and d[x] == db_dataset[x] for x in db_dataset):
-                        if set(new_dataset.keys()).issubset(db_data["data"][0].keys()):
-                            d.update(new_dataset)
-                            result.append(d)
-                            found = True
+                    if d[self.id_fieldname] == self._cast_id(pk):
+                        found = True
                     else:
                         result.append(d)
 
                 if not found:
-                    raise DataNotFoundError(db_dataset)
+                    raise IdNotFoundError(pk)
 
                 db_data["data"] = result
                 db_file.seek(0)
                 db_file.truncate()
                 self._get_dump_function()(db_data, db_file)
-            else:
-                raise SchemaError(
-                    "db_dataset_keys: " + ",".join(sorted(list(db_dataset.keys()))),
-                    "db_keys: " + ",".join(sorted(list(db_data["data"][0].keys()))),
-                    "new_dataset_keys: " + ",".join(sorted(list(new_dataset.keys()))),
-                )
+            return True
+
+    def update(self, db_dataset, new_dataset):
+        with self.lock:
+            with open(self.filename, "r+") as db_file:
+                db_data = self._get_load_function()(db_file)
+                result = []
+                found = False
+                if set(db_dataset.keys()).issubset(db_data["data"][0].keys()) and set(
+                    new_dataset.keys()
+                ).issubset(db_data["data"][0].keys()):
+                    for d in db_data["data"]:
+                        if all(x in d and d[x] == db_dataset[x] for x in db_dataset):
+                            if set(new_dataset.keys()).issubset(
+                                db_data["data"][0].keys()
+                            ):
+                                d.update(new_dataset)
+                                result.append(d)
+                                found = True
+                        else:
+                            result.append(d)
+
+                    if not found:
+                        raise DataNotFoundError(db_dataset)
+
+                    db_data["data"] = result
+                    db_file.seek(0)
+                    db_file.truncate()
+                    self._get_dump_function()(db_data, db_file)
+                else:
+                    raise SchemaError(
+                        "db_dataset_keys: " + ",".join(sorted(list(db_dataset.keys()))),
+                        "db_keys: " + ",".join(sorted(list(db_data["data"][0].keys()))),
+                        "new_dataset_keys: "
+                        + ",".join(sorted(list(new_dataset.keys()))),
+                    )
 
 
 class UuidDatabase(Database):
