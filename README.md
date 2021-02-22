@@ -19,6 +19,7 @@
 
  
  ***
+ Thanks [Peter Heise (@degenhard)](https://github.com/degenhard) for the Contribution
  
 ## Features
 
