@@ -44,7 +44,7 @@
 
 * [Install](https://github.com/fredysomy/pysonDB) 
 * [Example Code](https://github.com/fredysomy/pysonDB/tree/master/example) 
-* [Command Line Operations](https://markdownitweb.herokuapp.com/cli-0e4d) 
+* [Command Line Operations](https://fredysomy.me/docs/cli) 
 * [Adding Data](https://markdownitweb.herokuapp.com/add_data-c37f) 
 * [Get data](https://markdownitweb.herokuapp.com/getdata-fd3b) 
 * [Update Data](https://markdownitweb.herokuapp.com/updatedata-fd97) 
