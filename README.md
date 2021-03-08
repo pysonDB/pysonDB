@@ -1,5 +1,3 @@
-
-
 ![data](https://raw.githubusercontent.com/fredysomy/pysonDB/master/images/file2son.png?token=APXKHAH6EDEJ7RUG3QOD2OC7ZHQZG)
 
 
@@ -57,7 +55,7 @@ pip install pysondb
 ```
 ## Create a database
 
-* You can create a database usinf CLI.
+* You can create a database using CLI.
 ```bash
 pysondb create database_name
 ```
