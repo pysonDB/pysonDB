@@ -44,11 +44,11 @@
 
 * [Install](https://github.com/fredysomy/pysonDB) 
 * [Example Code](https://github.com/fredysomy/pysonDB/tree/master/example) 
-* [Command Line Operations](https://fredysomy.me/docs/cli) 
-* [Adding Data](https://markdownitweb.herokuapp.com/add_data-c37f) 
-* [Get data](https://markdownitweb.herokuapp.com/getdata-fd3b) 
-* [Update Data](https://markdownitweb.herokuapp.com/updatedata-fd97) 
-* [Delete Data](https://markdownitweb.herokuapp.com/deletedata-6ead)
+* [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli) 
+* [Adding Data](https://fredysomy.me/pysonDB/docs/add) 
+* [Get data](https://fredysomy.me/pysonDB/docs/get) 
+* [Update Data](https://fredysomy.me/pysonDB/docs/update) 
+* [Delete Data](https://fredysomy.me/pysonDB/docs/delete)
 
 ## Install
 
