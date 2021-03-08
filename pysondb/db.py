@@ -1,214 +1,279 @@
 import json
-from pathlib import Path
+import logging
+import os
 import random
+import uuid
+from pathlib import Path
+
+import yaml
+from filelock import FileLock
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger("pysondb")
 
 
+class DataNotFoundError(Exception):
+    """Exception raised if id not found.
+
+    Attributes:
+        data
+    """
+
+    def __init__(self, data):
+        self.data = data
 
 
-class getDb:
-    def __init__(self,filename):
-        sdx=Path(filename)
+class IdNotFoundError(Exception):
+    """Exception raised if id not found.
 
-        # The below function checks if there is a similar .json file
-        # If the file exists It does nothing and it will add the filename variable to the class. 
-        # But if the file is not present it will add {data:[]} and will add the filename variable to the class.
-        print(sdx)
-        
-        x=open(filename,'r+',encoding="utf-8")
-        yt=x.read()
-        self.filename=filename
-       
-    def add(self,data2):
-        class SchemmaNotMatchError(Exception):
-            pass
-        error="""The data you have entered doesnt match with the previously entered data.\nPlease enter the data according to the schemma you entered at the first commit.\n Data you entererd={} \n Schemma={}"""
-        with open(self.filename, "r+") as fi:
-            data = json.load(fi)
+    Attributes:
+        pk -- primary key / id
+    """
+
+    def __init__(self, pk):
+        self.pk = pk
 
 
-            """
-            This will check if the number of elements in the firstly added json is equal to the currently added data.
-            This is done to check uniformity of data.
-            Even though the user add nonuniform data.This will notify them.
-            """
-            
-            try:
-               
-                x=len(data['data'][0])
-                
-                if list(data["data"][0].keys())==list(data2.keys())+["id"]:
-                    uid=random.randint(1000000000,9999999999)
-                    data2['id']=uid
-                    data['data'].append(data2)
-                    fi.seek(0)
-                    json.dump(data, fi)
-                    return(uid)
-                else:
-                    return("False")
-            except:
-                data2['id']=random.randint(1000000000,9999999999)
-                data['data'].append(data2)
-                fi.seek(0)
-                json.dump(data, fi) 
+class SchemaError(Exception):
+    """Exception raised for field/key errors."""
 
-    def addMany(self,data_add):
-        with open(self.filename, "r+") as fi:
-            data = json.load(fi)
-            # Multiple Json in form of a list entry.
-            # This will check if the number of elements in the firstly added json is equal to the currently added data.
-            # This is done to check uniformity of data.
-            # Even though the user add nonuniform data.This will notify them.
+    def __init__(self, *args):
+        self.args = args
 
-            
-            try:
-               
-                x=len(data['data'][0])
-                for ji in data_add:
-                    if list(data["data"][0].keys())==list(ji.keys())+["id"]:
-                        ji['id']=random.randint(1000000000,9999999999)
-                        data['data'].append(ji)
-                        fi.seek(0)
-                        json.dump(data, fi)
-                        
-            except:
-                type_data=list(data_add[0].keys())
-                for ji2 in data_add:
-                    if list(type_data)==list(ji2.keys()):
-                        ji2['id']=random.randint(1000000000,9999999999)
-                        data['data'].append(ji2)
-                        fi.seek(0)
-                        json.dump(data, fi)
-                        
-                   
+
+class JsonDatabase:
+    def __init__(self, filename, id_fieldname="id"):
+        sdx = Path(filename)
+        self._id_fieldname = id_fieldname
+        logger.info("Database Filename: {0}".format(sdx))
+        self.filename = filename
+        self.lock = FileLock("{}.lock".format(self.filename))
+
+    def _get_id(self):
+        # FIXME: - avoid collision feature for integer based id?
+        return random.randint(1000000000, 9999999999)
+
+    def _cast_id(self, pk):
+        return int(pk)
+
+    def _get_load_function(self):
+        return json.load
+
+    def _get_dump_function(self):
+        return json.dump
+
+    @property
+    def id_fieldname(self):
+        return self._id_fieldname
+
+    def add(self, new_data):
+        with self.lock:
+            with open(self.filename, "r+") as db_file:
+                db_data = self._get_load_function()(db_file)
+                try:
+                    if set(db_data["data"][0].keys()) == set(new_data.keys()).union(
+                        [self.id_fieldname]
+                    ):
+                        new_data[self.id_fieldname] = self._get_id()
+                        logger.debug("Append new data; {0}".format(new_data))
+                        db_data["data"].append(new_data)
+                        db_file.seek(0)
+                        self._get_dump_function()(db_data, db_file)
+                        return new_data[self.id_fieldname]
+                    else:
+                        raise SchemaError(
+                            "db_keys: "
+                            + ",".join(sorted(list(db_data["data"][0].keys()))),
+                            "new_data_keys: "
+                            + ",".join(
+                                sorted(list(new_data.keys()) + [self.id_fieldname])
+                            ),
+                        )
+                except IndexError:
+                    new_data[self.id_fieldname] = self._get_id()
+                    db_data["data"].append(new_data)
+                    logger.debug("Add first data entry; {0}".format(new_data))
+                    db_file.seek(0)
+                    self._get_dump_function()(db_data, db_file)
+                return new_data[self.id_fieldname]
+
+    def addMany(self, new_data):
+        with self.lock:
+            with open(self.filename, "r+") as db_file:
+                db_data = self._get_load_function()(db_file)
+                try:
+                    for d in new_data:
+                        if set(db_data["data"][0].keys()) == set(d.keys()).union(
+                            [self.id_fieldname]
+                        ):
+                            d[self.id_fieldname] = self._get_id()
+                            db_data["data"].append(d)
+                            db_file.seek(0)
+                            self._get_dump_function()(db_data, db_file)
+                except:
+                    keys = list(new_data[0].keys())
+                    for d in new_data:
+                        if set(keys) == set(d.keys()):
+                            d[self.id_fieldname] = self._get_id()
+                            db_data["data"].append(d)
+                            db_file.seek(0)
+                            self._get_dump_function()(db_data, db_file)
 
     def getAll(self):
+        with self.lock:
+            with open(self.filename, "r", encoding="utf8") as db_file:
+                db_data = self._get_load_function()(db_file)
+            return db_data["data"]
 
-        # The getAll() function can get all the data available in the database selected>
-
-        with open(self.filename, "r", encoding='utf8') as fi:
-            data = json.load(fi)
-        return(data['data'])   
-
-    def get(self,num=1):
-
-        # The get(n) function gets n number of data , and default is 1
-        try:
-            with open(self.filename, "r", encoding='utf8') as fi:
-                data = json.load(fi)  
-            data_retrun=[]  
-            if num<=len(data['data']):
-                for i in range(0,num):
-                    data_retrun.append(data['data'][i])
-                return(data_retrun) 
-            else:
-                print("The length you have given {} \n Length of the database items= {}".format(num,len(data['data'])))    
-        except:
-            return("False")        
-    def getBy(self,qury):
-
-        # getBy({query}) allows the user to select the data form database which matches some query given.
-        # for eg. getBy({"name":"pysondb"}) returns all data form database having "name":"pysondb" in it
-
-        with open(self.filename,'r') as g_data:
-            x=json.load(g_data)
-            r_data=[]
-            
-            for g_d in x["data"]:
-                if(all(j in g_d and g_d[j] == qury[j] for j in qury)):
-                    r_data.append(g_d)
-                else:
-                    pass
-        return(r_data)                
-
-
-    def updateById(self,id,data):
-
-        # the updateById("idofdata",{query}) allows the user to update the value of a key-value pair 
-
-        errormsg="""The data given to update = {}  is not found as a subset of the data originally there = {}.\nYou tried to update values of keys in the database that doesnt exist\nPlease try again with correct keys."""
-        with open(self.filename,"r+") as db:
-            x=json.load(db)
-            y=x["data"]
-            df=[]
-            if(set(list(data.keys())).issubset(set(list(y[0].keys())))):
-                for f in y:
-                    if f["id"]==int(id):
-                        f.update(data)
-                        df.append(f)
-                    else:
-                        df.append(f)
-                x["data"]=df  
-                db.seek(0)
-                db.truncate()
-                json.dump(x,db)
-                return("True")
-            else:
-                print(errormsg.format(list(data.keys()),list(y[0].keys())))
-                return("False")
-
-    def deleteById(self,id):
-
-        # the updateById("idofdata") allows the user to delete the data of a JSON doc of the given ID.
-
-        error_del="""The Id given = {} is not found in the database \n available Id's are =>\n {}"""
-        with open(self.filename,"r+") as db_del:
-            x_del=json.load(db_del)
-            y_del=x_del["data"]
-            df_del=[]
-            ids=[]
-            for dataid in y_del:
-                ids.append(str(dataid["id"]))
-
+    def get(self, num=1):
+        with self.lock:
             try:
-                for f_del in y_del:
-                    if f_del["id"]==int(id):
-                        pass
-                    else:
-                        df_del.append(f_del)
-                x_del["data"]=df_del 
-                db_del.seek(0)
-                db_del.truncate()
-                json.dump(x_del,db_del)
-            except:    
-                return False    
-    def update(self,key2,query2):
+                with open(self.filename, "r", encoding="utf8") as db_file:
+                    db_data = self._get_load_function()(db_file)
+                if num <= len(db_data["data"]):
+                    return db_data["data"][0 : int(num)]
+                else:
+                    logger.info(
+                        "The length you have given {} \n Length of the database items= {}".format(
+                            num, len(db_data["data"])
+                        )
+                    )
+                    return []
+            except:
+                return []
 
-        with open(self.filename,"r+") as updt:
-            x_updt=json.load(updt)
-            y_u=x_updt["data"]
-            d_u=[]
-            if(set(list(key2.keys())).issubset(set(list(y_u[0].keys()))) and set(list(query2.keys())).issubset(set(list(y_u[0].keys())))):
-                for dat in y_u:
-                    if(all(k in dat and dat[k] == key2[k] for k in key2)):
-                        if(set(list(query2.keys())).issubset(set(list(y_u[0].keys())))):
-                            dat.update(query2)
-                            d_u.append(dat)
-                           
+    def getBy(self, query):
+        with self.lock:
+            result = []
+            with open(self.filename, "r") as db_file:
+                db_data = self._get_load_function()(db_file)
+                for d in db_data["data"]:
+                    if all(x in d and d[x] == query[x] for x in query):
+                        result.append(d)
+            return result
+
+    def updateById(self, pk, new_data):
+        with self.lock:
+            with open(self.filename, "r+") as db_file:
+                db_data = self._get_load_function()(db_file)
+                result = []
+                if set(new_data.keys()).issubset(db_data["data"][0].keys()):
+                    for d in db_data["data"]:
+                        if d[self.id_fieldname] == self._cast_id(pk):
+                            d.update(new_data)
+                            result.append(d)
                         else:
-                            d_u.append(dat)
-                            print("The given key for updation is not found in the database.\nPlease try again")    
+                            raise IdNotFoundError(pk)
+                    db_data["data"] = result
+                    db_file.seek(0)
+                    db_file.truncate()
+                    self._get_dump_function()(db_data, db_file)
+                else:
+                    raise SchemaError(
+                        "db_keys: " + ",".join(sorted(data.keys())),
+                        "new_keys: " + ",".join(sorted(y[0].keys())),
+                    )
+
+    def deleteById(self, pk):
+        with self.lock:
+            with open(self.filename, "r+") as db_file:
+                db_data = self._get_load_function()(db_file)
+                result = []
+                found = False
+
+                for d in db_data["data"]:
+                    if d[self.id_fieldname] == self._cast_id(pk):
+                        found = True
                     else:
-                        d_u.append(dat)
-                       
-                x_updt["data"]=d_u  
-                updt.seek(0)
-                updt.truncate()
-                json.dump(x_updt,updt)    
-            else:
-                return("False")
+                        result.append(d)
+
+                if not found:
+                    raise IdNotFoundError(pk)
+
+                db_data["data"] = result
+                db_file.seek(0)
+                db_file.truncate()
+                self._get_dump_function()(db_data, db_file)
+            return True
+
+    def update(self, db_dataset, new_dataset):
+        with self.lock:
+            with open(self.filename, "r+") as db_file:
+                db_data = self._get_load_function()(db_file)
+                result = []
+                found = False
+                if set(db_dataset.keys()).issubset(db_data["data"][0].keys()) and set(
+                    new_dataset.keys()
+                ).issubset(db_data["data"][0].keys()):
+                    for d in db_data["data"]:
+                        if all(x in d and d[x] == db_dataset[x] for x in db_dataset):
+                            if set(new_dataset.keys()).issubset(
+                                db_data["data"][0].keys()
+                            ):
+                                d.update(new_dataset)
+                                result.append(d)
+                                found = True
+                        else:
+                            result.append(d)
+
+                    if not found:
+                        raise DataNotFoundError(db_dataset)
+
+                    db_data["data"] = result
+                    db_file.seek(0)
+                    db_file.truncate()
+                    self._get_dump_function()(db_data, db_file)
+                else:
+                    raise SchemaError(
+                        "db_dataset_keys: " + ",".join(sorted(list(db_dataset.keys()))),
+                        "db_keys: " + ",".join(sorted(list(db_data["data"][0].keys()))),
+                        "new_dataset_keys: "
+                        + ",".join(sorted(list(new_dataset.keys()))),
+                    )
 
 
-            
+class UuidDatabase(JsonDatabase):
+    def _get_id(self):
+        return str(uuid.uuid4())
+
+    def _cast_id(self, pk):
+        return pk
 
 
-               
-               
+class YamlDatabase(JsonDatabase):
+    def _get_load_function(self):
+        return yaml.safe_load
+
+    def _get_dump_function(self):
+        return yaml.dump
 
 
-            
-                
-
-       
+class JsonUuidDatabase(UuidDatabase):
+    pass
 
 
-        
+class YamlUuidDatabase(UuidDatabase, YamlDatabase):
+    pass
+
+
+EMPTY_DATA = {"data": []}
+
+
+class Database:
+    def create(self, filename, data):
+        with open(filename, "w") as db_file:
+            db_file.write(data)
+
+    def on(self, filename, uuid=True, create=True):
+        if filename.split(".")[-1:][0] == "json":
+            if create and not os.path.exists(filename):
+                self.create(filename, json.dumps(EMPTY_DATA))
+            return JsonUuidDatabase(filename) if uuid else JsonDatabase(filename)
+        if filename.split(".")[-1:][0] == "yaml":
+            if create and not os.path.exists(filename):
+                self.create(filename, json.dumps(EMPTY_DATA))
+            return YamlUuidDatabase(filename) if uuid else YamlDatabase(filename)
+        raise NotImplementedError
+
+
+getDb = JsonDatabase  # for legacy support.

@@ -1,5 +1,5 @@
 __pycache__
-
+.direnv/*
 rm
 build
 dist

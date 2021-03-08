@@ -1,10 +1,8 @@
-<h1 align="center">Gitscrpy</h1>
+# pysonDB
 
 ### _Changelog_
 
-* `v0.1.0`
-  * Initial changes
-  * Added ```getrepo()``` and ```getuser()```
-
-* `v1.3.2`
-  * Added documenation  
+* `dev`
+  * New exceptions: `DataNotFoundError`, `IdNotFoundError`, `SchemaError`
+  * YAML support
+  * New database classes: `Database`, `UuidDatabase`, `YamlDatabase`, `YamlUuidDatabase`
