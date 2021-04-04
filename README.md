@@ -18,6 +18,11 @@
  
  ***
  Thanks [Peter Heise (@degenhard)](https://github.com/degenhard) for the Contribution
+
+The current stable version is v0.3.7.
+```python
+pip install pysondb==0.3.7
+```
  
 ## Features
 
