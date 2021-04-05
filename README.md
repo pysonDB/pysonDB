@@ -75,7 +75,7 @@ a=db.getDb("db.json')
 * The above piece of code will create a database with ``` {data:[]}``` in it.
 * Even if the json file exists there is no problem.
 
-See more Documentation [here](https://markdownitweb.herokuapp.com/maindocs-2d9c)
+See more Documentation [here](https://fredysomy.me/pysonDB)
 
 ## What makes pysonDB different
 
