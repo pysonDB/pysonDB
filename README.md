@@ -91,7 +91,7 @@ See more Documentation [here](https://fredysomy.me/pysonDB)
 
 - [X] CLI to convert CSV to pysonDB required json.
 - [X] Use CSV file in the database.
-- [ ] Make the database available to use local servers (Flask,Django)
+- [X] Make the database available to use local servers (Flask,Django)
 
 ## Contributing
 
