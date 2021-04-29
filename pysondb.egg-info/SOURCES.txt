@@ -1,0 +1,17 @@
+CHANGELOG.md
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+LICENSE
+MANIFEST.in
+README.md
+setup.py
+pysondb/__init__.py
+pysondb/cli.py
+pysondb/db.py
+pysondb.egg-info/PKG-INFO
+pysondb.egg-info/SOURCES.txt
+pysondb.egg-info/dependency_links.txt
+pysondb.egg-info/entry_points.txt
+pysondb.egg-info/not-zip-safe
+pysondb.egg-info/requires.txt
+pysondb.egg-info/top_level.txt

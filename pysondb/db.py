@@ -43,6 +43,7 @@ class SchemaError(Exception):
 
 class JsonDatabase:
     def __init__(self, filename, id_fieldname="id"):
+        a=Database().on(filename)
         sdx = Path(filename)
         self._id_fieldname = id_fieldname
         logger.info("Database Filename: {0}".format(sdx))
@@ -50,8 +51,7 @@ class JsonDatabase:
         self.lock = FileLock("{}.lock".format(self.filename))
 
     def _get_id(self):
-        # FIXME: - avoid collision feature for integer based id?
-        return random.randint(1000000000, 9999999999)
+        return int(str(uuid.uuid4().int)[:18])
 
     def _cast_id(self, pk):
         return int(pk)
@@ -268,12 +268,7 @@ class Database:
         if filename.split(".")[-1:][0] == "json":
             if create and not os.path.exists(filename):
                 self.create(filename, json.dumps(EMPTY_DATA))
-            return JsonUuidDatabase(filename) if uuid else JsonDatabase(filename)
-        if filename.split(".")[-1:][0] == "yaml":
-            if create and not os.path.exists(filename):
-                self.create(filename, json.dumps(EMPTY_DATA))
-            return YamlUuidDatabase(filename) if uuid else YamlDatabase(filename)
-        raise NotImplementedError
+
 
 
 getDb = JsonDatabase  # for legacy support.
