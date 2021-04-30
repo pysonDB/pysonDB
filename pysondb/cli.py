@@ -58,6 +58,19 @@ def convert(csv_file, json_db):
         json.dump(x, json_file)
     print("Conversion successful")
 
+def convert_db_to_csv(filename :str,targetcsv="converted.csv"):
+    with open(filename,"r") as db:
+        json_loaded=json.load(db)['data']
+        csv_file=open(targetcsv,"a")
+        csv_writer=csv.writer(csv_file)
+        header=json_loaded[0].keys()
+        csv_writer.writerow(header)
+        for each in json_loaded:
+            csv_writer.writerow(each.values())
+        csv_file.close()    
+
+
+
 
 def main():
     fire.Fire(
@@ -66,6 +79,7 @@ def main():
             "display": display,
             "delete": delete,
             "convert": convert,
+            "converttocsv": convert_db_to_csv
         }
     )
 

@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: pysondb
-Version: 0.5.0
+Version: 0.6.0
 Summary: A Python JSON and/or YAML based lightweight Database.
 Home-page: https://github.com/fredysomy/pysonDB
 Author: Fredy Somy
@@ -27,9 +27,9 @@ Description: ![data](https://raw.githubusercontent.com/fredysomy/pysonDB/master/
          ***
          Thanks [Peter Heise (@degenhard)](https://github.com/degenhard) for the Contribution
         
-        The current stable version is v0.3.7.
+        The current stable version is v0.6.0
         ```python
-        pip install pysondb==0.3.7
+        pip install pysondb==0.6.0
         ```
          
         ## Features

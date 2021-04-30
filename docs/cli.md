@@ -19,6 +19,11 @@
   * [name] => name of json file.
 * pysondb display [name] 
   * [name] => name of json file.
+* pysondb converttocsv [path of json file] [optional name for target CSV file]
+  * `pysondb converttocsv example/registry.json`
+    * Creates a converted.csv file with converted data
+  * `pysondb converttocsv example/registry.json target.csv`
+    * Creates a target.csv with the converted data.
 
 <h3 id="convert">Use</h3>
 <h4><code> pysondb convert --c [csv file destination] --d [json file to write]</code></h4>
