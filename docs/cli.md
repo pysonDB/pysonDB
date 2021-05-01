@@ -65,6 +65,21 @@ C:\Users\Admin\Desktop\pysondb>pysondb delete filedb.json
 Do you want to remove the json file..(y/n)n
 Action terminated
 ```
+
+<h4><code> pysondb converttocsv [path.json] [target.csv]</code></h4>
+
+```bash
+Microsoft Windows [Version 6.1.7601]
+Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
+
+C:\Users\Admin\Desktop\pysondb>pysondb converttocsv example/registry.json 
+File converted and saving to  converted.csv
+C:\Users\Admin\Desktop\pysondb>pysondb converttocsv example/registry.json filenew.csv
+File converted and saving to  filenew.csv
+```
+
+
+
 <h4><code> pysondb display [name]</code></h4>
 
 File: filedb.json
@@ -96,4 +111,7 @@ C:\Users\Admin\Desktop\pysondb>pysondb display filedb.json
 * If You have any queries or doubts join the discord server [here](https://discord.gg/SZyk2dCgwg)
 
   
-      
+gitpod /workspace/pysonDB $ pysondb converttocsv example/registry.json 
+File converted and saving to  converted.csv
+gitpod /workspace/pysonDB $ pysondb converttocsv example/registry.json filenew.csv
+File converted and saving to  filenew.csv

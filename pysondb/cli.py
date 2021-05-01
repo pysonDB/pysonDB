@@ -59,12 +59,18 @@ def convert(csv_file, json_db):
     print("Conversion successful")
 
 def convert_db_to_csv(filename :str,targetcsv="converted.csv"):
+    """
+    Converts a JSON database to a csv.
+    :param str filename: path of the target json file
+    :param str targetcsv: path of the converted csv ,default : converted.csv
+    """
     with open(filename,"r") as db:
         json_loaded=json.load(db)['data']
         csv_file=open(targetcsv,"a")
         csv_writer=csv.writer(csv_file)
         header=json_loaded[0].keys()
         csv_writer.writerow(header)
+        print("File converted and saving to " ,targetcsv)
         for each in json_loaded:
             csv_writer.writerow(each.values())
         csv_file.close()    
