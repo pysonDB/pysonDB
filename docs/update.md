@@ -35,6 +35,7 @@
 <h4><code>updateById(ID,what_to_update)</code></h4>
 
 * ID=Integer
+
 ```python
 >> from pysondb import db
 >> a=db.getDb("file.json")
@@ -45,6 +46,7 @@
 >> [{"name": "Qwerty12", "type": "DB", "score": "5", "id": 9416036202}]
 
 ```
+
 <h4><code>update(query,what_to_update)</code></h4>
 
 * query,what_to_update are both JSON data.
