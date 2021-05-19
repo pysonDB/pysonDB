@@ -93,6 +93,23 @@ See more Documentation [here](https://fredysomy.me/pysonDB)
 - [X] Use CSV file in the database.
 - [X] Make the database available to use local servers (Flask,Django)
 
+## Projects using PysonDB
+
+* [my-first-streamlit-app](https://github.com/mro-lht/my-first-streamlit-app)
+* [PythonChallenge](https://github.com/Odenrir/PythonChallenge)
+* [Task-Me-Up](https://github.com/Adwaith-Rajesh/Task-Me-Up)
+* [Programozasi_kornyezetek](https://github.com/Remgax/Programozasi_kornyezetek)
+* [bagel](https://github.com/HaithemSouala/bagel)
+* [prox_community](https://github.com/Kavzor/prox_community)
+* [USVBachelorProject](https://github.com/mhj5103/USVBachelorProject)
+
+
+
+
+
+
+
+
 ## Contributing
 
 Whether reporting bugs, discussing improvements and new ideas or writing extensions: Contributions to pysonDB are welcome! Here's how to get started:
