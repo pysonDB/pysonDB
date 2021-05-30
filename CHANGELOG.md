@@ -16,3 +16,6 @@
 
 * `0.7.4`
   * Fixed `name` not defined error in `cli.py`
+
+* `0.8.0`
+  * Fixed `name` not defined error in `cli.py`
