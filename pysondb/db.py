@@ -170,8 +170,8 @@ class JsonDatabase:
                     self._get_dump_function()(db_data, db_file)
                 else:
                     raise SchemaError(
-                        "db_keys: " + ",".join(sorted(data.keys())),
-                        "new_keys: " + ",".join(sorted(y[0].keys())),
+                        "db_keys: " + ",".join(sorted(db_data.keys())),
+                        "new_keys: " + ",".join(sorted(new_data.keys())),
                     )
 
     def deleteById(self, pk):
