@@ -17,7 +17,7 @@ def create_if_not_exist(file_name: str):
         with open(file_name, "w") as db_file:
             db = {"data": []}
             json.dump(db, db_file)
-        print("Succesfully created {} in the directory.".format(name))
+        print("Succesfully created {} in the directory.".format(file_name))
 
 
 def display(file_name: str):
@@ -36,7 +36,7 @@ def delete(file_name: str):
     if os.path.exists(file_name):
         x = input("Do you want to remove the json file..(y/n)")
         if x in ["y", "Y"]:
-            os.remove(name)
+            os.remove(file_name)
         else:
             print("Action terminated")
     else:
@@ -58,24 +58,23 @@ def convert(csv_file, json_db):
         json.dump(x, json_file)
     print("Conversion successful")
 
-def convert_db_to_csv(filename :str,targetcsv="converted.csv"):
+
+def convert_db_to_csv(filename: str, targetcsv="converted.csv"):
     """
     Converts a JSON database to a csv.
     :param str filename: path of the target json file
     :param str targetcsv: path of the converted csv ,default : converted.csv
     """
-    with open(filename,"r") as db:
-        json_loaded=json.load(db)['data']
-        csv_file=open(targetcsv,"a")
-        csv_writer=csv.writer(csv_file)
-        header=json_loaded[0].keys()
+    with open(filename, "r") as db:
+        json_loaded = json.load(db)["data"]
+        csv_file = open(targetcsv, "a")
+        csv_writer = csv.writer(csv_file)
+        header = json_loaded[0].keys()
         csv_writer.writerow(header)
-        print("File converted and saving to " ,targetcsv)
+        print("File converted and saving to ", targetcsv)
         for each in json_loaded:
             csv_writer.writerow(each.values())
-        csv_file.close()    
-
-
+        csv_file.close()
 
 
 def main():
@@ -85,7 +84,7 @@ def main():
             "display": display,
             "delete": delete,
             "convert": convert,
-            "converttocsv": convert_db_to_csv
+            "converttocsv": convert_db_to_csv,
         }
     )
 
