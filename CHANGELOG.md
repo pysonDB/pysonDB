@@ -13,3 +13,6 @@
 
 * `0.7.0`
   * Added DB to CSV conversion tool as a CLI.
+
+* `0.7.4`
+  * Fixed `name` not defined error in `cli.py`
