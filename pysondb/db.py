@@ -1,7 +1,7 @@
 import json
 import logging
 import os
-import random
+import re
 import uuid
 from pathlib import Path
 
@@ -43,7 +43,7 @@ class SchemaError(Exception):
 
 class JsonDatabase:
     def __init__(self, filename, id_fieldname="id"):
-        a=Database().on(filename)
+        a = Database().on(filename)
         sdx = Path(filename)
         self._id_fieldname = id_fieldname
         logger.info("Database Filename: {0}".format(sdx))
@@ -151,6 +151,22 @@ class JsonDatabase:
                     if all(x in d and d[x] == query[x] for x in query):
                         result.append(d)
             return result
+
+    def reSearch(self, key, _re):
+        pattern = _re
+        if not isinstance(_re, re.Pattern):
+            pattern = re.compile(str(_re))
+
+        items = []
+        data = self.getAll()
+
+        for d in data:
+            for k in d.keys():
+                if re.match(pattern, str(d[k])) and k == key:
+                    items.append(d)
+                    continue
+
+        return items
 
     def updateById(self, pk, new_data):
         with self.lock:
@@ -268,7 +284,6 @@ class Database:
         if filename.split(".")[-1:][0] == "json":
             if create and not os.path.exists(filename):
                 self.create(filename, json.dumps(EMPTY_DATA))
-
 
 
 getDb = JsonDatabase  # for legacy support.
