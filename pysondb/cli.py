@@ -120,9 +120,7 @@ def merge(p_file: str, m_file: str, output_file: Optional[str] = None):
             quit()
         except IndexError:
             print("One of the Database is empty")
-
-    print(p_data)
-    print(m_data)
+            quit()
 
     # merge the two DB together
 
