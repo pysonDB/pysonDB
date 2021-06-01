@@ -19,3 +19,6 @@
 
 * `0.8.0`
   * Fixed `name` not defined error in `cli.py`
+
+* `0.9.0`
+  * Added merge command to the cli tool
