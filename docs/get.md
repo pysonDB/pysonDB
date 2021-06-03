@@ -1,13 +1,13 @@
 <h1 align="center"><u>PysonDB</u></h1>
 
-
 * [Install](https://github.com/fredysomy/pysonDB) 
-* [Example Code](https://github.com/fredysomy/pysonDB/example) 
-* [Command Line Operations](https://markdownitweb.herokuapp.com/cli-0e4d) 
-* [Adding Data](https://markdownitweb.herokuapp.com/add_data-c37f) 
-* [Get data](http://markdownitweb.herokuapp.com/getdata-fd3b) 
-* [Update Data](https://markdownitweb.herokuapp.com/updatedata-fd97) 
-* [Delete Data](https://markdownitweb.herokuapp.com/deletedata-6ead)
+* [Example Code](https://github.com/fredysomy/pysonDB/tree/master/example) 
+* [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli) 
+* [Adding Data](https://fredysomy.me/pysonDB/docs/add) 
+* [Get data](https://fredysomy.me/pysonDB/docs/get) 
+* [Search data](https://fredysomy.me/pysonDB/docs/re_search) 
+* [Update Data](https://fredysomy.me/pysonDB/docs/update) 
+* [Delete Data](https://fredysomy.me/pysonDB/docs/delete)
 
 
 <h2>Get Data</h2>
