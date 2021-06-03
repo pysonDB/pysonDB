@@ -17,7 +17,7 @@
 
  
  ***
- Thanks [Peter Heise (@degenhard)](https://github.com/degenhard) for the Contribution
+ 
 
 The current stable version is v0.6.0
 ```python
@@ -50,8 +50,10 @@ pip install pysondb==0.6.0
 * [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli) 
 * [Adding Data](https://fredysomy.me/pysonDB/docs/add) 
 * [Get data](https://fredysomy.me/pysonDB/docs/get) 
+* [Search data](https://fredysomy.me/pysonDB/docs/re_search) 
 * [Update Data](https://fredysomy.me/pysonDB/docs/update) 
 * [Delete Data](https://fredysomy.me/pysonDB/docs/delete)
+
 
 ## Install
 

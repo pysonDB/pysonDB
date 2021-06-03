@@ -10,36 +10,35 @@
 * [Delete Data](https://fredysomy.me/pysonDB/docs/delete)
 
 
-<h2>Delete Data</h2>
+<h2>Search using Regex</h2>
 
 * Methods
-  * deleteById(ID)
-  * Deletes the JSON data with the given ID 
+  * reSearch(key,regex)
+  * Searches for the objects where the value of the key follows the given regex. 
 
 ***
 
 >>JSON file:file.json
 
 ```json
-{"data": [{"name": "PysonDB", "type": "DB", "score": "10", "id": 5161221802},
-{"name": "Pyson-CLI", "type": "CLI", "score": "10", "id": 2242313690},
-{"name": "Tiny", "type": "DB", "score": "9", "id": 6991190264},
-{"name": "QWERTY", "type": "DB", "score": "5", "id": 9416036202}]}
+{"data": [{"name": "pysondb", "type": "DB"},
+        {"name": "pysondb-cli", "type": "CLI"},
+        {"name": "fire", "type": "CLI"},
+        {"name": "stuff.py", "type": "GUI"},
+        {"name": "def23@c-py", "type": "TUI"},
+        {"name": "stuff(py", "type": "GUI"},
+]}
 ```
 
 ***  
 
-<h2><code>deleteById(ID)</code></h2>
+<h2><code>reSearch(key,regex)</code></h2>
 
 ```python
 >> from pysondb import db
 >> a=db.getDb("file.json")
->> a.deleteById("6991190264")
->> # The JSON data with ID "6991190264" is deleted.Lets verify.
->> a.getAll()
->> [{"name": "PysonDB", "type": "DB", "score": "10", "id": 5161221802},
-{"name": "Pyson-CLI", "type": "CLI", "score": "10", "id": 2242313690},
-{"name": "QWERTY", "type": "DB", "score": "5", "id": 9416036202}]
+>> print(a.reSearch("name", r"\w{3}\d{2}@c-py"))
+>> [{'name': 'def23@c-py', 'type': 'TUI', 'id': 200151702869331613}]
 ```
 
 ***

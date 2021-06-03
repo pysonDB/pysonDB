@@ -10,8 +10,7 @@ from filelock import FileLock
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("pysondb")
-
-
+logger.disabled = True
 class DataNotFoundError(Exception):
     """Exception raised if id not found.
 
