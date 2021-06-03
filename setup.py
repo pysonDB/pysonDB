@@ -18,7 +18,7 @@ setup(
     license="Apache Software License 2.0",
     long_description=readme,
     long_description_content_type="text/markdown",
-    version="1.0.0",
+    version="1.0.1",
     keywords="pysondb,database,json,yaml",
     name="pysondb",
     packages=["pysondb"],
