@@ -8,6 +8,11 @@ class PathNotFoundError(Exception):
 
     def __init__(self, *args):
         self.args = args
+class NoNameError(Exception):
+    """Exception raised when no name is passed as params along with the add_image function """
+
+    def __init__(self, *args):
+        self.args = args
 
 class image_utils:
     def __init__(self,db_name):
@@ -17,6 +22,17 @@ class image_utils:
         if(os.path.exists(src)):
            with open(src,"rb") as img_data:
                 raw_data=base64.b64encode(img_data.read())
-                self.db.add({"data":raw_data.decode('utf-8'),"name":name})
+                if(name):
+                    name_list=src.split("/")
+                    self.db.add({"data":raw_data.decode('utf-8'),"name":name,"fname":name_list[len(name_list)-1]})
+                else:
+                    raise NoNameError("No name was passed with the params")
         else:
-            raise PathNotFoundError("fsfsdsfsf")
+            raise PathNotFoundError("The src image could not be found")
+    def get_image(self,name):
+        if(name):
+            img_data=self.db.getBy({"name":name})
+            img=Image.open(BytesIO(base64.b64decode(img_data[0]['data'])))
+            img.save(img_data[0]["fname"])
+        else:
+            raise NoNameError("No name found")    
