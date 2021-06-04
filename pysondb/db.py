@@ -46,7 +46,7 @@ class JsonDatabase:
     def __init__(self, filename, id_fieldname="id", log=False):
         a = Database().on(filename)
         sdx = Path(filename)
-        
+
         self._id_fieldname = id_fieldname
         self.filename = filename
         self.lock = FileLock("{}.lock".format(self.filename))
@@ -67,6 +67,10 @@ class JsonDatabase:
 
     def _get_dump_function(self):
         return json.dump
+
+    @staticmethod
+    def _objectify(data):
+        return json.loads(data, object_hook=lambda d: SimpleNamespace(**d))
 
     @staticmethod
     def _stop_log():
@@ -131,9 +135,6 @@ class JsonDatabase:
                             self._get_dump_function()(db_data, db_file)
 
     def getAll(self, objectify=False):
-        def _objectify(data):
-            return json.loads(data, object_hook=lambda d: SimpleNamespace(**d))
-
         with self.lock:
             with open(self.filename, "r", encoding="utf8") as db_file:
                 db_data = self._get_load_function()(db_file)
@@ -141,16 +142,21 @@ class JsonDatabase:
             return (
                 db_data["data"]
                 if not objectify
-                else _objectify(json.dumps(db_data)).data
+                else self._objectify(json.dumps(db_data)).data
             )
 
-    def get(self, num=1):
+    def get(self, num=1, objectify=False):
         with self.lock:
             try:
                 with open(self.filename, "r", encoding="utf8") as db_file:
                     db_data = self._get_load_function()(db_file)
                 if num <= len(db_data["data"]):
-                    return db_data["data"][0 : int(num)]
+                    data = db_data["data"][0 : int(num)]
+                    return (
+                        data
+                        if not objectify
+                        else self._objectify(json.dumps({"data": data})).data
+                    )
                 else:
                     logger.info(
                         "The length you have given {} \n Length of the database items= {}".format(
@@ -161,7 +167,7 @@ class JsonDatabase:
             except:
                 return []
 
-    def getBy(self, query):
+    def getBy(self, query, objectify=False):
         with self.lock:
             result = []
             with open(self.filename, "r") as db_file:
@@ -169,9 +175,13 @@ class JsonDatabase:
                 for d in db_data["data"]:
                     if all(x in d and d[x] == query[x] for x in query):
                         result.append(d)
-            return result
+            return (
+                result
+                if not objectify
+                else self._objectify(json.dumps({"data": result})).data
+            )
 
-    def reSearch(self, key, _re):
+    def reSearch(self, key, _re, objectify=False):
         pattern = _re
         if not isinstance(_re, re.Pattern):
             pattern = re.compile(str(_re))
@@ -185,7 +195,11 @@ class JsonDatabase:
                     items.append(d)
                     continue
 
-        return items
+        return (
+            items
+            if not objectify
+            else self._objectify(json.dumps({"data": items})).data
+        )
 
     def updateById(self, pk, new_data):
         with self.lock:
