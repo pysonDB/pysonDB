@@ -22,3 +22,7 @@
 
 * `0.9.0`
   * Added merge command to the cli tool
+
+* `1.0.3`
+  * Added a kwarg log to the JsonDatabase class to stop the log
+  * Adde a kwarg objectify to all the get and search methods to convert json to python objects

@@ -18,7 +18,7 @@ setup(
     license="MIT License",
     long_description=readme,
     long_description_content_type="text/markdown",
-    version="1.0.2",
+    version="1.0.3",
     keywords="pysondb,database,json,yaml",
     name="pysondb",
     packages=["pysondb"],
