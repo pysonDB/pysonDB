@@ -19,7 +19,7 @@
  ***
  
 
-The current stable version is v0.6.0
+The current stable version is v1.0.1
 ```python
 pip install pysondb==0.6.0
 ```
