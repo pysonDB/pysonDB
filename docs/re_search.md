@@ -13,7 +13,7 @@
 <h2>Search using Regex</h2>
 
 * Methods
-  * reSearch(key,regex)
+  * reSearch(key, regex, objectify=False)
   * Searches for the objects where the value of the key follows the given regex. 
 
 ***
