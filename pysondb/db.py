@@ -4,13 +4,15 @@ import os
 import re
 import uuid
 from pathlib import Path
+from types import SimpleNamespace
 
 import yaml
 from filelock import FileLock
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("pysondb")
-logger.disabled = True
+
+
 class DataNotFoundError(Exception):
     """Exception raised if id not found.
 
@@ -41,13 +43,18 @@ class SchemaError(Exception):
 
 
 class JsonDatabase:
-    def __init__(self, filename, id_fieldname="id"):
+    def __init__(self, filename, id_fieldname="id", log=False):
         a = Database().on(filename)
         sdx = Path(filename)
+        
         self._id_fieldname = id_fieldname
-        logger.info("Database Filename: {0}".format(sdx))
         self.filename = filename
         self.lock = FileLock("{}.lock".format(self.filename))
+
+        if not log:
+            self._stop_log()
+
+        logger.info("Database Filename: {0}".format(sdx))
 
     def _get_id(self):
         return int(str(uuid.uuid4().int)[:18])
@@ -60,6 +67,11 @@ class JsonDatabase:
 
     def _get_dump_function(self):
         return json.dump
+
+    @staticmethod
+    def _stop_log():
+        logging.getLogger("pysondb").disabled = True
+        logging.getLogger("filelock").disabled = True
 
     @property
     def id_fieldname(self):
@@ -118,11 +130,19 @@ class JsonDatabase:
                             db_file.seek(0)
                             self._get_dump_function()(db_data, db_file)
 
-    def getAll(self):
+    def getAll(self, objectify=False):
+        def _objectify(data):
+            return json.loads(data, object_hook=lambda d: SimpleNamespace(**d))
+
         with self.lock:
             with open(self.filename, "r", encoding="utf8") as db_file:
                 db_data = self._get_load_function()(db_file)
-            return db_data["data"]
+
+            return (
+                db_data["data"]
+                if not objectify
+                else _objectify(json.dumps(db_data)).data
+            )
 
     def get(self, num=1):
         with self.lock:
