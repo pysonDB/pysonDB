@@ -53,6 +53,7 @@ pip install pysondb==0.6.0
 * [Search data](https://fredysomy.me/pysonDB/docs/re_search) 
 * [Update Data](https://fredysomy.me/pysonDB/docs/update) 
 * [Delete Data](https://fredysomy.me/pysonDB/docs/delete)
+* [Image Utils](https://fredysomy.me/pysonDB/docs/image_utils)
 
 
 ## Install

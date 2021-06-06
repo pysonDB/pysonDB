@@ -19,10 +19,12 @@ class SaveError(Exception):
     def __init__(self, *args):
         self.args = args
 
-class image_utils:
+class set:
     def __init__(self,db_name):
         self.db_name=db_name
         self.db=db.getDb(db_name)
+
+
     def add_image(self,src,name):
         if(os.path.exists(src)):
            with open(src,"rb") as img_data:
@@ -30,10 +32,13 @@ class image_utils:
                 if(name):
                     name_list=src.split("/")
                     self.db.add({"data":raw_data.decode('utf-8'),"name":name,"fname":name_list[len(name_list)-1]})
+                    print(f"The image is stored in the database :{self.db_name}")
                 else:
                     raise NoNameError("No name was passed with the params")
         else:
             raise PathNotFoundError("The src image could not be found")
+
+
     def get_image(self,name):
         if(name):
             try:
