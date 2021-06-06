@@ -1,15 +1,20 @@
 from pysondb import db
-from PIL import Image
-from io import BytesIO
 import os
 import base64
+
 class PathNotFoundError(Exception):
     """Exception raised for non-existent image path."""
 
     def __init__(self, *args):
         self.args = args
+
 class NoNameError(Exception):
     """Exception raised when no name is passed as params along with the add_image function """
+
+    def __init__(self, *args):
+        self.args = args
+class SaveError(Exception):
+    """Exception raised when there is a error in saving the image"""
 
     def __init__(self, *args):
         self.args = args
@@ -31,8 +36,13 @@ class image_utils:
             raise PathNotFoundError("The src image could not be found")
     def get_image(self,name):
         if(name):
-            img_data=self.db.getBy({"name":name})
-            img=Image.open(BytesIO(base64.b64decode(img_data[0]['data'])))
-            img.save(img_data[0]["fname"])
+            try:
+                img_data=self.db.getBy({"name":name})
+                f=open(img_data[0]["fname"],"wb")
+                f.write(base64.decodebytes(bytes(img_data[0]['data'],"utf-8")))
+                f.close()
+            except Exception as e:
+                raise SaveError(e)
+
         else:
             raise NoNameError("No name found")    
