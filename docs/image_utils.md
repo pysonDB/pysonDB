@@ -32,7 +32,7 @@
 
 ```python
 >> from pysondb.imageutils import imageutils
->> a=imageutils.set("file.json") #the data of image will be stored here.
+>> a=imageutils.setdb("file.json") #the data of image will be stored here.
 >> a.add_image(src="file.png",name="pysondb")
 >> #The image is stored in the database :example/rere.json
 >> a.get_image("pysondb")

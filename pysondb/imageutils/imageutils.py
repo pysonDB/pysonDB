@@ -19,7 +19,7 @@ class SaveError(Exception):
     def __init__(self, *args):
         self.args = args
 
-class set:
+class setdb:
     def __init__(self,db_name):
         self.db_name=db_name
         self.db=db.getDb(db_name)
