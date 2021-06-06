@@ -10,7 +10,7 @@
 * [Delete Data](https://fredysomy.me/pysonDB/docs/delete)
 * [Image Utils](https://fredysomy.me/pysonDB/docs/image_utils)
 
-<h2>Search using Regex</h2>
+<h2>Image Utils</h2>
 
 * Methods
   * `add_image(src="path/to/image",name="nameoffile")`
@@ -34,7 +34,7 @@
 >> from pysondb.imageutils import imageutils
 >> a=imageutils.set("file.json") #the data of image will be stored here.
 >> a.add_image(src="file.png",name="pysondb")
->> The image is stored in the database :example/rere.json
+>> #The image is stored in the database :example/rere.json
 >> a.get_image("pysondb")
 >> # This command will save the image in the current directory.
 ```
