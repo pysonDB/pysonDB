@@ -19,7 +19,7 @@
     * Gets the image stored and saves it in the current directory.
 ***
 
->>JSON file: file.json
+>JSON file: file.json
 
 ```json
 {"data": [{"name": "pysondb", "data":"asdsddfgdfdf45dvrtge...","fname":"file.png"}
