@@ -9,8 +9,9 @@ from types import SimpleNamespace
 import yaml
 from filelock import FileLock
 
-logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("pysondb")
+logger.setLevel(logging.DEBUG)
 
 
 class DataNotFoundError(Exception):
