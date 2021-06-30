@@ -34,17 +34,17 @@ class SaveError(Exception):
 
 
 class setdb:
-    def __init__(self, db_name):
+    def __init__(self, db_name: str):
         self.db_name = db_name
         self.db = db.getDb(db_name)
 
-    def add_image(self, src, name):
+    def add_image(self, src: str, name: str) -> int:
         if os.path.exists(src):
             with open(src, "rb") as img_data:
                 raw_data = base64.b64encode(img_data.read())
                 if name:
                     name_list = src.split("/")
-                    self.db.add(
+                    _id = self.db.add(
                         {
                             "data": raw_data.decode("utf-8"),
                             "name": name,
@@ -52,12 +52,14 @@ class setdb:
                         }
                     )
                     print(f"The image is stored in the database :{self.db_name}")
+                    return _id
+
                 else:
                     raise NoNameError("No name was passed with the params")
         else:
             raise PathNotFoundError("The src image could not be found")
 
-    def get_image(self, name):
+    def get_image(self, name: str) -> None:
         if name:
             try:
                 img_data = self.db.getBy({"name": name})
