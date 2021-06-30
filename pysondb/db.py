@@ -203,6 +203,8 @@ class JsonDatabase:
         )
 
     def updateById(self, pk, new_data):
+        updated = False
+
         with self.lock:
             with open(self.filename, "r+") as db_file:
                 db_data = self._get_load_function()(db_file)
@@ -211,8 +213,12 @@ class JsonDatabase:
                     for d in db_data["data"]:
                         if d[self.id_fieldname] == self._cast_id(pk):
                             d.update(new_data)
-                            result.append(d)
-                        else:
+                            updated = True
+
+                        result.append(d)
+
+                    else:
+                        if not updated:
                             raise IdNotFoundError(pk)
                     db_data["data"] = result
                     db_file.seek(0)
