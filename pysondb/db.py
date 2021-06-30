@@ -216,7 +216,7 @@ class JsonDatabase:
                             updated = True
 
                         result.append(d)
-                            
+
                     else:
                         if not updated:
                             raise IdNotFoundError(pk)
