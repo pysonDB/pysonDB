@@ -9,11 +9,14 @@ from types import SimpleNamespace
 import yaml
 from filelock import FileLock
 
+# consants
+EMPTY_DATA = {"data": []}
+
 # logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("pysondb")
 logger.setLevel(logging.DEBUG)
 
-
+# Errors
 class DataNotFoundError(Exception):
     """Exception raised if id not found.
 
@@ -43,9 +46,23 @@ class SchemaError(Exception):
         self.args = args
 
 
+# util functions
+def create_db(filename, create=True):
+    def create(filename, data):
+        with open(filename, "w") as db_file:
+            db_file.write(data)
+
+    if filename.split(".")[-1:][0] == "json":
+        if create and not os.path.exists(filename):
+            create(filename, json.dumps(EMPTY_DATA))
+
+
+# the JSON DB
+
+
 class JsonDatabase:
     def __init__(self, filename, id_fieldname="id", log=False):
-        a = Database().on(filename)
+        create_db(filename)  # create the JSON file if it doesn't exists
         sdx = Path(filename)
 
         self._id_fieldname = id_fieldname
@@ -286,44 +303,6 @@ class JsonDatabase:
                         "new_dataset_keys: "
                         + ",".join(sorted(list(new_dataset.keys()))),
                     )
-
-
-class UuidDatabase(JsonDatabase):
-    def _get_id(self):
-        return str(uuid.uuid4())
-
-    def _cast_id(self, pk):
-        return pk
-
-
-class YamlDatabase(JsonDatabase):
-    def _get_load_function(self):
-        return yaml.safe_load
-
-    def _get_dump_function(self):
-        return yaml.dump
-
-
-class JsonUuidDatabase(UuidDatabase):
-    pass
-
-
-class YamlUuidDatabase(UuidDatabase, YamlDatabase):
-    pass
-
-
-EMPTY_DATA = {"data": []}
-
-
-class Database:
-    def create(self, filename, data):
-        with open(filename, "w") as db_file:
-            db_file.write(data)
-
-    def on(self, filename, uuid=True, create=True):
-        if filename.split(".")[-1:][0] == "json":
-            if create and not os.path.exists(filename):
-                self.create(filename, json.dumps(EMPTY_DATA))
 
 
 getDb = JsonDatabase  # for legacy support.
