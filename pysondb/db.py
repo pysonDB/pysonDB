@@ -5,12 +5,15 @@ import re
 import uuid
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Any, Dict
+from typing import Any, Callable, Dict, List, Union
 
 from filelock import FileLock
 
 # consants
-EMPTY_DATA = {"data": []}
+EMPTY_DATA: Dict[str, Any] = {"data": []}
+
+# types
+getType = Union[List[Dict[str, Any]], List[SimpleNamespace]]
 
 # logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("pysondb")
@@ -56,13 +59,13 @@ class SchemaError(Exception):
 
 
 # util functions
-def create_db(filename, create=True):
-    def create(filename, data):
+def create_db(filename: str, create_file: bool = True) -> True:
+    def create(filename: str, data: str) -> None:
         with open(filename, "w") as db_file:
             db_file.write(data)
 
-    if filename.split(".")[-1:][0] == "json":
-        if create and not os.path.exists(filename):
+    if filename.endswith(".json"):
+        if create_file and not os.path.exists(filename):
             create(filename, json.dumps(EMPTY_DATA))
 
 
@@ -70,7 +73,9 @@ def create_db(filename, create=True):
 
 
 class JsonDatabase:
-    def __init__(self, filename, id_fieldname="id", log=False):
+    def __init__(
+        self, filename: str, id_fieldname: str = "id", log: bool = False
+    ) -> None:
         create_db(filename)  # create the JSON file if it doesn't exists
         sdx = Path(filename)
 
@@ -83,32 +88,32 @@ class JsonDatabase:
 
         logger.info("Database Filename: {0}".format(sdx))
 
-    def _get_id(self):
+    def _get_id(self) -> int:
         return int(str(uuid.uuid4().int)[:18])
 
-    def _cast_id(self, pk):
+    def _cast_id(self, pk) -> int:
         return int(pk)
 
-    def _get_load_function(self):
+    def _get_load_function(self) -> Callable[..., Any]:
         return json.load
 
-    def _get_dump_function(self):
+    def _get_dump_function(self) -> Callable[..., Any]:
         return json.dump
 
     @staticmethod
-    def _objectify(data):
+    def _objectify(data) -> SimpleNamespace:
         return json.loads(data, object_hook=lambda d: SimpleNamespace(**d))
 
     @staticmethod
-    def _stop_log():
+    def _stop_log() -> None:
         logging.getLogger("pysondb").disabled = True
         logging.getLogger("filelock").disabled = True
 
     @property
-    def id_fieldname(self):
+    def id_fieldname(self) -> str:
         return self._id_fieldname
 
-    def add(self, new_data):
+    def add(self, new_data) -> int:
         with self.lock:
             with open(self.filename, "r+") as db_file:
                 db_data = self._get_load_function()(db_file)
@@ -141,7 +146,7 @@ class JsonDatabase:
                     self._get_dump_function()(db_data, db_file)
                 return new_data[self.id_fieldname]
 
-    def addMany(self, new_data):
+    def addMany(self, new_data) -> None:
         with self.lock:
             with open(self.filename, "r+") as db_file:
                 db_data = self._get_load_function()(db_file)
@@ -163,7 +168,7 @@ class JsonDatabase:
                             db_file.seek(0)
                             self._get_dump_function()(db_data, db_file)
 
-    def getAll(self, objectify=False):
+    def getAll(self, objectify=False) -> getType:
         with self.lock:
             with open(self.filename, "r", encoding="utf8") as db_file:
                 db_data = self._get_load_function()(db_file)
@@ -174,7 +179,7 @@ class JsonDatabase:
                 else self._objectify(json.dumps(db_data)).data
             )
 
-    def get(self, num=1, objectify=False):
+    def get(self, num: int = 1, objectify: bool = False) -> getType:
         with self.lock:
             try:
                 with open(self.filename, "r", encoding="utf8") as db_file:
@@ -192,11 +197,11 @@ class JsonDatabase:
                             num, len(db_data["data"])
                         )
                     )
-                    return []
+                    return [{"": ""}]
             except:
-                return []
+                return [{"": ""}]
 
-    def getBy(self, query, objectify=False):
+    def getBy(self, query: Dict[str, Any], objectify: bool = False) -> getType:
         with self.lock:
             result = []
             with open(self.filename, "r") as db_file:
@@ -210,7 +215,10 @@ class JsonDatabase:
                 else self._objectify(json.dumps({"data": result})).data
             )
 
-    def reSearch(self, key, _re, objectify=False):
+    def reSearch(
+        self, key: str, _re: Union[str, re.Pattern], objectify: bool = False
+    ) -> getType:
+
         pattern = _re
         if not isinstance(_re, re.Pattern):
             pattern = re.compile(str(_re))
@@ -230,7 +238,7 @@ class JsonDatabase:
             else self._objectify(json.dumps({"data": items})).data
         )
 
-    def updateById(self, pk, new_data):
+    def updateById(self, pk: int, new_data: Dict[str, Any]) -> None:
         updated = False
 
         with self.lock:
@@ -258,7 +266,7 @@ class JsonDatabase:
                         "new_keys: " + ",".join(sorted(new_data.keys())),
                     )
 
-    def deleteById(self, pk):
+    def deleteById(self, pk: int) -> bool:
         with self.lock:
             with open(self.filename, "r+") as db_file:
                 db_data = self._get_load_function()(db_file)
@@ -280,7 +288,7 @@ class JsonDatabase:
                 self._get_dump_function()(db_data, db_file)
             return True
 
-    def update(self, db_dataset, new_dataset):
+    def update(self, db_dataset: Dict[str, Any], new_dataset: Dict[str, Any]) -> None:
         with self.lock:
             with open(self.filename, "r+") as db_file:
                 db_data = self._get_load_function()(db_file)
