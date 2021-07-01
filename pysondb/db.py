@@ -113,7 +113,7 @@ class JsonDatabase:
     def id_fieldname(self) -> str:
         return self._id_fieldname
 
-    def add(self, new_data) -> int:
+    def add(self, new_data: Dict[str, Any]) -> int:
         with self.lock:
             with open(self.filename, "r+") as db_file:
                 db_data = self._get_load_function()(db_file)
@@ -146,7 +146,7 @@ class JsonDatabase:
                     self._get_dump_function()(db_data, db_file)
                 return new_data[self.id_fieldname]
 
-    def addMany(self, new_data) -> None:
+    def addMany(self, new_data: List[Dict[str, Any]]) -> None:
         with self.lock:
             with open(self.filename, "r+") as db_file:
                 db_data = self._get_load_function()(db_file)
