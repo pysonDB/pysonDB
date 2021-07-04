@@ -288,6 +288,11 @@ class JsonDatabase:
                 self._get_dump_function()(db_data, db_file)
             return True
 
+    def deletAll(self) -> None:
+        with self.lock:
+            with open(self.filename, "w") as f:
+                f.write(json.dumps(EMPTY_DATA))
+
     def update(self, db_dataset: Dict[str, Any], new_dataset: Dict[str, Any]) -> None:
         with self.lock:
             with open(self.filename, "r+") as db_file:
