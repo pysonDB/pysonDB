@@ -8,14 +8,14 @@
 * [Search data](https://fredysomy.me/pysonDB/docs/re_search) 
 * [Update Data](https://fredysomy.me/pysonDB/docs/update) 
 * [Delete Data](https://fredysomy.me/pysonDB/docs/delete)
-
+* [Image Utils](https://fredysomy.me/pysonDB/docs/image_utils)
 
 <h2>Get Data</h2>
 
 * There are three methods to get data.
-  * get(n)
-  * getAll()
-  * getBy()
+  * get(n, objectify=False)
+  * getAll(objectify=False)
+  * getBy(query, objectify=False)
 
 
 <h2><code>get()</code></h2>
@@ -62,9 +62,9 @@ path.json
 >> [{"name":"py_cli","type":"CLI"},{"name":"py_cli2","type":"CLI"}]
 >> a.getBy({"name":"py_cli"})
 >> [{"name":"py_cli","type":"CLI"}]
-
-
 ```
+
+* The objectify kwarg converts the json data to python object, thus the values can be easily accessed by dot(.) notation.
 
 * See full examples [here](https://github.com/fredysomy/pysonDB/example). 
 * If You have any queries or doubts join the discord server [here](https://discord.gg/SZyk2dCgwg)

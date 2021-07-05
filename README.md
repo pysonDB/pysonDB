@@ -19,10 +19,14 @@
  ***
  
 
-The current stable version is v0.6.0
+The current stable version is v1.1.3
 ```python
-pip install pysondb==0.6.0
+pip install pysondb==1.1.3
 ```
+
+## Support the project here
+
+<a href="https://www.buymeacoffee.com/fredysomy"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee.&emoji=&slug=fredysomy&button_colour=FFDD00&font_colour=000000&font_family=Poppins&outline_colour=000000&coffee_colour=ffffff"></a>
  
 ## Features
 
@@ -53,6 +57,7 @@ pip install pysondb==0.6.0
 * [Search data](https://fredysomy.me/pysonDB/docs/re_search) 
 * [Update Data](https://fredysomy.me/pysonDB/docs/update) 
 * [Delete Data](https://fredysomy.me/pysonDB/docs/delete)
+* [Image Utils](https://fredysomy.me/pysonDB/docs/image_utils)
 
 
 ## Install
