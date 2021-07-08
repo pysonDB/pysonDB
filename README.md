@@ -100,6 +100,13 @@ See more Documentation [here](https://fredysomy.me/pysonDB)
 - [X] Use CSV file in the database.
 - [X] Make the database available to use local servers (Flask,Django)
 
+## Contributors.
+
+<a href="https://github.com/fredysomy/pysonDB/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=fredysomy/pysonDB" />
+</a>
+
+
 ## Projects using PysonDB
 
 * [my-first-streamlit-app](https://github.com/mro-lht/my-first-streamlit-app)
