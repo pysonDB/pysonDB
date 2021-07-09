@@ -6,6 +6,7 @@
   * New exceptions: `DataNotFoundError`, `IdNotFoundError`, `SchemaError`
   * YAML support
   * New database classes: `Database`, `UuidDatabase`, `YamlDatabase`, `YamlUuidDatabase`
+  * Add lint to GitHub Actions
 * `0.6.0`
   * Resloveed the error when automatically creating a DB
   * Added UUID Support.
