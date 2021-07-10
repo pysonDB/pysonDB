@@ -4,13 +4,22 @@ import os
 import re
 import uuid
 from pathlib import Path
+from types import SimpleNamespace
+from typing import Any, Callable, Dict, List, Union
 
-import yaml
 from filelock import FileLock
 
-logging.basicConfig(level=logging.DEBUG)
+# consants
+EMPTY_DATA: Dict[str, Any] = {"data": []}
+
+# types
+getType = Union[List[Dict[str, Any]], List[SimpleNamespace]]
+
+# logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("pysondb")
-logger.disabled = True
+logger.setLevel(logging.DEBUG)
+
+# Errors
 class DataNotFoundError(Exception):
     """Exception raised if id not found.
 
@@ -18,8 +27,11 @@ class DataNotFoundError(Exception):
         data
     """
 
-    def __init__(self, data):
+    def __init__(self, data: Dict[str, Any]) -> None:
         self.data = data
+
+    def __str__(self) -> str:
+        return f"The data {self.data!r} does not exists in JSON db"
 
 
 class IdNotFoundError(Exception):
@@ -29,43 +41,79 @@ class IdNotFoundError(Exception):
         pk -- primary key / id
     """
 
-    def __init__(self, pk):
+    def __init__(self, pk: int) -> None:
         self.pk = pk
+
+    def __str__(self) -> str:
+        return f"Id {self.pk!r} does not exist in the JSON db"
 
 
 class SchemaError(Exception):
     """Exception raised for field/key errors."""
 
-    def __init__(self, *args):
+    def __init__(self, *args) -> None:
         self.args = args
+
+    def __str__(self) -> str:
+        return str(self.args)
+
+
+# util functions
+def create_db(filename: str, create_file: bool = True) -> True:
+    def create(filename: str, data: str) -> None:
+        with open(filename, "w") as db_file:
+            db_file.write(data)
+
+    if filename.endswith(".json"):
+        if create_file and not os.path.exists(filename):
+            create(filename, json.dumps(EMPTY_DATA))
+
+
+# the JSON DB
 
 
 class JsonDatabase:
-    def __init__(self, filename, id_fieldname="id"):
-        a = Database().on(filename)
+    def __init__(
+        self, filename: str, id_fieldname: str = "id", log: bool = False
+    ) -> None:
+        create_db(filename)  # create the JSON file if it doesn't exists
         sdx = Path(filename)
+
         self._id_fieldname = id_fieldname
-        logger.info("Database Filename: {0}".format(sdx))
         self.filename = filename
         self.lock = FileLock("{}.lock".format(self.filename))
 
-    def _get_id(self):
+        if not log:
+            self._stop_log()
+
+        logger.info("Database Filename: {0}".format(sdx))
+
+    def _get_id(self) -> int:
         return int(str(uuid.uuid4().int)[:18])
 
-    def _cast_id(self, pk):
+    def _cast_id(self, pk) -> int:
         return int(pk)
 
-    def _get_load_function(self):
+    def _get_load_function(self) -> Callable[..., Any]:
         return json.load
 
-    def _get_dump_function(self):
+    def _get_dump_function(self) -> Callable[..., Any]:
         return json.dump
 
+    @staticmethod
+    def _objectify(data) -> SimpleNamespace:
+        return json.loads(data, object_hook=lambda d: SimpleNamespace(**d))
+
+    @staticmethod
+    def _stop_log() -> None:
+        logging.getLogger("pysondb").disabled = True
+        logging.getLogger("filelock").disabled = True
+
     @property
-    def id_fieldname(self):
+    def id_fieldname(self) -> str:
         return self._id_fieldname
 
-    def add(self, new_data):
+    def add(self, new_data: Dict[str, Any]) -> int:
         with self.lock:
             with open(self.filename, "r+") as db_file:
                 db_data = self._get_load_function()(db_file)
@@ -74,7 +122,9 @@ class JsonDatabase:
                         [self.id_fieldname]
                     ):
                         new_data[self.id_fieldname] = self._get_id()
+
                         logger.debug("Append new data; {0}".format(new_data))
+
                         db_data["data"].append(new_data)
                         db_file.seek(0)
                         self._get_dump_function()(db_data, db_file)
@@ -96,7 +146,7 @@ class JsonDatabase:
                     self._get_dump_function()(db_data, db_file)
                 return new_data[self.id_fieldname]
 
-    def addMany(self, new_data):
+    def addMany(self, new_data: List[Dict[str, Any]]) -> None:
         with self.lock:
             with open(self.filename, "r+") as db_file:
                 db_data = self._get_load_function()(db_file)
@@ -118,30 +168,40 @@ class JsonDatabase:
                             db_file.seek(0)
                             self._get_dump_function()(db_data, db_file)
 
-    def getAll(self):
+    def getAll(self, objectify=False) -> getType:
         with self.lock:
             with open(self.filename, "r", encoding="utf8") as db_file:
                 db_data = self._get_load_function()(db_file)
-            return db_data["data"]
 
-    def get(self, num=1):
+            return (
+                db_data["data"]
+                if not objectify
+                else self._objectify(json.dumps(db_data)).data
+            )
+
+    def get(self, num: int = 1, objectify: bool = False) -> getType:
         with self.lock:
             try:
                 with open(self.filename, "r", encoding="utf8") as db_file:
                     db_data = self._get_load_function()(db_file)
                 if num <= len(db_data["data"]):
-                    return db_data["data"][0 : int(num)]
+                    data = db_data["data"][0 : int(num)]
+                    return (
+                        data
+                        if not objectify
+                        else self._objectify(json.dumps({"data": data})).data
+                    )
                 else:
                     logger.info(
                         "The length you have given {} \n Length of the database items= {}".format(
                             num, len(db_data["data"])
                         )
                     )
-                    return []
+                    return [{"": ""}]
             except:
-                return []
+                return [{"": ""}]
 
-    def getBy(self, query):
+    def getBy(self, query: Dict[str, Any], objectify: bool = False) -> getType:
         with self.lock:
             result = []
             with open(self.filename, "r") as db_file:
@@ -149,9 +209,16 @@ class JsonDatabase:
                 for d in db_data["data"]:
                     if all(x in d and d[x] == query[x] for x in query):
                         result.append(d)
-            return result
+            return (
+                result
+                if not objectify
+                else self._objectify(json.dumps({"data": result})).data
+            )
 
-    def reSearch(self, key, _re):
+    def reSearch(
+        self, key: str, _re: Union[str, re.Pattern], objectify: bool = False
+    ) -> getType:
+
         pattern = _re
         if not isinstance(_re, re.Pattern):
             pattern = re.compile(str(_re))
@@ -165,9 +232,15 @@ class JsonDatabase:
                     items.append(d)
                     continue
 
-        return items
+        return (
+            items
+            if not objectify
+            else self._objectify(json.dumps({"data": items})).data
+        )
 
-    def updateById(self, pk, new_data):
+    def updateById(self, pk: int, new_data: Dict[str, Any]) -> None:
+        updated = False
+
         with self.lock:
             with open(self.filename, "r+") as db_file:
                 db_data = self._get_load_function()(db_file)
@@ -176,8 +249,12 @@ class JsonDatabase:
                     for d in db_data["data"]:
                         if d[self.id_fieldname] == self._cast_id(pk):
                             d.update(new_data)
-                            result.append(d)
-                        else:
+                            updated = True
+
+                        result.append(d)
+
+                    else:
+                        if not updated:
                             raise IdNotFoundError(pk)
                     db_data["data"] = result
                     db_file.seek(0)
@@ -189,7 +266,7 @@ class JsonDatabase:
                         "new_keys: " + ",".join(sorted(new_data.keys())),
                     )
 
-    def deleteById(self, pk):
+    def deleteById(self, pk: int) -> bool:
         with self.lock:
             with open(self.filename, "r+") as db_file:
                 db_data = self._get_load_function()(db_file)
@@ -211,7 +288,12 @@ class JsonDatabase:
                 self._get_dump_function()(db_data, db_file)
             return True
 
-    def update(self, db_dataset, new_dataset):
+    def deleteAll(self) -> None:
+        with self.lock:
+            with open(self.filename, "w") as f:
+                f.write(json.dumps(EMPTY_DATA))
+
+    def update(self, db_dataset: Dict[str, Any], new_dataset: Dict[str, Any]) -> None:
         with self.lock:
             with open(self.filename, "r+") as db_file:
                 db_data = self._get_load_function()(db_file)
@@ -247,42 +329,30 @@ class JsonDatabase:
                     )
 
 
-class UuidDatabase(JsonDatabase):
-    def _get_id(self):
-        return str(uuid.uuid4())
+    def updateArray(self, query, prop, value, capacity=float('inf')):
+        with self.lock:
+            with open(self.filename, "r+") as db_file:
+                db_data = self._get_load_function()(db_file)
+                for d in db_data["data"]:
+                    if all(x in d and d[x] == query[x] for x in query):
+                        try:
+                            if isinstance(d[prop], list):
+                                if len(d[prop]) < capacity:
+                                    d[prop].append(value)
+                                else:
+                                    d[prop].pop(0)
+                                    d[prop].append(value)
+                            else:
+                                raise TypeError(
+                                    " property '" + prop + "' is not an array."
+                                )
+                        except KeyError:
+                            raise SchemaError(
+                                " the queried object has no attribute '"+prop+"'"
+                            )
+                db_file.seek(0)
+                self._get_dump_function()(db_data, db_file)
 
-    def _cast_id(self, pk):
-        return pk
-
-
-class YamlDatabase(JsonDatabase):
-    def _get_load_function(self):
-        return yaml.safe_load
-
-    def _get_dump_function(self):
-        return yaml.dump
-
-
-class JsonUuidDatabase(UuidDatabase):
-    pass
-
-
-class YamlUuidDatabase(UuidDatabase, YamlDatabase):
-    pass
-
-
-EMPTY_DATA = {"data": []}
-
-
-class Database:
-    def create(self, filename, data):
-        with open(filename, "w") as db_file:
-            db_file.write(data)
-
-    def on(self, filename, uuid=True, create=True):
-        if filename.split(".")[-1:][0] == "json":
-            if create and not os.path.exists(filename):
-                self.create(filename, json.dumps(EMPTY_DATA))
 
 
 getDb = JsonDatabase  # for legacy support.

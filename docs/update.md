@@ -8,7 +8,7 @@
 * [Search data](https://fredysomy.me/pysonDB/docs/re_search) 
 * [Update Data](https://fredysomy.me/pysonDB/docs/update) 
 * [Delete Data](https://fredysomy.me/pysonDB/docs/delete)
-
+* [Image Utils](https://fredysomy.me/pysonDB/docs/image_utils)
 
 <h2>Update Data</h2>
 
@@ -20,6 +20,8 @@
   * update(query,what_to_update)
     * update({"name":"pysondb"},{"name":"pyson"}).
     * Updates the all value of key "pysondb" to pyson
+  * updateArray(query, prop, value, max_capacity=optional)
+    * Appends to an already existing array in the data
 
 >>JSON file:file.json
 
@@ -61,6 +63,25 @@
 >> [{"name": "PysonCLI", "type": "CLI", "score": "10", "id": 2242313690}]
 
 
+```
+
+<h4><code>updateArray(query, prop_to_update, value_to_append, max_array_capacity=float('inf'))</code></h4>
+
+* max_array_capacity is optional. If len(array) >= max_array_capacity, the first element gets popped
+
+```python
+>> from pysondb import db
+>> a=db.getDb("file.json")
+>> a.getBy({"name":"ArrayEntry"})
+>> [{"name":"ArrayEntry", "epic_array":[0,1,2]}]
+>> a.updateArray({"name":"ArrayEntry"},"epic_array",3)
+>> a.getBy({"name":"ArrayEntry"})
+>> # In the file.json the data is updated for all data where name=Pyson-CLI
+>> # We can verify it below.
+>> [{"name": "ArrayEntry", "epic_array":[0,1,2,3]}]
+>> a.updateArray({"name":"ArrayEntry"}, "epic_array", 4, 4)
+>> a.getBy({"name":"ArrayEntry"})
+>> [{"name": "ArrayEntry", "epic_array":[1,2,3,4]}
 ```
 
 ***

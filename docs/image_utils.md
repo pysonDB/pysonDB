@@ -10,35 +10,33 @@
 * [Delete Data](https://fredysomy.me/pysonDB/docs/delete)
 * [Image Utils](https://fredysomy.me/pysonDB/docs/image_utils)
 
-<h2>Search using Regex</h2>
+<h2>Image Utils</h2>
 
 * Methods
-  * reSearch(key, regex, objectify=False)
-  * Searches for the objects where the value of the key follows the given regex. 
-
+  * `add_image(src="path/to/image",name="nameoffile")`
+    * Adds the image to the database
+  * `get_image("nameoffile")`
+    * Gets the image stored and saves it in the current directory.
 ***
 
->>JSON file:file.json
+>JSON file: file.json
 
 ```json
-{"data": [{"name": "pysondb", "type": "DB"},
-        {"name": "pysondb-cli", "type": "CLI"},
-        {"name": "fire", "type": "CLI"},
-        {"name": "stuff.py", "type": "GUI"},
-        {"name": "def23@c-py", "type": "TUI"},
-        {"name": "stuff(py", "type": "GUI"},
+{"data": [{"name": "pysondb", "data":"asdsddfgdfdf45dvrtge...","fname":"file.png"}
 ]}
 ```
 
 ***  
 
-<h2><code>reSearch(key, regex, objectify=False)</code></h2>
+<h2><code>add_image(src="path/to/image",name="nameoffile")</code></h2>
 
 ```python
->> from pysondb import db
->> a=db.getDb("file.json")
->> print(a.reSearch("name", r"\w{3}\d{2}@c-py"))
->> [{'name': 'def23@c-py', 'type': 'TUI', 'id': 200151702869331613}]
+>> from pysondb.imageutils import imageutils
+>> a=imageutils.setdb("file.json") #the data of image will be stored here.
+>> a.add_image(src="file.png",name="pysondb")
+>> #The image is stored in the database :example/rere.json
+>> a.get_image("pysondb")
+>> # This command will save the image in the current directory.
 ```
 
 ***
