@@ -117,6 +117,7 @@ See more Documentation [here](https://fredysomy.me/pysonDB)
 * [prox_community](https://github.com/Kavzor/prox_community)
 * [USVBachelorProject](https://github.com/mhj5103/USVBachelorProject)
 * [gardenwatering](https://github.com/erivansousa/gardenwatering)
+* [cf_scraper](https://github.com/bobross419/cf_scraper)
 
 
 
