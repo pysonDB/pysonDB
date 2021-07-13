@@ -329,4 +329,30 @@ class JsonDatabase:
                     )
 
 
+    def updateArray(self, query, prop, value, capacity=float('inf')):
+        with self.lock:
+            with open(self.filename, "r+") as db_file:
+                db_data = self._get_load_function()(db_file)
+                for d in db_data["data"]:
+                    if all(x in d and d[x] == query[x] for x in query):
+                        try:
+                            if isinstance(d[prop], list):
+                                if len(d[prop]) < capacity:
+                                    d[prop].append(value)
+                                else:
+                                    d[prop].pop(0)
+                                    d[prop].append(value)
+                            else:
+                                raise TypeError(
+                                    " property '" + prop + "' is not an array."
+                                )
+                        except KeyError:
+                            raise SchemaError(
+                                " the queried object has no attribute '"+prop+"'"
+                            )
+                db_file.seek(0)
+                self._get_dump_function()(db_data, db_file)
+
+
+
 getDb = JsonDatabase  # for legacy support.
