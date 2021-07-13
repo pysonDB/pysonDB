@@ -200,6 +200,23 @@ class JsonDatabase:
                     return [{"": ""}]
             except:
                 return [{"": ""}]
+    def find(self, pk :int, objectify: bool = False) -> getType:
+        with self.lock:
+            try:
+                with open(self.filename, "r", encoding="utf8") as db_file:
+                    db_data = self._get_load_function()(db_file)
+                for d in db_data["data"]:
+                    if(d["id"])==self._cast_id(pk):
+                        return (
+                        d
+                        if not objectify
+                        else self._objectify(json.dumps({"data": d})).data
+                        )
+                    else:
+                        raise IdNotFoundError(pk)   
+
+            except:
+                raise IdNotFoundError(pk)   
 
     def getBy(self, query: Dict[str, Any], objectify: bool = False) -> getType:
         with self.lock:
