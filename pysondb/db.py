@@ -206,7 +206,7 @@ class JsonDatabase:
                 with open(self.filename, "r", encoding="utf8") as db_file:
                     db_data = self._get_load_function()(db_file)
                 for d in db_data["data"]:
-                    if(d["id"])==self._cast_id(pk):
+                    if(d[self.id_fieldname])==self._cast_id(pk):
                         return (
                         d
                         if not objectify
