@@ -16,6 +16,7 @@
   * get(n, objectify=False)
   * getAll(objectify=False)
   * getBy(query, objectify=False)
+  * find(id)
 
 
 <h2><code>get()</code></h2>
@@ -64,7 +65,20 @@ path.json
 >> [{"name":"py_cli","type":"CLI"}]
 ```
 
-* The objectify kwarg converts the json data to python object, thus the values can be easily accessed by dot(.) notation.
+<h2><code>find(id)</code></h2>
+
+* find(id) : Id must be a Int.
+* find(23234234345345345)
+
+```python
+>> from pysondb import db
+>> a=db.getDb("path.json")
+>> a.getAll()
+>> [{"name":"pysondb","type":"DB",id:1234},{"name":"py_cli","type":"CLI",id:5678},{"name":"py_cli2","type":"CLI",id:9101112}]
+>> a.find(1234)
+>> {"name":"pysondb","type":"DB",id:1234}
+```
+
 
 * See full examples [here](https://github.com/fredysomy/pysonDB/example). 
 * If You have any queries or doubts join the discord server [here](https://discord.gg/SZyk2dCgwg)

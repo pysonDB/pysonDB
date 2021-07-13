@@ -36,3 +36,7 @@
 
 * `1.1.6`
   * Added a default indentation of `indent=3` to all dump function
+
+* `1.2.0`
+  * Added `find(id) method`
+    * It returns the dict if ID is found,else it raises Idnotfound error
