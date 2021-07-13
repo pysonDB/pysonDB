@@ -34,3 +34,5 @@
   * Added image saving and retrieving method in pysonDB
   * Added `add_image` function and `get_image` functions.
 
+* `1.1.6`
+  * Added a default indentation of `indent=3` to all dump function
