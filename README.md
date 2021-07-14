@@ -19,9 +19,9 @@
  ***
  
 
-The current stable version is v1.1.3
+The current stable version is v1.2.1
 ```python
-pip install pysondb==1.1.3
+pip install pysondb==1.2.1
 ```
 
 ## Support the project here
