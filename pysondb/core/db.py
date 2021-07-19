@@ -127,7 +127,7 @@ class JsonDatabase:
 
                         db_data["data"].append(new_data)
                         db_file.seek(0)
-                        self._get_dump_function()(db_data, db_file,indent=3)
+                        self._get_dump_function()(db_data, db_file, indent=3)
                         return new_data[self.id_fieldname]
                     else:
                         raise SchemaError(
@@ -143,7 +143,7 @@ class JsonDatabase:
                     db_data["data"].append(new_data)
                     logger.debug("Add first data entry; {0}".format(new_data))
                     db_file.seek(0)
-                    self._get_dump_function()(db_data, db_file,indent=3)
+                    self._get_dump_function()(db_data, db_file, indent=3)
                 return new_data[self.id_fieldname]
 
     def addMany(self, new_data: List[Dict[str, Any]]) -> None:
@@ -157,16 +157,19 @@ class JsonDatabase:
                         ):
                             d[self.id_fieldname] = self._get_id()
                             db_data["data"].append(d)
-                            db_file.seek(0)
-                            self._get_dump_function()(db_data, db_file,indent=3)
+
                 except:
                     keys = list(new_data[0].keys())
                     for d in new_data:
                         if set(keys) == set(d.keys()):
                             d[self.id_fieldname] = self._get_id()
                             db_data["data"].append(d)
-                            db_file.seek(0)
-                            self._get_dump_function()(db_data, db_file,indent=3)
+                            # db_file.seek(0)
+                            # self._get_dump_function()(db_data, db_file, indent=3)
+
+                finally:
+                    db_file.seek(0)
+                    self._get_dump_function()(db_data, db_file, indent=3)
 
     def getAll(self, objectify=False) -> getType:
         with self.lock:
@@ -200,23 +203,24 @@ class JsonDatabase:
                     return [{"": ""}]
             except:
                 return [{"": ""}]
-    def find(self, pk :int, objectify: bool = False) -> getType:
+
+    def find(self, pk: int, objectify: bool = False) -> getType:
         with self.lock:
             try:
                 with open(self.filename, "r", encoding="utf8") as db_file:
                     db_data = self._get_load_function()(db_file)
                 for d in db_data["data"]:
-                    if(d[self.id_fieldname])==self._cast_id(pk):
+                    if (d[self.id_fieldname]) == self._cast_id(pk):
                         return (
-                        d
-                        if not objectify
-                        else self._objectify(json.dumps({"data": d})).data
+                            d
+                            if not objectify
+                            else self._objectify(json.dumps({"data": d})).data
                         )
                     else:
-                        raise IdNotFoundError(pk)   
+                        raise IdNotFoundError(pk)
 
             except:
-                raise IdNotFoundError(pk)   
+                raise IdNotFoundError(pk)
 
     def getBy(self, query: Dict[str, Any], objectify: bool = False) -> getType:
         with self.lock:
@@ -276,7 +280,7 @@ class JsonDatabase:
                     db_data["data"] = result
                     db_file.seek(0)
                     db_file.truncate()
-                    self._get_dump_function()(db_data, db_file,indent=3)
+                    self._get_dump_function()(db_data, db_file, indent=3)
                 else:
                     raise SchemaError(
                         "db_keys: " + ",".join(sorted(db_data.keys())),
@@ -304,7 +308,7 @@ class JsonDatabase:
                 db_file.truncate()
                 self._get_dump_function()(db_data, db_file)
             return True
-   
+
     def deleteAll(self) -> None:
         with self.lock:
             with open(self.filename, "w") as f:
@@ -336,7 +340,7 @@ class JsonDatabase:
                     db_data["data"] = result
                     db_file.seek(0)
                     db_file.truncate()
-                    self._get_dump_function()(db_data, db_file,indent=3)
+                    self._get_dump_function()(db_data, db_file, indent=3)
                 else:
                     raise SchemaError(
                         "db_dataset_keys: " + ",".join(sorted(list(db_dataset.keys()))),
@@ -344,32 +348,6 @@ class JsonDatabase:
                         "new_dataset_keys: "
                         + ",".join(sorted(list(new_dataset.keys()))),
                     )
-
-
-    def updateArray(self, query, prop, value, capacity=float('inf')):
-        with self.lock:
-            with open(self.filename, "r+") as db_file:
-                db_data = self._get_load_function()(db_file)
-                for d in db_data["data"]:
-                    if all(x in d and d[x] == query[x] for x in query):
-                        try:
-                            if isinstance(d[prop], list):
-                                if len(d[prop]) < capacity:
-                                    d[prop].append(value)
-                                else:
-                                    d[prop].pop(0)
-                                    d[prop].append(value)
-                            else:
-                                raise TypeError(
-                                    " property '" + prop + "' is not an array."
-                                )
-                        except KeyError:
-                            raise SchemaError(
-                                " the queried object has no attribute '"+prop+"'"
-                            )
-                db_file.seek(0)
-                self._get_dump_function()(db_data, db_file)
-
 
 
 getDb = JsonDatabase  # for legacy support.
