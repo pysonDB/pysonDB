@@ -1,12 +1,16 @@
 import csv
 import json
 import os
+from pathlib import Path
 from typing import Any
 from typing import Dict
+from typing import List
 from typing import Optional
 
 import fire
 from beautifultable import BeautifulTable
+
+from pysondb.core.db import getDb
 
 
 def create_if_not_exist(file_name: str) -> None:
@@ -23,21 +27,24 @@ def create_if_not_exist(file_name: str) -> None:
 
 
 def display(file_name: str) -> None:
-    table = BeautifulTable()
-    with open(file_name) as jsondoc:
-        data = json.load(jsondoc)
-        real_data = data["data"]
-        header = list(data["data"][0].keys())
-        for all_data in real_data:
-            table.rows.append(list(all_data.values()))
-        table.columns.header = header
-        print(table)
+
+    if file_name.endswith(".json") and Path(file_name).is_file() is True:
+
+        table = BeautifulTable()
+        with open(file_name) as jsondoc:
+            data = json.load(jsondoc)
+            if data:
+                header = ["id"] + list(list(data.values())[0].keys())
+                for _id, data in data.items():
+                    table.rows.append([_id] + list(data.values()))
+                table.columns.header = header
+                print(table)
 
 
 def delete(file_name: str) -> None:
-    if os.path.exists(file_name):
+    if Path(file_name).is_file() is True and file_name.endswith(".json"):
         x = input("Do you want to remove the json file..(y/n)")
-        if x in ["y", "Y"]:
+        if x.lower() == "y":
             os.remove(file_name)
         else:
             print("Action terminated")
@@ -46,94 +53,88 @@ def delete(file_name: str) -> None:
 
 
 def convert(csv_file: str, json_db: str) -> None:
-    # print("Reading data from {}".format(csv_file))
-    # arr = []
-    # with open(csv_file) as csvFile:
-    #     csvReader = csv.DictReader(csvFile)
-    #     for csvRow in csvReader:
-    #         csvRow["id"] = random.randint(1000000000, 9999999999)
-    #         arr.append(csvRow)
-    # print("Writing data into {}".format(json_db))
-    # x = {}
-    # x["data"] = arr
-    # with open(json_db, "w") as json_file:
-    #     json.dump(x, json_file)
-    # print("Conversion successful")
-    pass
+    if csv_file.endswith(".csv") and Path(csv_file).is_file() is True:
+        with open(csv_file, "r") as f:
+            reader = csv.DictReader(f)
+
+            a = getDb(json_db)
+            a.addMany([i for i in reader])
 
 
-def convert_db_to_csv(filename: str, targetcsv: str = "converted.csv") -> None:
+def convert_db_to_csv(db: str, targetcsv: str = "converted.csv") -> None:
     """
     Converts a JSON database to a csv.
-    :param str filename: path of the target json file
+    :param str db: path of the target json file
     :param str targetcsv: path of the converted csv ,default : converted.csv
     """
-    with open(filename, "r") as db:
-        json_loaded = json.load(db)["data"]
-        csv_file = open(targetcsv, "a")
-        csv_writer = csv.writer(csv_file)
-        header = json_loaded[0].keys()
-        csv_writer.writerow(header)
-        print("File converted and saving to ", targetcsv)
-        for each in json_loaded:
-            csv_writer.writerow(each.values())
-        csv_file.close()
+    if db.endswith(".json") and Path(db).is_file() is True:
+        a = getDb(db)
+        dict_data = a.getAll()
+        data: List[Any] = [dict_data[i] for i in dict_data]
+        headers = data[0].keys()
+
+        with open(targetcsv, "w", newline="") as f:
+            dict_writer: Any = csv.DictWriter(f, headers)
+            dict_writer.writeheader()
+            dict_writer.writerows(data)
 
 
 def merge(p_file: str, m_file: str, output_file: Optional[str] = None) -> None:
-    # """
-    # Merges two json DB with the same schema
-    # :param str p_file: The primary file
-    # :param str m_file: The file to combine with p_file
-    # :param str output_file: The name of the output file, default: p_file
-    # """
+    """
+    Merges two json DB with the same schema
+    :param str p_file: The primary file
+    :param str m_file: The file to combine with p_file
+    :param str output_file: The name of the output file, default: p_file
+    """
 
-    # def verify_file(file_data, refer_keys, filename):
-    #     for d in file_data:
-    #         temp_keys = list(set(d.keys()))
-    #         temp_keys.sort()
-    #         if not temp_keys == refer_keys:
-    #             print(f"Irregularities in key names in database {filename!r}")
-    #             quit()
+    def verify_file(
+        file_data: Dict[str, Dict[str, Any]], refer_keys: List[str], filename: str
+    ) -> None:
+        for d in file_data:
+            temp_keys = list(file_data[d].keys())
+            temp_keys.sort()
+            if not temp_keys == refer_keys:
+                print(f"Irregularities in key names in database {filename!r}")
+                quit()
 
-    # o_file = output_file or p_file
-    # with open(p_file, "r") as p, open(m_file) as m:
-    #     try:
-    #         p_data = json.load(p)["data"]
-    #         m_data = json.load(m)["data"]
+    o_file = output_file or p_file
+    with open(p_file, "r") as p, open(m_file) as m:
+        try:
+            p_data = json.load(p)
+            m_data = json.load(m)
 
-    #         # look up primary data: a reference to the first data entry
-    #         lp_data = p_data[0]
-    #         lm_data = m_data[0]
+            # look up primary data: a reference to the first data entry
+            lp_data = list(p_data.values())[0]
+            lm_data = list(m_data.values())[0]
 
-    #         # verify that all the entries in each DB have the same keys
-    #         p_keys = list(set(lp_data.keys()))
-    #         m_keys = list(set(lm_data.keys()))
+            # verify that all the entries in each DB have the same keys
+            p_keys = sorted(list(set(lp_data)))
+            m_keys = sorted(list(set(lm_data)))
 
-    #         p_keys.sort()
-    #         m_keys.sort()
+            verify_file(p_data, p_keys, p_file)
+            verify_file(m_data, m_keys, m_file)
 
-    #         verify_file(p_data, p_keys, p_file)
-    #         verify_file(m_data, m_keys, m_file)
+        except KeyError:
+            print("Oops, the DB's does not follow the required PysonDb schema.")
+            quit()
+        except IndexError:
+            print("One of the Database is empty")
+            quit()
 
-    #     except KeyError:
-    #         print("Oops, the DB's does not follow the required PysonDb schema.")
-    #         quit()
-    #     except IndexError:
-    #         print("One of the Database is empty")
-    #         quit()
+    # merge the two DB together
 
-    # # merge the two DB together
+    if len(lp_data) == len(lm_data):
+        if all(i in lm_data for i in lp_data):
 
-    # if len(lp_data) == len(lm_data):
-    #     if all(i in lm_data.keys() for i in lp_data):
-    #         temp_data = {"data": m_data + p_data}
-    #         with open(o_file, "w") as f:
-    #             json.dump(temp_data, f)
-    #     else:
-    #         print("The keys of the Database entries does not match")
-    # else:
-    #     print("The number keys in DB entries does not match")
+            p_data.update(m_data)
+
+            with open(o_file, "w") as f:
+                print(p_data)
+                json.dump(p_data, f)
+        else:
+            print("The keys of the Database entries does not match")
+    else:
+        print("The number keys in DB entries does not match")
     pass
 
 
