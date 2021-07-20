@@ -1,8 +1,8 @@
 import json
 import os
-import uuid
 from typing import Any
 from typing import Dict
+from uuid import uuid4
 
 from .errors import DataError
 
@@ -24,7 +24,7 @@ def get_id(db: Dict[str, Dict[str, Any]]) -> str:
     """Generates a new uuid and then checks whether it exists in the DB"""
 
     def get_id() -> str:
-        _id = str(uuid.uuid4().int)[:18]
+        _id = str(uuid4().int)[:18]
         if _id in db:
             return get_id()
 
