@@ -1,12 +1,12 @@
 <h1 align="center"><u>PysonDB</u></h1>
 
-* [Install](https://github.com/fredysomy/pysonDB) 
-* [Example Code](https://github.com/fredysomy/pysonDB/tree/master/example) 
-* [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli) 
-* [Adding Data](https://fredysomy.me/pysonDB/docs/add) 
-* [Get data](https://fredysomy.me/pysonDB/docs/get) 
-* [Search data](https://fredysomy.me/pysonDB/docs/re_search) 
-* [Update Data](https://fredysomy.me/pysonDB/docs/update) 
+* [Install](https://github.com/fredysomy/pysonDB)
+* [Example Code](https://github.com/fredysomy/pysonDB/tree/master/example)
+* [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli)
+* [Adding Data](https://fredysomy.me/pysonDB/docs/add)
+* [Get data](https://fredysomy.me/pysonDB/docs/get)
+* [Search data](https://fredysomy.me/pysonDB/docs/re_search)
+* [Update Data](https://fredysomy.me/pysonDB/docs/update)
 * [Delete Data](https://fredysomy.me/pysonDB/docs/delete)
 * [Image Utils](https://fredysomy.me/pysonDB/docs/image_utils)
 
@@ -14,7 +14,7 @@
 
 * Methods
   * reSearch(key, regex, objectify=False)
-  * Searches for the objects where the value of the key follows the given regex. 
+  * Searches for the objects where the value of the key follows the given regex.
 
 ***
 
@@ -30,7 +30,7 @@
 ]}
 ```
 
-***  
+***
 
 <h2><code>reSearch(key, regex, objectify=False)</code></h2>
 

@@ -1,1 +1,1 @@
-from .core import db
+from .core import db  # noqa: F401

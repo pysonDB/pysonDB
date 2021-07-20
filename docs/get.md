@@ -1,12 +1,12 @@
 <h1 align="center"><u>PysonDB</u></h1>
 
-* [Install](https://github.com/fredysomy/pysonDB) 
-* [Example Code](https://github.com/fredysomy/pysonDB/tree/master/example) 
-* [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli) 
-* [Adding Data](https://fredysomy.me/pysonDB/docs/add) 
-* [Get data](https://fredysomy.me/pysonDB/docs/get) 
-* [Search data](https://fredysomy.me/pysonDB/docs/re_search) 
-* [Update Data](https://fredysomy.me/pysonDB/docs/update) 
+* [Install](https://github.com/fredysomy/pysonDB)
+* [Example Code](https://github.com/fredysomy/pysonDB/tree/master/example)
+* [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli)
+* [Adding Data](https://fredysomy.me/pysonDB/docs/add)
+* [Get data](https://fredysomy.me/pysonDB/docs/get)
+* [Search data](https://fredysomy.me/pysonDB/docs/re_search)
+* [Update Data](https://fredysomy.me/pysonDB/docs/update)
 * [Delete Data](https://fredysomy.me/pysonDB/docs/delete)
 * [Image Utils](https://fredysomy.me/pysonDB/docs/image_utils)
 
@@ -23,7 +23,7 @@
 
 * returns only one data by default.
 
-* get(3) => retruns 3 json data. 
+* get(3) => retruns 3 json data.
 
 path.json
 
@@ -80,5 +80,5 @@ path.json
 ```
 
 
-* See full examples [here](https://github.com/fredysomy/pysonDB/example). 
+* See full examples [here](https://github.com/fredysomy/pysonDB/example).
 * If You have any queries or doubts join the discord server [here](https://discord.gg/SZyk2dCgwg)

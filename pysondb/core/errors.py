@@ -1,4 +1,5 @@
-from typing import Any, Dict
+from typing import Any
+from typing import Dict
 
 
 class DataNotFoundError(Exception):
@@ -32,7 +33,7 @@ class IdNotFoundError(Exception):
 class SchemaError(Exception):
     """Exception raised for field/key errors."""
 
-    def __init__(self, *args) -> None:
+    def __init__(self, *args: Any) -> None:
         self.args = args
 
     def __str__(self) -> str:

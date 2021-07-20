@@ -1,12 +1,13 @@
 import json
 import os
 import uuid
-from typing import Any, Dict
+from typing import Any
+from typing import Dict
 
 from .errors import DataError
 
 
-def verify_data(data: Dict[str, Any], db: Dict[int, Dict[str, Any]]) -> bool:
+def verify_data(data: Dict[str, Any], db: Dict[str, Dict[str, Any]]) -> bool:
     if db:
         if sorted(list(db.values())[0]) == sorted(list(data)):
             return True
@@ -19,12 +20,11 @@ def verify_data(data: Dict[str, Any], db: Dict[int, Dict[str, Any]]) -> bool:
     return True
 
 
-def get_id(db: Dict[str, Dict[int, Any]]) -> int:
-
+def get_id(db: Dict[str, Dict[str, Any]]) -> str:
     """Generates a new uuid and then checks whether it exists in the DB"""
 
-    def get_id() -> int:
-        _id = int(str(uuid.uuid4().int)[:18])
+    def get_id() -> str:
+        _id = str(uuid.uuid4().int)[:18]
         if _id in db:
             return get_id()
 
@@ -34,7 +34,7 @@ def get_id(db: Dict[str, Dict[int, Any]]) -> int:
     return get_id()
 
 
-def create_db(filename: str, create_file: bool = True) -> True:
+def create_db(filename: str, create_file: bool = True) -> None:
     def create(filename: str, data: str) -> None:
         with open(filename, "w") as db_file:
             db_file.write(data)

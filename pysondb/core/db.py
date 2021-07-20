@@ -1,28 +1,28 @@
 import json
-import os
 import re
 from pathlib import Path
 from pprint import pformat
-from typing import Any, Callable, Dict, List, Union
+from typing import Any
+from typing import Callable
+from typing import Dict
+from typing import List
+from typing import Pattern
+from typing import Union
 
-from .errors import DataError, DataNotFoundError, IdNotFoundError, SchemaError
-from .utils import create_db, get_id, verify_data
+from .utils import create_db
+from .utils import get_id
+from .utils import verify_data
 
 # current DB design
 # {3498634873847: {"name": "ad", "age": "test"}}
 
 
-# util functions
-
-
 # the JSON DB
-
-
 class JsonDatabase:
     def __init__(self, filename: str) -> None:
         create_db(filename)  # create the JSON file if it doesn't exists
 
-        self._db: Dict[int, Dict[str, Any]]
+        self._db: Dict[str, Dict[str, Any]]
 
         self.filename = filename
 
@@ -31,9 +31,6 @@ class JsonDatabase:
 
     def __repr__(self) -> str:
         return pformat(self._db, sort_dicts=False, width=80)
-
-    def _cast_id(self, pk) -> int:
-        return int(pk)
 
     def _get_load_function(self) -> Callable[..., Any]:
         return json.load
@@ -50,20 +47,26 @@ class JsonDatabase:
 
     def _dump_db_to_file(self) -> None:
         """Dump the current isinstance of the DB to the .json file"""
+
         with open(self.filename, "w", encoding="utf-8") as f:
             self._get_dump_function()(self._db, f, indent=4)
 
-    def add(self, data: Dict[str, Any]) -> int:
+    def add(self, data: Dict[str, Any]) -> str:
+        """Add the gives data to the DB"""
+
         if verify_data(data, self._db):
             _id = get_id(self._db)
+            print(type(_id))
+
             self._db[_id] = data
 
             self._dump_db_to_file()
             return _id
 
-        return 0
+        return ""
 
     def addMany(self, new_data: List[Dict[str, Any]]) -> None:
+        """Adds a list of values to the DB"""
 
         # if any of the data in the list is invalid, prevents all the other data in the list
         # from entering the DB
@@ -78,19 +81,31 @@ class JsonDatabase:
         del [db_clone]
         self._dump_db_to_file()
 
-    def getAll(self) -> Dict[int, Dict[str, Any]]:
-        return self._db
+    def getAll(self) -> Dict[str, Dict[str, Any]]:
+        """Returns the entire DB"""
 
-    def get(self, key: int) -> Union[None, Dict[str, Any]]:
+        return self._db.copy()
+
+    def get(self, key: str) -> Union[None, Dict[str, Any]]:
+        """Returns the DB values based on their id"""
+
         if key in self._db:
             return self._db[key]
 
         return None
 
-    def getBy(self, query: Dict[str, Any]) -> None:
-        pass
+    def getBy(self, query: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
+        """Returns the DB values based on the condition in the query"""
+        return {
+            i: x
+            for i, x in self._db.items()
+            if all(k in x and x[k] == v for k, v in query.items())
+        }
 
-    def reSearch(self, key: str, _re: Union[str, re.Pattern]) -> List[Dict[str, Any]]:
+    def reSearch(
+        self, key: str, _re: Union[str, Pattern[str]]
+    ) -> List[Dict[str, Dict[str, Any]]]:
+        """Returns the DB values based on the regex pattern of the key provided"""
 
         pattern = _re
         if not isinstance(_re, re.Pattern):
@@ -98,24 +113,49 @@ class JsonDatabase:
 
         items = []
 
-        for d in self._db.values():
+        for k, d in self._db.items():
             if key in d:
                 if re.match(pattern, str(d[key])):
-                    items.append(d)
+                    items.append({k: d})
             else:
                 raise KeyError(f"The key {key} does not exist in DB")
 
         return items
 
-    def updateById(self, pk: int, new_data: Dict[str, Any]) -> None:
+    def updateById(self, pk: str, new_data: Dict[str, Any]) -> None:
 
-        if verify_data(new_data):
-            if pk in self._db:
-                self._db[pk] = new_data
+        if self._db:
+            if all(i in list(self._db.values())[0] for i in new_data):
+                if pk in self._db:
+                    self._db[pk].update(new_data)
+
+                    self._dump_db_to_file()
+
+            else:
+                raise KeyError(
+                    "Some keys provided in the update data does not match the keys in the DB"
+                )
+
+    def updateBy(self, query: Dict[str, Any], new_data: Dict[str, Any]) -> None:
+
+        if self._db:
+            if all(i in list(self._db.values())[0] for i in query) and all(
+                i in list(self._db.values())[0] for i in new_data
+            ):
+                ids = list(
+                    self.getBy(query)
+                )  # get the ids of all the values that need to updated
+                for i in ids:
+                    self.updateById(i, new_data)  # update each of them
 
                 self._dump_db_to_file()
 
-    def deleteById(self, pk: int) -> bool:
+            else:
+                raise KeyError(
+                    "The key in the query or the key in the new_data does not match the keys in the DB"
+                )
+
+    def deleteById(self, pk: str) -> None:
         if pk in self._db:
             del self._db[pk]
             self._dump_db_to_file()
@@ -123,41 +163,6 @@ class JsonDatabase:
     def deleteAll(self) -> None:
         self._db.clear()
         self._dump_db_to_file()
-
-    # def update(self, db_dataset: Dict[str, Any], new_dataset: Dict[str, Any]) -> None:
-    #     with self.lock:
-    #         with open(self.filename, "r+") as db_file:
-    #             db_data = self._get_load_function()(db_file)
-    #             result = []
-    #             found = False
-    #             if set(db_dataset.keys()).issubset(db_data["data"][0].keys()) and set(
-    #                 new_dataset.keys()
-    #             ).issubset(db_data["data"][0].keys()):
-    #                 for d in db_data["data"]:
-    #                     if all(x in d and d[x] == db_dataset[x] for x in db_dataset):
-    #                         if set(new_dataset.keys()).issubset(
-    #                             db_data["data"][0].keys()
-    #                         ):
-    #                             d.update(new_dataset)
-    #                             result.append(d)
-    #                             found = True
-    #                     else:
-    #                         result.append(d)
-
-    #                 if not found:
-    #                     raise DataNotFoundError(db_dataset)
-
-    #                 db_data["data"] = result
-    #                 db_file.seek(0)
-    #                 db_file.truncate()
-    #                 self._get_dump_function()(db_data, db_file, indent=3)
-    #             else:
-    #                 raise SchemaError(
-    #                     "db_dataset_keys: " + ",".join(sorted(list(db_dataset.keys()))),
-    #                     "db_keys: " + ",".join(sorted(list(db_data["data"][0].keys()))),
-    #                     "new_dataset_keys: "
-    #                     + ",".join(sorted(list(new_dataset.keys()))),
-    #                 )
 
 
 getDb = JsonDatabase  # for legacy support.
