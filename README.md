@@ -76,7 +76,7 @@ pysondb create database_name
 ```python
 from pysondb import db
 
-a=db.getDb("db.json')
+a=db.getDb("db.json")
 ```
 
 * The above piece of code will create a database with ``` {data:[]}``` in it.
