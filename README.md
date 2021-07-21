@@ -6,7 +6,7 @@
 
 
 ## A Simple, Lightweight, Efficent JSON based DataBase for Python
- 
+
  [![PyPI version](https://badge.fury.io/py/pysondb.svg)](https://badge/pysondb)
  [![PyPI download day](https://img.shields.io/pypi/dm/pysondb.svg)](https://pypi.python.org/pypi/pysondb)
  ![.github/workflows/Build.yml](https://github.com/fredysomy/pysonDB/workflows/.github/workflows/Build.yml/badge.svg)
@@ -15,9 +15,9 @@
  ![GitHub Repo stars](https://img.shields.io/github/stars/fredysomy/pysonDB?style=plastic)
  ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/fredysomy/pysonDB)
 
- 
+
  ***
- 
+
 
 The current stable version is v1.2.1
 ```python
@@ -27,14 +27,14 @@ pip install pysondb==1.2.1
 ## Support the project here
 
 <a href="https://www.buymeacoffee.com/fredysomy"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee.&emoji=&slug=fredysomy&button_colour=FFDD00&font_colour=000000&font_family=Poppins&outline_colour=000000&coffee_colour=ffffff"></a>
- 
+
 ## Features
 
 * __Lightweight__ JSON based database.
 * Supports __CRUD__ commands.
 * No Database drivers required.
 * __Unique ID__ assigned for each JSON document added.
-* Strict about __Schema__ of data added. 
+* Strict about __Schema__ of data added.
 * __Inbuilt CLI__ to delete,display,create JSON database.
 
 ```python
@@ -49,13 +49,13 @@ pip install pysondb==1.2.1
 ## Quick Links
 
 
-* [Install](https://github.com/fredysomy/pysonDB) 
-* [Example Code](https://github.com/fredysomy/pysonDB/tree/master/example) 
-* [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli) 
-* [Adding Data](https://fredysomy.me/pysonDB/docs/add) 
-* [Get data](https://fredysomy.me/pysonDB/docs/get) 
-* [Search data](https://fredysomy.me/pysonDB/docs/re_search) 
-* [Update Data](https://fredysomy.me/pysonDB/docs/update) 
+* [Install](https://github.com/fredysomy/pysonDB)
+* [Example Code](https://github.com/fredysomy/pysonDB/tree/master/example)
+* [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli)
+* [Adding Data](https://fredysomy.me/pysonDB/docs/add)
+* [Get data](https://fredysomy.me/pysonDB/docs/get)
+* [Search data](https://fredysomy.me/pysonDB/docs/re_search)
+* [Update Data](https://fredysomy.me/pysonDB/docs/update)
 * [Delete Data](https://fredysomy.me/pysonDB/docs/delete)
 * [Image Utils](https://fredysomy.me/pysonDB/docs/image_utils)
 

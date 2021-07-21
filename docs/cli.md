@@ -1,12 +1,12 @@
 <h1 align="center"><u>PysonDB</u></h1>
 
-* [Install](https://github.com/fredysomy/pysonDB) 
-* [Example Code](https://github.com/fredysomy/pysonDB/tree/master/example) 
-* [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli) 
-* [Adding Data](https://fredysomy.me/pysonDB/docs/add) 
-* [Get data](https://fredysomy.me/pysonDB/docs/get) 
-* [Search data](https://fredysomy.me/pysonDB/docs/re_search) 
-* [Update Data](https://fredysomy.me/pysonDB/docs/update) 
+* [Install](https://github.com/fredysomy/pysonDB)
+* [Example Code](https://github.com/fredysomy/pysonDB/tree/master/example)
+* [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli)
+* [Adding Data](https://fredysomy.me/pysonDB/docs/add)
+* [Get data](https://fredysomy.me/pysonDB/docs/get)
+* [Search data](https://fredysomy.me/pysonDB/docs/re_search)
+* [Update Data](https://fredysomy.me/pysonDB/docs/update)
 * [Delete Data](https://fredysomy.me/pysonDB/docs/delete)
 * [Image Utils](https://fredysomy.me/pysonDB/docs/image_utils)
 
@@ -16,11 +16,11 @@
 
 * pysondb create [name]
   * [name] => name of json file.
-* pysondb delete [name] 
-  * [name] => name of json file. 
-* pysondb display [name] 
+* pysondb delete [name]
   * [name] => name of json file.
-* pysondb display [name] 
+* pysondb display [name]
+  * [name] => name of json file.
+* pysondb display [name]
   * [name] => name of json file.
 * pysondb converttocsv [path of json file] [optional name for target CSV file]
   * `pysondb converttocsv example/registry.json`
@@ -75,7 +75,7 @@ Action terminated
 Microsoft Windows [Version 6.1.7601]
 Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
 
-C:\Users\Admin\Desktop\pysondb>pysondb converttocsv example/registry.json 
+C:\Users\Admin\Desktop\pysondb>pysondb converttocsv example/registry.json
 File converted and saving to  converted.csv
 C:\Users\Admin\Desktop\pysondb>pysondb converttocsv example/registry.json filenew.csv
 File converted and saving to  filenew.csv
@@ -113,8 +113,8 @@ C:\Users\Admin\Desktop\pysondb>pysondb display filedb.json
 * See full examples [here](https://github.com/fredysomy/pysonDB/example).
 * If You have any queries or doubts join the discord server [here](https://discord.gg/SZyk2dCgwg)
 
-  
-gitpod /workspace/pysonDB $ pysondb converttocsv example/registry.json 
+
+gitpod /workspace/pysonDB $ pysondb converttocsv example/registry.json
 File converted and saving to  converted.csv
 gitpod /workspace/pysonDB $ pysondb converttocsv example/registry.json filenew.csv
 File converted and saving to  filenew.csv
