@@ -1,6 +1,5 @@
 -r requirements.txt
 
-black==21.6b0
-isort==5.7.0
-pytest==6.2.2
-twine==3.4.1
+pre-commit
+pytest
+pytest-mock

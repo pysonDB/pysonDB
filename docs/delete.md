@@ -1,12 +1,12 @@
 <h1 align="center"><u>PysonDB</u></h1>
 
-* [Install](https://github.com/fredysomy/pysonDB) 
-* [Example Code](https://github.com/fredysomy/pysonDB/tree/master/example) 
-* [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli) 
-* [Adding Data](https://fredysomy.me/pysonDB/docs/add) 
-* [Get data](https://fredysomy.me/pysonDB/docs/get) 
-* [Search data](https://fredysomy.me/pysonDB/docs/re_search) 
-* [Update Data](https://fredysomy.me/pysonDB/docs/update) 
+* [Install](https://github.com/fredysomy/pysonDB)
+* [Example Code](https://github.com/fredysomy/pysonDB/tree/master/example)
+* [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli)
+* [Adding Data](https://fredysomy.me/pysonDB/docs/add)
+* [Get data](https://fredysomy.me/pysonDB/docs/get)
+* [Search data](https://fredysomy.me/pysonDB/docs/re_search)
+* [Update Data](https://fredysomy.me/pysonDB/docs/update)
 * [Delete Data](https://fredysomy.me/pysonDB/docs/delete)
 * [Image Utils](https://fredysomy.me/pysonDB/docs/image_utils)
 
@@ -14,7 +14,7 @@
 
 * Methods
   * deleteById(ID)
-  * Deletes the JSON data with the given ID 
+  * Deletes the JSON data with the given ID
 
 ***
 
@@ -27,7 +27,7 @@
 {"name": "QWERTY", "type": "DB", "score": "5", "id": 9416036202}]}
 ```
 
-***  
+***
 
 <h2><code>deleteById(ID)</code></h2>
 

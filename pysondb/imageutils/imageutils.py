@@ -1,12 +1,14 @@
-from pysondb import db
-import os
 import base64
+import os
+from typing import Any
+
+from pysondb import db
 
 
 class PathNotFoundError(Exception):
     """Exception raised for non-existent image path."""
 
-    def __init__(self, *args) -> None:
+    def __init__(self, *args: Any) -> None:
         self.args = args
 
     def __str__(self) -> str:
@@ -14,9 +16,9 @@ class PathNotFoundError(Exception):
 
 
 class NoNameError(Exception):
-    """Exception raised when no name is passed as params along with the add_image function """
+    """Exception raised when no name is passed as params along with the add_image function"""
 
-    def __init__(self, *args) -> None:
+    def __init__(self, *args: Any) -> None:
         self.args = args
 
     def __str__(self) -> str:
@@ -26,7 +28,7 @@ class NoNameError(Exception):
 class SaveError(Exception):
     """Exception raised when there is a error in saving the image"""
 
-    def __init__(self, *args) -> None:
+    def __init__(self, *args: Any) -> None:
         self.args = args
 
     def __str__(self) -> str:
@@ -38,7 +40,7 @@ class setdb:
         self.db_name = db_name
         self.db = db.getDb(db_name)
 
-    def add_image(self, src: str, name: str) -> int:
+    def add_image(self, src: str, name: str) -> str:
         if os.path.exists(src):
             with open(src, "rb") as img_data:
                 raw_data = base64.b64encode(img_data.read())
@@ -51,7 +53,8 @@ class setdb:
                             "fname": name_list[len(name_list) - 1],
                         }
                     )
-                    print(f"The image is stored in the database :{self.db_name}")
+                    print(
+                        f"The image is stored in the database :{self.db_name}")
                     return _id
 
                 else:
@@ -60,14 +63,15 @@ class setdb:
             raise PathNotFoundError("The src image could not be found")
 
     def get_image(self, name: str) -> None:
-        if name:
-            try:
-                img_data = self.db.getBy({"name": name})
-                f = open(img_data[0]["fname"], "wb")
-                f.write(base64.decodebytes(bytes(img_data[0]["data"], "utf-8")))
-                f.close()
-            except Exception as e:
-                raise SaveError(e)
+        # if name:
+        #     try:
+        #         img_data = self.db.getBy({"name": name})
+        #         f = open(img_data[0]["fname"], "wb")
+        #         f.write(base64.decodebytes(bytes(img_data[0]["data"], "utf-8")))
+        #         f.close()
+        #     except Exception as e:
+        #         raise SaveError(e)
 
-        else:
-            raise NoNameError("No name found")
+        # else:
+        #     raise NoNameError("No name found")
+        pass
