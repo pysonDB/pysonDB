@@ -118,6 +118,7 @@ See more Documentation [here](https://fredysomy.me/pysonDB)
 * [USVBachelorProject](https://github.com/mhj5103/USVBachelorProject)
 * [gardenwatering](https://github.com/erivansousa/gardenwatering)
 * [cf_scraper](https://github.com/bobross419/cf_scraper)
+* [Bing-Wallpaper](https://github.com/starfreck/Bing-Wallpaper)
 
 
 
