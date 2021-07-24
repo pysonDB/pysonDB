@@ -63,15 +63,16 @@ class setdb:
             raise PathNotFoundError("The src image could not be found")
 
     def get_image(self, name: str) -> None:
-        # if name:
-        #     try:
-        #         img_data = self.db.getBy({"name": name})
-        #         f = open(img_data[0]["fname"], "wb")
-        #         f.write(base64.decodebytes(bytes(img_data[0]["data"], "utf-8")))
-        #         f.close()
-        #     except Exception as e:
-        #         raise SaveError(e)
+        if name:
+            try:
+                img_data = self.db.getBy({"name": name})
+                for img in img_data.values():
+                    f = open(img["fname"], "wb")
+                    f.write(base64.decodebytes(bytes(img["data"], "utf-8")))
+                    f.close()
+            except Exception as e:
+                raise SaveError(e)
 
-        # else:
-        #     raise NoNameError("No name found")
+        else:
+            raise NoNameError("No name found")
         pass
