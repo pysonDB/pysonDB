@@ -75,4 +75,3 @@ class setdb:
 
         else:
             raise NoNameError("No name found")
-        pass
