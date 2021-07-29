@@ -9,6 +9,7 @@ from typing import List
 from typing import Pattern
 from typing import Union
 
+from .errors import DataError
 from .utils import create_db
 from .utils import get_id
 from .utils import verify_data
@@ -72,10 +73,21 @@ class JsonDatabase:
         # from entering the DB
         db_clone = self._db.copy()
 
+        # schema verification
+        # steps 1) verify the first entry with the DB
+        # 2) verify all the other entries with the first entry
+
+        verified_data: Dict[str, Any] = {}
+
+        if verify_data(new_data[0], db_clone):
+            verified_data = new_data[0]
+
         for d in new_data:
-            if verify_data(d, db_clone):
-                _id = get_id(db_clone)
-                db_clone[_id] = d
+            if all(i in d.keys() for i in verified_data.keys()) and len(d) == len(verified_data):
+                db_clone[get_id(db_clone)] = d
+            else:
+                raise DataError(
+                    "The Data provided does not comply with the schema")
 
         self._db = db_clone.copy()
         del [db_clone]
