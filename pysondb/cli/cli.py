@@ -138,6 +138,31 @@ def merge(p_file: str, m_file: str, output_file: Optional[str] = None) -> None:
     pass
 
 
+def totwo(primary_file: str, output_file: Optional[str] = None) -> None:
+    """Convert the old schema style DB to the new style"""
+
+    if not Path(primary_file).is_file():
+        print("The file does not exist")
+        quit()
+
+    with open(primary_file, "r") as f:
+        try:
+            new_data: Dict[str, Dict[str, Any]] = {}
+            file_contents = json.load(f)
+            file_data = file_contents["data"]
+
+            for d in file_data:
+                _id = d.pop("id")
+                new_data[_id] = d
+
+            with open(output_file or "converted_data.json", "w") as f:
+                json.dump(new_data, f, indent=4)
+
+        except Exception:
+            print("something went wrong")
+            quit()
+
+
 def main() -> None:
     fire.Fire(
         {
@@ -147,6 +172,7 @@ def main() -> None:
             "convert": convert,
             "converttocsv": convert_db_to_csv,
             "merge": merge,
+            "totwo": totwo
         }
     )
 
