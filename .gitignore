@@ -142,3 +142,4 @@ cython_debug/
 # pyson DB
 test.py
 test.json
+*.lock
