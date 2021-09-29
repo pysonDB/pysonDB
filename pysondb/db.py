@@ -275,9 +275,8 @@ class JsonDatabase:
 
                         result.append(d)
 
-                    else:
-                        if not updated:
-                            raise IdNotFoundError(pk)
+                    if not updated:
+                        raise IdNotFoundError(pk)
                     db_data["data"] = result
                     db_file.seek(0)
                     db_file.truncate()
