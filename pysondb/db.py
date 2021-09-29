@@ -106,10 +106,6 @@ class JsonDatabase:
         return json.dump
 
     @staticmethod
-    def _objectify(data) -> SimpleNamespace:
-        return json.loads(data, object_hook=lambda d: SimpleNamespace(**d))
-
-    @staticmethod
     def _stop_log() -> None:
         logging.getLogger("pysondb").disabled = True
         logging.getLogger("filelock").disabled = True
@@ -123,7 +119,7 @@ class JsonDatabase:
         return self.getById(pk)
 
     def update(self, db_dataset: Dict[str, Any], new_dataset: Dict[str, Any]):
-        warnings.warn(DeprecationWarning("The find 'method' will be removed. Use 'updateByQuery' instead"))
+        warnings.warn(DeprecationWarning("The find 'method' will be removed. Use 'updateByQuery' instead"), stacklevel=2)
         return self.updateByQuery(db_dataset, new_dataset)
 
     def add(self, new_data: Dict[str, Any]) -> int:
@@ -181,18 +177,16 @@ class JsonDatabase:
                             db_file.seek(0)
                             self._get_dump_function()(db_data, db_file, indent=3)
 
-    def getAll(self, objectify=False) -> getType:
+    def getAll(self) -> getType:
         with self.lock:
             with open(self.filename, "r", encoding="utf8") as db_file:
                 db_data = self._get_load_function()(db_file)
 
             return (
                 db_data["data"]
-                if not objectify
-                else self._objectify(json.dumps(db_data)).data
             )
 
-    def get(self, num: int = 1, objectify: bool = False) -> getType:
+    def get(self, num: int = 1) -> getType:
         with self.lock:
             try:
                 with open(self.filename, "r", encoding="utf8") as db_file:
@@ -201,8 +195,7 @@ class JsonDatabase:
                     data = db_data["data"][0: int(num)]
                     return (
                         data
-                        if not objectify
-                        else self._objectify(json.dumps({"data": data})).data
+
                     )
                 else:
                     logger.info(
@@ -214,7 +207,7 @@ class JsonDatabase:
             except:
                 return [{"": ""}]
 
-    def getById(self, pk: int, objectify: bool = False) -> getType:
+    def getById(self, pk: int) -> getType:
         with self.lock:
             try:
                 with open(self.filename, "r", encoding="utf8") as db_file:
@@ -223,8 +216,7 @@ class JsonDatabase:
                     if(d[self.id_fieldname]) == self._cast_id(pk):
                         return (
                             d
-                            if not objectify
-                            else self._objectify(json.dumps({"data": d})).data
+
                         )
                     else:
                         raise IdNotFoundError(pk)
@@ -232,7 +224,7 @@ class JsonDatabase:
             except:
                 raise IdNotFoundError(pk)
 
-    def getBy(self, query: Dict[str, Any], objectify: bool = False) -> getType:
+    def getBy(self, query: Dict[str, Any]) -> getType:
         with self.lock:
             result = []
             with open(self.filename, "r") as db_file:
@@ -242,12 +234,11 @@ class JsonDatabase:
                         result.append(d)
             return (
                 result
-                if not objectify
-                else self._objectify(json.dumps({"data": result})).data
+
             )
 
     def reSearch(
-        self, key: str, _re: Union[str, re.Pattern], objectify: bool = False
+        self, key: str, _re: Union[str, re.Pattern]
     ) -> getType:
 
         pattern = _re
@@ -265,8 +256,7 @@ class JsonDatabase:
 
         return (
             items
-            if not objectify
-            else self._objectify(json.dumps({"data": items})).data
+
         )
 
     def updateById(self, pk: int, new_data: Dict[str, Any]) -> None:
