@@ -5,7 +5,6 @@ import re
 import warnings
 import uuid
 from pathlib import Path
-from types import SimpleNamespace
 from typing import Any, Callable, Dict, List, Union
 
 from filelock import FileLock
@@ -13,8 +12,6 @@ from filelock import FileLock
 # consants
 EMPTY_DATA: Dict[str, Any] = {"data": []}
 
-# types
-getType = Union[List[Dict[str, Any]], List[SimpleNamespace]]
 
 # logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("pysondb")
@@ -119,8 +116,12 @@ class JsonDatabase:
         return self.getById(pk)
 
     def update(self, db_dataset: Dict[str, Any], new_dataset: Dict[str, Any]):
-        warnings.warn(DeprecationWarning("The find 'method' will be removed. Use 'updateByQuery' instead"), stacklevel=2)
+        warnings.warn(DeprecationWarning("The 'update' method will be removed. Use 'updateByQuery' instead"), stacklevel=2)
         return self.updateByQuery(db_dataset, new_dataset)
+
+    def getBy(self, query: Dict[str, Any]):
+        warnings.warn(DeprecationWarning("The 'getBy' method will be removed. Use 'getByQuery' instead"), stacklevel=2)
+        return self.getByQuery(query)
 
     def add(self, new_data: Dict[str, Any]) -> int:
         with self.lock:
@@ -177,7 +178,7 @@ class JsonDatabase:
                             db_file.seek(0)
                             self._get_dump_function()(db_data, db_file, indent=3)
 
-    def getAll(self) -> getType:
+    def getAll(self) -> List[Dict[str, Any]]:
         with self.lock:
             with open(self.filename, "r", encoding="utf8") as db_file:
                 db_data = self._get_load_function()(db_file)
@@ -186,7 +187,7 @@ class JsonDatabase:
                 db_data["data"]
             )
 
-    def get(self, num: int = 1) -> getType:
+    def get(self, num: int = 1) -> List[Dict[str, Any]]:
         with self.lock:
             try:
                 with open(self.filename, "r", encoding="utf8") as db_file:
@@ -207,7 +208,7 @@ class JsonDatabase:
             except:
                 return [{"": ""}]
 
-    def getById(self, pk: int) -> getType:
+    def getById(self, pk: int) -> List[Dict[str, Any]]:
         with self.lock:
             try:
                 with open(self.filename, "r", encoding="utf8") as db_file:
@@ -224,7 +225,7 @@ class JsonDatabase:
             except:
                 raise IdNotFoundError(pk)
 
-    def getBy(self, query: Dict[str, Any]) -> getType:
+    def getByQuery(self, query: Dict[str, Any]) -> List[Dict[str, Any]]:
         with self.lock:
             result = []
             with open(self.filename, "r") as db_file:
@@ -239,7 +240,7 @@ class JsonDatabase:
 
     def reSearch(
         self, key: str, _re: Union[str, re.Pattern]
-    ) -> getType:
+    ) -> List[Dict[str, Any]]:
 
         pattern = _re
         if not isinstance(_re, re.Pattern):
