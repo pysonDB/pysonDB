@@ -27,7 +27,19 @@ pip install pysondb==1.1.3
 ## Support the project here
 
 <a href="https://www.buymeacoffee.com/fredysomy"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee.&emoji=&slug=fredysomy&button_colour=FFDD00&font_colour=000000&font_family=Poppins&outline_colour=000000&coffee_colour=ffffff"></a>
- 
+## Hacktoberfest
+
+While we are accepting pull requests for Hacktoberfest, we will reject any low-quality PR's.
+
+We are accepting PRs for:
+
+* Packages - updating package versions, adding new packages
+Documentation updates
+* More features and fixes (Refer here)
+* CLI/API improvements - Redoing the CLI to reduce the useage of CLI packages.
+* We are planning to reduce the project dependencies and remove other unwanted API's.
+
+
 ## Features
 
 * __Lightweight__ JSON based database.
