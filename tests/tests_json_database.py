@@ -33,11 +33,15 @@ def test_database_find(tmpdir):
     file = tmpdir.join("test.db.json")
     file.write(EMPTY_FIXTURE_STR)
     db = Database().on(file.strpath, uuid=False)
-    xactId = db.add({"name": "test"})
-    data = db.find(xactId)
-    assert len(data) == 1 and list(data.keys())==["name"] and data["name"] == "test"
+    data = {"name": "test"}
+    xactId = db.add(data)
+    found = db.find(xactId)
+    assert len(found) == len(data)
+    assert set(found.keys())==set(data.keys())
+    for k in data.keys:
+        assert data[k] == found[k]
     with pytest.raises(IdNotFoundError):
-        db.find(23)
+        db.find(xactId+1)
 
 def test_database_get(tmpdir):
     file = tmpdir.join("test.db.json")

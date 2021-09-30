@@ -31,6 +31,21 @@ def test_database_add_many(tmpdir):
         assert int(d["id"])
 
 
+def test_database_find(tmpdir):
+    file = tmpdir.join("test.db.yaml")
+    file.write(EMPTY_FIXTURE_STR)
+    db = Database().on(file.strpath, uuid=False)
+    data = {"name": "test"}
+    xactId = db.add(data)
+    found = db.find(xactId)
+    assert len(found) == len(data)
+    assert set(found.keys())==set(data.keys())
+    for k in data.keys:
+        assert data[k] == found[k]
+    with pytest.raises(IdNotFoundError):
+        db.find(xactId+1)
+
+
 def test_database_get(tmpdir):
     file = tmpdir.join("test.db.yaml")
     file.write(EMPTY_FIXTURE_STR)
