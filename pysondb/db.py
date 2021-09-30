@@ -112,7 +112,7 @@ class JsonDatabase:
         return self._id_fieldname
 
     def find(self, pk: int):
-        warnings.warn(DeprecationWarning("The find 'method' will be removed. Use 'getByID' instead"), stacklevel=2)
+        warnings.warn(DeprecationWarning("The find 'method' will be removed. Use 'getById' instead"), stacklevel=2)
         return self.getById(pk)
 
     def update(self, db_dataset: Dict[str, Any], new_dataset: Dict[str, Any]):
@@ -215,12 +215,8 @@ class JsonDatabase:
                     db_data = self._get_load_function()(db_file)
                 for d in db_data["data"]:
                     if(d[self.id_fieldname]) == self._cast_id(pk):
-                        return (
-                            d
-
-                        )
-                    else:
-                        raise IdNotFoundError(pk)
+                        return d
+                raise IdNotFoundError(pk)
 
             except:
                 raise IdNotFoundError(pk)
