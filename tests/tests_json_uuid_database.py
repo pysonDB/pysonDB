@@ -120,7 +120,7 @@ def test_database_delete_by_id(tmpdir):
     file.write(UUID_FIXTURE_STR)
     db = Database().on(file.strpath)
     assert db.deleteById(UUID_FIXTURE["data"][0]["id"])
-    assert not len(db.get())
+    assert not bool(len(db.get()))
     fixture = [
         {"name": "test", "getbyfield": "row1"},
         {"name": "test works!", "getbyfield": "row2"},
@@ -133,6 +133,6 @@ def test_database_delete_by_id(tmpdir):
     assert db.deleteById(db.get()[0]["id"])
     assert len(db.getAll()) == 1
     assert db.deleteById(db.get()[0]["id"])
-    assert not len(db.get())
+    assert not bool(len(db.get()))
     with pytest.raises(IdNotFoundError):
         assert db.deleteById(20)
