@@ -29,19 +29,6 @@ def test_database_add_many(tmpdir):
     for d in data:
         assert int(d["id"])
 
-def test_database_find(tmpdir):
-    file = tmpdir.join("test.db.json")
-    file.write(EMPTY_FIXTURE_STR)
-    db = Database().on(file.strpath, uuid=False)
-    data = {"name": "test"}
-    xactId = db.add(data)
-    found = db.find(xactId)
-    assert len(found) == len(data)
-    assert set(found.keys())==set(data.keys())
-    for k in data.keys:
-        assert data[k] == found[k]
-    with pytest.raises(IdNotFoundError):
-        db.find(xactId+1)
 
 def test_database_get(tmpdir):
     file = tmpdir.join("test.db.json")
@@ -72,6 +59,21 @@ def test_database_get_by(tmpdir):
     assert db.getBy({"getbyfield": "row1"})[0]["name"] == fixture[0]["name"]
     assert db.getBy({"getbyfield": "row2"})[0]["name"] == fixture[1]["name"]
     assert db.getBy({"getbyfield": "row3"})[0]["name"] == fixture[2]["name"]
+
+
+def test_database_get_by_id(tmpdir):
+    file = tmpdir.join("test.db.json")
+    file.write(EMPTY_FIXTURE_STR)
+    db = Database().on(file.strpath, uuid=False)
+    data = {"name": "test"}
+    xactId = db.add(data)
+    found = db.getById(xactId)
+    assert len(found) == len(data)
+    assert set(found.keys()) == set(data.keys())
+    for k in data.keys:
+        assert data[k] == found[k]
+    with pytest.raises(IdNotFoundError):
+        db.getById(xactId+1)
 
 
 def test_database_add_invalid_schema_exception(tmpdir):
