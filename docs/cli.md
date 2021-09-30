@@ -20,22 +20,28 @@
   * [name] => name of json file. 
 * pysondb display [name] 
   * [name] => name of json file.
-* pysondb display [name] 
-  * [name] => name of json file.
+* pysondb convert [path of csv file] [path of json file]
+  * `pysondb convert example.csv example.json`
+    * Creates an example.json file with converted data
 * pysondb converttocsv [path of json file] [optional name for target CSV file]
   * `pysondb converttocsv example/registry.json`
     * Creates a converted.csv file with converted data
   * `pysondb converttocsv example/registry.json target.csv`
     * Creates a target.csv with the converted data.
+* pysondb merge [path of primary json file] [path of json file to merge] [optional name for target json file]
+  * `pysondb merge primary.json seconday.json`
+    * Merges seconday.json data into primary.json
+  * `pysondb merge primary.json seconday.json new.json`
+    * Merges seconday.json and primary.json data into new.json
 
 <h3 id="convert">Use</h3>
-<h4><code> pysondb convert --c [csv file destination] --d [json file to write]</code></h4>
+<h4><code> pysondb convert [csv file destination] [json file to write]</code></h4>
 
 ```bash
 Microsoft Windows [Version 6.1.7601]
 Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
 
-C:\Users\Admin\Desktop\pysondb>pysondb convert --c file.csv --d file.json
+C:\Users\Admin\Desktop\pysondb>pysondb convert file.csv file.json
 Reading data from file.csv
 Writing data into file.json
 Conversion Succesfull
