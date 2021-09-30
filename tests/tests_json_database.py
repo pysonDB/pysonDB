@@ -29,6 +29,15 @@ def test_database_add_many(tmpdir):
     for d in data:
         assert int(d["id"])
 
+def test_database_find(tmpdir):
+    file = tmpdir.join("test.db.json")
+    file.write(EMPTY_FIXTURE_STR)
+    db = Database().on(file.strpath, uuid=False)
+    xactId = db.add({"name": "test"})
+    data = db.find(xactId)
+    assert len(data) == 1 and list(data.keys())==["name"] and data["name"] == "test"
+    with pytest.raises(IdNotFoundError):
+        db.find(23)
 
 def test_database_get(tmpdir):
     file = tmpdir.join("test.db.json")
