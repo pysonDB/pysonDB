@@ -14,7 +14,7 @@ setup(
         "Programming Language :: Python :: 3",
     ],
     description="A Python JSON and/or YAML based lightweight Database.",
-    install_requires=["fire", "beautifultable", "filelock"],
+    install_requires=["beautifultable", "filelock"],
     license="MIT License",
     long_description=readme,
     long_description_content_type="text/markdown",

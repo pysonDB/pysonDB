@@ -1,11 +1,10 @@
+import argparse
 import csv
 import json
 import os
 import random
-
 from typing import Optional
 
-import fire
 from beautifultable import BeautifulTable
 
 
@@ -23,6 +22,10 @@ def create_if_not_exist(file_name: str):
 
 
 def display(file_name: str):
+    """
+    Print a database file
+    :param str file_name: The absolute path to the DB file
+    """
     table = BeautifulTable()
     with open(file_name) as jsondoc:
         data = json.load(jsondoc)
@@ -35,6 +38,10 @@ def display(file_name: str):
 
 
 def delete(file_name: str):
+    """
+    Delete a database file
+    :param str file_name: The absolute path to the DB file
+    """
     if os.path.exists(file_name):
         x = input("Do you want to remove the json file..(y/n)")
         if x in ["y", "Y"]:
@@ -45,7 +52,12 @@ def delete(file_name: str):
         print("The file does not exist")
 
 
-def convert(csv_file, json_db):
+def convert(csv_file: str, json_db: str):
+    """
+    Convert a csv file to a JSON database file
+    :param str csv_file: path of the target csv file
+    :param str json_Db: path of the target json database
+    """
     print("Reading data from {}".format(csv_file))
     arr = []
     with open(csv_file) as csvFile:
@@ -61,11 +73,11 @@ def convert(csv_file, json_db):
     print("Conversion successful")
 
 
-def convert_db_to_csv(filename: str, targetcsv="converted.csv"):
+def convert_db_to_csv(filename: str, targetcsv: str):
     """
     Converts a JSON database to a csv.
     :param str filename: path of the target json file
-    :param str targetcsv: path of the converted csv ,default : converted.csv
+    :param str targetcsv: path of the converted csv, default : converted.csv
     """
     with open(filename, "r") as db:
         json_loaded = json.load(db)["data"]
@@ -135,17 +147,71 @@ def merge(p_file: str, m_file: str, output_file: Optional[str] = None):
         print("The number keys in DB entries does not match")
 
 
-def main():
-    fire.Fire(
-        {
-            "create": create_if_not_exist,
-            "display": display,
-            "delete": delete,
-            "convert": convert,
-            "converttocsv": convert_db_to_csv,
-            "merge": merge,
-        }
+def set_parser():
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(dest="command")
+
+    create_parser = subparsers.add_parser("create", help="Create a new database file")
+    create_parser.add_argument("file_name", help="Name of the database file")
+
+    display_parser = subparsers.add_parser("display", help="Display a database file")
+    display_parser.add_argument(
+        "file_name", help="Name of the database file to display"
     )
+
+    delete_parser = subparsers.add_parser("delete", help="Delete a database file")
+    delete_parser.add_argument("file_name", help="Name of the database file to delete")
+
+    convert_parser = subparsers.add_parser(
+        "convert", help="Convert a csv file to a JSON database file"
+    )
+    convert_parser.add_argument("csv_file")
+    convert_parser.add_argument("json_db")
+
+    convert_to_csv_parser = subparsers.add_parser(
+        "converttocsv", help="Converts a JSON database to a csv file"
+    )
+    convert_to_csv_parser.add_argument("file_name", help="path of the target json file")
+    convert_to_csv_parser.add_argument(
+        "-t",
+        "--target_csv",
+        help="path of the converted csv, default : converted.csv",
+        default="converted.csv",
+    )
+
+    merge_parser = subparsers.add_parser("merge")
+    merge_parser.add_argument("p_file", help="The primary file")
+    merge_parser.add_argument("m_file", help="The file to combine with p_file")
+    merge_parser.add_argument(
+        "-o", "--output-file", help="The name of the output file, default: p_file"
+    )
+
+    args = parser.parse_args()
+
+    if args.command == "create":
+        create_if_not_exist(args.file_name)
+
+    elif args.command == "display":
+        display(args.file_name)
+
+    elif args.command == "delete":
+        delete(args.file_name)
+
+    elif args.command == "convert":
+        convert(args.csv_file, args.json_db)
+
+    elif args.command == "converttocsv":
+        convert_db_to_csv(args.file_name, args.target_csv)
+
+    elif args.command == "merge":
+        merge(args.p_file, args.m_file, args.output_file)
+
+    else:  # show help menu if the cli was started without an argument
+        parser.print_help()
+
+
+def main():
+    set_parser()
 
 
 if __name__ == "__main__":
