@@ -3,12 +3,12 @@ import csv
 import json
 import os
 import random
-from typing import Optional
+from typing import Optional, Sequence
 
 from beautifultable import BeautifulTable
 
 
-def create_if_not_exist(file_name: str):
+def create_if_not_exist(file_name: str) -> int:
     """
     Checks for the existence of the provided JSON DB.
     If it does not, this will add {data:[]}.
@@ -19,9 +19,12 @@ def create_if_not_exist(file_name: str):
             db = {"data": []}
             json.dump(db, db_file)
         print("Succesfully created {} in the directory.".format(file_name))
+        return 0
+
+    return 1
 
 
-def display(file_name: str):
+def display(file_name: str) -> int:
     """
     Print a database file
     :param str file_name: The absolute path to the DB file
@@ -35,9 +38,10 @@ def display(file_name: str):
             table.rows.append(list(all_data.values()))
         table.columns.header = header
         print(table)
+    return 0
 
 
-def delete(file_name: str):
+def delete(file_name: str) -> int:
     """
     Delete a database file
     :param str file_name: The absolute path to the DB file
@@ -46,13 +50,17 @@ def delete(file_name: str):
         x = input("Do you want to remove the json file..(y/n)")
         if x in ["y", "Y"]:
             os.remove(file_name)
+            return 0
+
         else:
             print("Action terminated")
     else:
         print("The file does not exist")
 
+    return 1
 
-def convert(csv_file: str, json_db: str):
+
+def convert(csv_file: str, json_db: str) -> int:
     """
     Convert a csv file to a JSON database file
     :param str csv_file: path of the target csv file
@@ -71,9 +79,10 @@ def convert(csv_file: str, json_db: str):
     with open(json_db, "w") as json_file:
         json.dump(x, json_file)
     print("Conversion successful")
+    return 0
 
 
-def convert_db_to_csv(filename: str, targetcsv: str):
+def convert_db_to_csv(filename: str, targetcsv: str) -> int:
     """
     Converts a JSON database to a csv.
     :param str filename: path of the target json file
@@ -90,8 +99,10 @@ def convert_db_to_csv(filename: str, targetcsv: str):
             csv_writer.writerow(each.values())
         csv_file.close()
 
+    return 0
 
-def merge(p_file: str, m_file: str, output_file: Optional[str] = None):
+
+def merge(p_file: str, m_file: str, output_file: Optional[str] = None) -> int:
     """
     Merges two json DB with the same schema
     :param str p_file: The primary file
@@ -105,7 +116,7 @@ def merge(p_file: str, m_file: str, output_file: Optional[str] = None):
             temp_keys.sort()
             if not temp_keys == refer_keys:
                 print(f"Irregularities in key names in database {filename!r}")
-                quit()
+                return 1
 
     o_file = output_file or p_file
     with open(p_file, "r") as p, open(m_file) as m:
@@ -129,10 +140,11 @@ def merge(p_file: str, m_file: str, output_file: Optional[str] = None):
 
         except KeyError:
             print("Oops, the DB's does not follow the required PysonDb schema.")
-            quit()
+            return 1
+
         except IndexError:
             print("One of the Database is empty")
-            quit()
+            return 1
 
     # merge the two DB together
 
@@ -143,12 +155,16 @@ def merge(p_file: str, m_file: str, output_file: Optional[str] = None):
                 json.dump(temp_data, f)
         else:
             print("The keys of the Database entries does not match")
+            return 1
     else:
         print("The number keys in DB entries does not match")
+        return 1
+
+    return 0
 
 
-def set_parser():
-    parser = argparse.ArgumentParser()
+def set_parser(argv: Optional[Sequence[str]] = None) -> int:
+    parser = argparse.ArgumentParser(argv)
     subparsers = parser.add_subparsers(dest="command")
 
     create_parser = subparsers.add_parser("create", help="Create a new database file")
@@ -189,30 +205,31 @@ def set_parser():
     args = parser.parse_args()
 
     if args.command == "create":
-        create_if_not_exist(args.file_name)
+        return create_if_not_exist(args.file_name)
 
     elif args.command == "display":
-        display(args.file_name)
+        return display(args.file_name)
 
     elif args.command == "delete":
-        delete(args.file_name)
+        return delete(args.file_name)
 
     elif args.command == "convert":
-        convert(args.csv_file, args.json_db)
+        return convert(args.csv_file, args.json_db)
 
     elif args.command == "converttocsv":
-        convert_db_to_csv(args.file_name, args.target_csv)
+        return convert_db_to_csv(args.file_name, args.target_csv)
 
     elif args.command == "merge":
-        merge(args.p_file, args.m_file, args.output_file)
+        return merge(args.p_file, args.m_file, args.output_file)
 
     else:  # show help menu if the cli was started without an argument
         parser.print_help()
+        return 0
 
 
-def main():
-    set_parser()
+def main() -> int:
+    return set_parser()
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
