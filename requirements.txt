@@ -1,6 +1,5 @@
 beautifultable==1.0.1
 filelock==3.0.12
-fire==0.4.0
 six==1.16.0
 termcolor==1.1.0
 wcwidth==0.2.5
