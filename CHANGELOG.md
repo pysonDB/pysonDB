@@ -8,11 +8,10 @@
   - YAML support
   - New database classes: `Database`, `UuidDatabase`, `YamlDatabase`, `YamlUuidDatabase`
   - Add lint to GitHub Actions
-  - Optimised the `addMany` method of JsonDatabase
  
 - `0.6.0`
 
-  - Resloveed the error when automatically creating a DB
+  - Resolved the error when automatically creating a DB
   - Added UUID Support.
   - Fixed all the bugs in v0.5.0
 
@@ -35,7 +34,7 @@
 - `1.0.3`
 
   - Added a kwarg log to the JsonDatabase class to stop the log
-  - Adde a kwarg objectify to all the get and search methods to convert json to python objects
+  - Added a kwarg objectify to all the get and search methods to convert json to python objects
 
 - `1.1.0`
 
@@ -49,7 +48,7 @@
 - `1.2.0`
 
   - Added `find(id) method`
-    - It returns the dict if ID is found,else it raises Idnotfound error
+    - It returns the dict if ID is found, else it raises IdNotFound error
 
 - `1.4.0`
 
@@ -62,9 +61,17 @@
   - removed updateArray
  
 - `1.5.0`
+
   - Bug fixes
     - Removed bug in find (getById) function
-   - Enhancements
-     - Removed imageutils
-     - Added argparse instead of Fire in CLI
-   - Tests modified       
+  
+  - Enhancements
+    - Removed imageutils
+    - Added argparse instead of Fire in CLI
+   
+  - Tests modified       
+   
+- `1.6.0`
+
+  - Enhancements
+    - Optimised the `addMany` method of JsonDatabase
