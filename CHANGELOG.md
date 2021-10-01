@@ -3,10 +3,13 @@
 ### _Changelog_
 
 - `dev`
+
   - New exceptions: `DataNotFoundError`, `IdNotFoundError`, `SchemaError`
   - YAML support
   - New database classes: `Database`, `UuidDatabase`, `YamlDatabase`, `YamlUuidDatabase`
   - Add lint to GitHub Actions
+  - Optimised the `addMany` method of JsonDatabase
+ 
 - `0.6.0`
 
   - Resloveed the error when automatically creating a DB
@@ -57,6 +60,7 @@
     - getBy -> getByQuery
 
   - removed updateArray
+ 
 - `1.5.0`
   - Bug fixes
     - Removed bug in find (getById) function
