@@ -57,3 +57,10 @@
     - getBy -> getByQuery
 
   - removed updateArray
+- `1.5.0`
+  - Bug fixes
+    - Removed bug in find (getById) function
+   - Enhancements
+     - Removed imageutils
+     - Added argparse instead of Fire in CLI
+   - Tests modified       
