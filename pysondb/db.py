@@ -160,23 +160,20 @@ class JsonDatabase:
         with self.lock:
             with open(self.filename, "r+") as db_file:
                 db_data = self._get_load_function()(db_file)
-                try:
-                    for d in new_data:
-                        if set(db_data["data"][0].keys()) == set(d.keys()).union(
-                            [self.id_fieldname]
-                        ):
-                            d[self.id_fieldname] = self._get_id()
-                            db_data["data"].append(d)
-                            db_file.seek(0)
-                            self._get_dump_function()(db_data, db_file, indent=3)
-                except:
-                    keys = list(new_data[0].keys())
-                    for d in new_data:
-                        if set(keys) == set(d.keys()):
-                            d[self.id_fieldname] = self._get_id()
-                            db_data["data"].append(d)
-                            db_file.seek(0)
-                            self._get_dump_function()(db_data, db_file, indent=3)
+                if db_data['data']:
+                    db_keys, index_keys = db_data["data"], [self.id_fieldname]
+                else:
+                    db_keys, index_keys = new_data, None
+
+                keys = set(db_keys[0].keys())
+
+                for d in new_data:
+                    d_keys = set(d.keys() | index_keys) if index_keys else set(d.keys())
+                    if keys == d_keys:
+                        d[self.id_fieldname] = self._get_id()
+                        db_data["data"].append(d)
+                        db_file.seek(0)
+                self._get_dump_function()(db_data, db_file, indent = 3)
 
     def getAll(self) -> List[Dict[str, Any]]:
         with self.lock:
