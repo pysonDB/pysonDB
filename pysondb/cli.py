@@ -223,7 +223,7 @@ def set_parser(argv: Optional[Sequence[str]] = None) -> int:
         return merge(args.p_file, args.m_file, args.output_file)
 
     else:  # show help menu if the cli was started without an argument
-        parser.print_help()
+        print("run pysondb -h for help")
         return 0
 
 
