@@ -63,6 +63,21 @@ def test_database_get_by(tmpdir):
     assert db.getBy({"getbyfield": "row3"})[0]["name"] == fixture[2]["name"]
 
 
+def test_database_get_by_id(tmpdir):
+    file = tmpdir.join("test.db.json")
+    file.write(EMPTY_FIXTURE_STR)
+    db = Database().on(file.strpath)
+    data = {"name": "test"}
+    xactId = db.add(data)
+    found = db.getById(xactId)
+    assert len(found) == len(data)
+    assert set(found.keys()) == set(data.keys())
+    for k in data.keys:
+        assert data[k] == found[k]
+    with pytest.raises(IdNotFoundError):
+        db.getById(xactId+1)
+
+
 def test_database_add_invalid_schema_exception(tmpdir):
     file = tmpdir.join("test.db.json")
     file.write(UUID_FIXTURE_STR)
@@ -105,7 +120,7 @@ def test_database_delete_by_id(tmpdir):
     file.write(UUID_FIXTURE_STR)
     db = Database().on(file.strpath)
     assert db.deleteById(UUID_FIXTURE["data"][0]["id"])
-    assert not len(db.get())
+    assert not bool(len(db.get()))
     fixture = [
         {"name": "test", "getbyfield": "row1"},
         {"name": "test works!", "getbyfield": "row2"},
@@ -118,6 +133,6 @@ def test_database_delete_by_id(tmpdir):
     assert db.deleteById(db.get()[0]["id"])
     assert len(db.getAll()) == 1
     assert db.deleteById(db.get()[0]["id"])
-    assert not len(db.get())
+    assert not bool(len(db.get()))
     with pytest.raises(IdNotFoundError):
         assert db.deleteById(20)
