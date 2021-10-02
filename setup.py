@@ -19,7 +19,7 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    version="1.6.0",
+    version="1.5.1",
     keywords="pysondb,database,json,yaml",
     name="pysondb",
     entry_points={"console_scripts": ["pysondb=pysondb.cli:main"]},
