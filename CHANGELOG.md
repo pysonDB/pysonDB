@@ -75,3 +75,4 @@
 
   - Enhancements
     - Optimised the `addMany` method of JsonDatabase
+    - Example uses adde in parser.help() 

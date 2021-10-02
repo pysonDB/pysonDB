@@ -162,9 +162,13 @@ def merge(p_file: str, m_file: str, output_file: Optional[str] = None) -> int:
 
     return 0
 
+example_uses = '''example:
+   pysondb create database_name
+   pysondb display database_name
+   pysondb delete database_name'''
 
 def set_parser(argv: Optional[Sequence[str]] = None) -> int:
-    parser = argparse.ArgumentParser(argv)
+    parser = argparse.ArgumentParser(argv, description="Command line utility for pysondb", epilog=example_uses, formatter_class=argparse.RawDescriptionHelpFormatter)
     subparsers = parser.add_subparsers(dest="command")
 
     create_parser = subparsers.add_parser("create", help="Create a new database file")
