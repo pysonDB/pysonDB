@@ -73,8 +73,9 @@
 
   - Tests modified
 
-- `1.6.0`
+- `1.5.1`
 
   - Enhancements
     - Optimised the `addMany` method of JsonDatabase
     - Example uses added in parser.help()
+    - Typo in CLI fixed.
