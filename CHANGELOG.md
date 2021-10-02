@@ -8,7 +8,7 @@
   - YAML support
   - New database classes: `Database`, `UuidDatabase`, `YamlDatabase`, `YamlUuidDatabase`
   - Add lint to GitHub Actions
- 
+
 - `0.6.0`
 
   - Resolved the error when automatically creating a DB
@@ -59,20 +59,22 @@
     - getBy -> getByQuery
 
   - removed updateArray
- 
+
 - `1.5.0`
 
   - Bug fixes
+
     - Removed bug in find (getById) function
-  
+
   - Enhancements
+
     - Removed imageutils
     - Added argparse instead of Fire in CLI
-   
-  - Tests modified       
-   
+
+  - Tests modified
+
 - `1.6.0`
 
   - Enhancements
     - Optimised the `addMany` method of JsonDatabase
-    - Example uses adde in parser.help() 
+    - Example uses added in parser.help()
