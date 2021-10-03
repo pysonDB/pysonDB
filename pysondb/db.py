@@ -9,7 +9,7 @@ from typing import Any, Callable, Dict, List, Union
 
 from filelock import FileLock
 
-# consants
+# constants
 EMPTY_DATA: Dict[str, Any] = {"data": []}
 
 
@@ -17,9 +17,8 @@ EMPTY_DATA: Dict[str, Any] = {"data": []}
 logger = logging.getLogger("pysondb")
 logger.setLevel(logging.DEBUG)
 
+
 # Errors
-
-
 class DataNotFoundError(Exception):
     """Exception raised if id not found.
 
