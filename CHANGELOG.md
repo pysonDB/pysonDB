@@ -79,3 +79,7 @@
     - Optimised the `addMany` method of JsonDatabase
     - Example uses added in parser.help()
     - Typo in CLI fixed.
+
+- `1.5.2`
+
+  - Declarative meta data and typo fix
