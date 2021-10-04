@@ -37,7 +37,7 @@ def display(file_name: str) -> int:
             header = list(data["data"][0].keys())
         except IndexError :
             print("no data in database")
-            exit()
+            return 1
         for all_data in real_data:
             table.rows.append(list(all_data.values()))
         table.columns.header = header
