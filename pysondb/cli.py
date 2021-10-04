@@ -33,7 +33,11 @@ def display(file_name: str) -> int:
     with open(file_name) as jsondoc:
         data = json.load(jsondoc)
         real_data = data["data"]
-        header = list(data["data"][0].keys())
+        try :
+            header = list(data["data"][0].keys())
+        except IndexError :
+            print("no data in database")
+            return 1
         for all_data in real_data:
             table.rows.append(list(all_data.values()))
         table.columns.header = header

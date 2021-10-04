@@ -83,3 +83,4 @@
 - `1.5.2`
 
   - Declarative meta data and typo fix
+  - error handling when displaying database and database is null
