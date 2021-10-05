@@ -14,7 +14,7 @@
  [![Discord](https://img.shields.io/discord/781486602778050590)](https://discord.gg/SZyk2dCgwg)
  ![GitHub Repo stars](https://img.shields.io/github/stars/fredysomy/pysonDB?style=plastic)
  ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/fredysomy/pysonDB)
-
+[![Downloads](https://static.pepy.tech/personalized-badge/pysondb?period=total&units=international_system&left_color=green&right_color=blue&left_text=Total%20Downloads)](https://pepy.tech/project/pysondb)
  
  ***
  
