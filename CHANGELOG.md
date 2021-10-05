@@ -90,3 +90,4 @@
 
   - Rename CLI command display to show. For ease of use and consistency.
   - Define database file extension in README.md and example uses.
+  - Correct file location of CHANGELOG.md in pull request template.
