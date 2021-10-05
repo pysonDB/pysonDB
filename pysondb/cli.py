@@ -18,7 +18,7 @@ def create_if_not_exist(file_name: str) -> int:
         with open(file_name, "w") as db_file:
             db = {"data": []}
             json.dump(db, db_file)
-        print("Succesfully created {} in the directory.".format(file_name))
+        print("Successfully created {} in the directory.".format(file_name))
         return 0
 
     return 1
@@ -36,7 +36,7 @@ def show(file_name: str) -> int:
         try :
             header = list(data["data"][0].keys())
         except IndexError :
-            print("no data in database")
+            print("Database is empty.")
             return 1
         for all_data in real_data:
             table.rows.append(list(all_data.values()))
@@ -147,7 +147,7 @@ def merge(p_file: str, m_file: str, output_file: Optional[str] = None) -> int:
             verify_file(m_data, m_keys, m_file)
 
         except KeyError:
-            print("Oops, the DB's does not follow the required PysonDb schema.")
+            print("The DB's does not follow the required PysonDb schema.")
             return 1
 
         except IndexError:
@@ -176,7 +176,7 @@ example_uses = '''example:
    pysondb delete database_name.json'''
 
 def set_parser(argv: Optional[Sequence[str]] = None) -> int:
-    parser = argparse.ArgumentParser(argv, description="Command line utility for pysondb", epilog=example_uses, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(description="Command line utility for pysondb", epilog=example_uses, formatter_class=argparse.RawDescriptionHelpFormatter)
     subparsers = parser.add_subparsers(dest="command")
 
     create_parser = subparsers.add_parser("create", help="Create a new database file")
@@ -191,7 +191,7 @@ def set_parser(argv: Optional[Sequence[str]] = None) -> int:
     delete_parser.add_argument("file_name", help="Name of the database file to delete")
 
     convert_parser = subparsers.add_parser(
-        "convert", help="Convert a csv file to a JSON database file"
+        "convert", help="Converts a csv file to a JSON database file"
     )
     convert_parser.add_argument("csv_file")
     convert_parser.add_argument("json_db")
@@ -199,11 +199,11 @@ def set_parser(argv: Optional[Sequence[str]] = None) -> int:
     convert_to_csv_parser = subparsers.add_parser(
         "converttocsv", help="Converts a JSON database to a csv file"
     )
-    convert_to_csv_parser.add_argument("file_name", help="path of the target json file")
+    convert_to_csv_parser.add_argument("file_name", help="Path of the target json file")
     convert_to_csv_parser.add_argument(
         "-t",
         "--target_csv",
-        help="path of the converted csv, default : converted.csv",
+        help="Name of the converted csv, default : converted.csv",
         default="converted.csv",
     )
 
@@ -214,7 +214,7 @@ def set_parser(argv: Optional[Sequence[str]] = None) -> int:
         "-o", "--output-file", help="The name of the output file, default: p_file"
     )
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     if args.command == "create":
         return create_if_not_exist(args.file_name)
