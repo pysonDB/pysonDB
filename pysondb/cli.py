@@ -99,7 +99,7 @@ def convert_db_to_csv(filename: str, targetcsv: str) -> int:
         try :
             header = json_loaded[0].keys()
         except IndexError :
-            print("con't convert, database is empty")
+            print("can't convert, database is empty")
             return 1
         csv_writer.writerow(header)
         print("File converted and saving to ", targetcsv)
