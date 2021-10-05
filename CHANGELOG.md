@@ -85,3 +85,7 @@
   - Declarative meta data and typo fix
   - error handling when displaying database and database is null
   - error handling when converting to csv database and database is null
+
+- `1.5.3`
+
+  - Rename CLI command display to show. For ease of use and consistency.

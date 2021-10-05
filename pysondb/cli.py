@@ -24,7 +24,7 @@ def create_if_not_exist(file_name: str) -> int:
     return 1
 
 
-def display(file_name: str) -> int:
+def show(file_name: str) -> int:
     """
     Print a database file
     :param str file_name: The absolute path to the DB file
@@ -182,7 +182,7 @@ def set_parser(argv: Optional[Sequence[str]] = None) -> int:
     create_parser = subparsers.add_parser("create", help="Create a new database file")
     create_parser.add_argument("file_name", help="Name of the database file")
 
-    display_parser = subparsers.add_parser("display", help="Display a database file")
+    display_parser = subparsers.add_parser("show", help="Display a database file")
     display_parser.add_argument(
         "file_name", help="Name of the database file to display"
     )
@@ -219,8 +219,8 @@ def set_parser(argv: Optional[Sequence[str]] = None) -> int:
     if args.command == "create":
         return create_if_not_exist(args.file_name)
 
-    elif args.command == "display":
-        return display(args.file_name)
+    elif args.command == "show":
+        return show(args.file_name)
 
     elif args.command == "delete":
         return delete(args.file_name)
