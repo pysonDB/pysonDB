@@ -79,7 +79,7 @@ pip install pysondb
 
 * You can create a database using CLI.
 ```bash
-pysondb create database_name
+pysondb create database_name.json
 ```
 * Or in the python file.
 

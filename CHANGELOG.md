@@ -89,3 +89,4 @@
 - `1.5.3`
 
   - Rename CLI command display to show. For ease of use and consistency.
+  - Define database file extension in README.md and example uses.
