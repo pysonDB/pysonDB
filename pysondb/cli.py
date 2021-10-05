@@ -94,6 +94,8 @@ def convert_db_to_csv(filename: str, targetcsv: str) -> int:
     """
     with open(filename, "r") as db:
         json_loaded = json.load(db)["data"]
+        if targetcsv == None:
+            targetcsv = filename.replace('json', 'csv')
         csv_file = open(targetcsv, "a")
         csv_writer = csv.writer(csv_file)
         try :
@@ -203,8 +205,7 @@ def set_parser(argv: Optional[Sequence[str]] = None) -> int:
     convert_to_csv_parser.add_argument(
         "-t",
         "--target_csv",
-        help="path of the converted csv, default : converted.csv",
-        default="converted.csv",
+        help="path of the converted csv",
     )
 
     merge_parser = subparsers.add_parser("merge")
