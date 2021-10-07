@@ -36,7 +36,7 @@
 <h3 id="convert">Use</h3>
 <h4><code> pysondb convert [csv file destination] [json file to write]</code></h4>
 
-```bash
+```cmd
 Microsoft Windows [Version 6.1.7601]
 Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
 
@@ -50,7 +50,7 @@ Conversion Succesfull
 
 <h4><code> pysondb create [name]</code></h4>
 
-```bash
+```cmd
 Microsoft Windows [Version 6.1.7601]
 Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
 
@@ -61,7 +61,7 @@ Succesfull created filedb.json in the directory.
 
 <h4><code> pysondb delete [name]</code></h4>
 
-```bash
+```cmd
 Microsoft Windows [Version 6.1.7601]
 Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
 
@@ -92,10 +92,37 @@ File converted and saving to  filenew.csv
 
 File: filedb.json
 ```json
-{"data": [{"name": "PysonDB", "type": "DB", "score": "10", "id": 5161221802}, {"name": "Pyson-CLI", "type": "CLI", "score": "10", "id": 2242313690}, {"name": "TinyDb", "type": "DB", "score": "9", "id": 6991190264}, {"name": "QWERTY", "type": "DB", "score": "5", "id": 9416036202}]}
+{
+  "data": [
+    {
+      "name": "PysonDB",
+      "type": "DB",
+      "score": "10",
+      "id": 5161221802
+    },
+    {
+      "name": "Pyson-CLI",
+      "type": "CLI",
+      "score": "10",
+      "id": 2242313690
+    },
+    {
+      "name": "TinyDb",
+      "type": "DB",
+      "score": "9",
+      "id": 6991190264
+    },
+    {
+      "name": "QWERTY",
+      "type": "DB",
+      "score": "5",
+      "id": 9416036202
+    }
+  ]
+}
 ```
-Code.
-```bash
+Code
+```cmd
 Microsoft Windows [Version 6.1.7601]
 Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
 
@@ -115,11 +142,14 @@ C:\Users\Admin\Desktop\pysondb>pysondb display filedb.json
 
 ***
 
-* See full examples [here](https://github.com/fredysomy/pysonDB/example).
+* See full examples [here](https://github.com/fredysomy/pysonDB/tree/master/example).
 * If You have any queries or doubts join the discord server [here](https://discord.gg/SZyk2dCgwg)
 
-  
-gitpod /workspace/pysonDB $ pysondb converttocsv example/registry.json 
+Example
+```bash
+gitpod/workspace/pysonDB$ pysondb converttocsv example/registry.json 
 File converted and saving to  converted.csv
-gitpod /workspace/pysonDB $ pysondb converttocsv example/registry.json filenew.csv
+
+gitpod /workspace/pysonDB$ pysondb converttocsv example/registry.json filenew.csv
 File converted and saving to  filenew.csv
+```
