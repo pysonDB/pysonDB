@@ -122,12 +122,14 @@ See more Documentation [here](https://fredysomy.me/pysonDB)
 * [my-first-streamlit-app](https://github.com/mro-lht/my-first-streamlit-app)
 * [PythonChallenge](https://github.com/Odenrir/PythonChallenge)
 * [Task-Me-Up](https://github.com/Adwaith-Rajesh/Task-Me-Up)
-* [Programozasi_kornyezetek](https://github.com/Remgax/Programozasi_kornyezetek)
 * [bagel](https://github.com/HaithemSouala/bagel)
 * [prox_community](https://github.com/Kavzor/prox_community)
 * [USVBachelorProject](https://github.com/mhj5103/USVBachelorProject)
 * [gardenwatering](https://github.com/erivansousa/gardenwatering)
 * [cf_scraper](https://github.com/bobross419/cf_scraper)
+<!---
+* [Programozasi_kornyezetek](https://github.com/Remgax/Programozasi_kornyezetek)
+-->
 
 
 
