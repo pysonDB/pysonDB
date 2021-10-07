@@ -36,7 +36,7 @@ We are accepting PRs for:
 * Packages - updating package versions, adding new packages
 Documentation updates
 * More features and fixes (Refer here)
-* CLI/API improvements - Redoing the CLI to reduce the useage of CLI packages.
+* CLI/API improvements - Redoing the CLI to reduce the usage of CLI packages.
 * We are planning to reduce the project dependencies and remove other unwanted API's.
 ### Checkout the active issues [here](https://github.com/fredysomy/pysonDB/issues) 
 
