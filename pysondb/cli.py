@@ -7,8 +7,6 @@ import random
 from contextlib import suppress
 from typing import Optional, Sequence
 
-# from beautifultable import BeautifulTable
-
 
 def create_if_not_exist(file_name: str) -> int:
     """
@@ -24,27 +22,6 @@ def create_if_not_exist(file_name: str) -> int:
         return 0
 
     return 1
-
-
-# def show(file_name: str) -> int:
-#     """
-#     Print a database file
-#     :param str file_name: The absolute path to the DB file
-#     """
-#     table = BeautifulTable()
-#     with open(file_name) as jsondoc:
-#         data = json.load(jsondoc)
-#         real_data = data["data"]
-#         try:
-#             header = list(data["data"][0].keys())
-#         except IndexError:
-#             print("Database is empty.")
-#             return 1
-#         for all_data in real_data:
-#             table.rows.append(list(all_data.values()))
-#         table.columns.header = header
-#         print(table)
-#     return 0
 
 
 def delete(file_name: str) -> int:
@@ -187,11 +164,6 @@ def set_parser(argv: Optional[Sequence[str]] = None) -> int:
     create_parser = subparsers.add_parser("create", help="Create a new database file")
     create_parser.add_argument("file_name", help="Name of the database file")
 
-    # display_parser = subparsers.add_parser("show", help="Display a database file")
-    # display_parser.add_argument(
-    #     "file_name", help="Name of the database file to display"
-    # )
-
     delete_parser = subparsers.add_parser("delete", help="Delete a database file")
     delete_parser.add_argument("file_name", help="Name of the database file to delete")
 
@@ -233,9 +205,6 @@ def set_parser(argv: Optional[Sequence[str]] = None) -> int:
 
     if args.command == "create":
         return create_if_not_exist(args.file_name)
-
-    # elif args.command == "show":
-    #     return show(args.file_name)
 
     elif args.command == "delete":
         return delete(args.file_name)
