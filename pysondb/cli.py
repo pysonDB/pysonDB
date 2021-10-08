@@ -229,8 +229,6 @@ def set_parser(argv: Optional[Sequence[str]] = None) -> int:
         for v in comamnds.values():
             v.plugin_parser(subparsers)
 
-        print(comamnds)
-
     args = parser.parse_args(argv)
 
     if args.command == "create":
