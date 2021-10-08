@@ -95,3 +95,7 @@
 - `1.5.4`
 
   - Fixed bug in CLI, grammar / typo fix
+
+- `1.5.5`
+
+  - Fixed broken links & fixed typos in docs / code 
