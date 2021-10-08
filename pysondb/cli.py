@@ -220,12 +220,12 @@ def set_parser(argv: Optional[Sequence[str]] = None) -> int:
     )
 
     # plugin loader
-    plugin_comamnds = {}
+    plugin_commands = {}
 
     with suppress(KeyError):
         eps = importlib.metadata.entry_points()["pysondb.cli"]
         comamnds = {e.name: e.load()() for e in eps}  # intialiaze and store the plugin
-        plugin_comamnds = comamnds.copy()
+        plugin_commands = comamnds.copy()
         for v in comamnds.values():
             v.plugin_parser(subparsers)
 
@@ -251,8 +251,8 @@ def set_parser(argv: Optional[Sequence[str]] = None) -> int:
     elif args.command == "merge":
         return merge(args.p_file, args.m_file, args.output_file)
 
-    elif args.command in plugin_comamnds:
-        return plugin_comamnds[args.command].action(args)
+    elif args.command in plugin_commands:
+        return plugin_commands[args.command].action(args)
 
     else:  # show help menu if the cli was started without an argument
         parser.print_help()
