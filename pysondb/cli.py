@@ -1,11 +1,13 @@
 import argparse
 import csv
+import importlib.metadata
 import json
 import os
 import random
+from contextlib import suppress
 from typing import Optional, Sequence
 
-from beautifultable import BeautifulTable
+# from beautifultable import BeautifulTable
 
 
 def create_if_not_exist(file_name: str) -> int:
@@ -24,25 +26,25 @@ def create_if_not_exist(file_name: str) -> int:
     return 1
 
 
-def show(file_name: str) -> int:
-    """
-    Print a database file
-    :param str file_name: The absolute path to the DB file
-    """
-    table = BeautifulTable()
-    with open(file_name) as jsondoc:
-        data = json.load(jsondoc)
-        real_data = data["data"]
-        try :
-            header = list(data["data"][0].keys())
-        except IndexError :
-            print("Database is empty.")
-            return 1
-        for all_data in real_data:
-            table.rows.append(list(all_data.values()))
-        table.columns.header = header
-        print(table)
-    return 0
+# def show(file_name: str) -> int:
+#     """
+#     Print a database file
+#     :param str file_name: The absolute path to the DB file
+#     """
+#     table = BeautifulTable()
+#     with open(file_name) as jsondoc:
+#         data = json.load(jsondoc)
+#         real_data = data["data"]
+#         try:
+#             header = list(data["data"][0].keys())
+#         except IndexError:
+#             print("Database is empty.")
+#             return 1
+#         for all_data in real_data:
+#             table.rows.append(list(all_data.values()))
+#         table.columns.header = header
+#         print(table)
+#     return 0
 
 
 def delete(file_name: str) -> int:
@@ -96,9 +98,9 @@ def convert_db_to_csv(filename: str, targetcsv: str) -> int:
         json_loaded = json.load(db)["data"]
         csv_file = open(targetcsv, "a")
         csv_writer = csv.writer(csv_file)
-        try :
+        try:
             header = json_loaded[0].keys()
-        except IndexError :
+        except IndexError:
             print("can't convert, database is empty")
             return 1
         csv_writer.writerow(header)
@@ -170,22 +172,25 @@ def merge(p_file: str, m_file: str, output_file: Optional[str] = None) -> int:
 
     return 0
 
+
 example_uses = '''example:
    pysondb create database_name.json
    pysondb show database_name.json
    pysondb delete database_name.json'''
 
+
 def set_parser(argv: Optional[Sequence[str]] = None) -> int:
-    parser = argparse.ArgumentParser(description="Command line utility for pysondb", epilog=example_uses, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(description="Command line utility for pysondb",
+                                     epilog=example_uses, formatter_class=argparse.RawDescriptionHelpFormatter)
     subparsers = parser.add_subparsers(dest="command")
 
     create_parser = subparsers.add_parser("create", help="Create a new database file")
     create_parser.add_argument("file_name", help="Name of the database file")
 
-    display_parser = subparsers.add_parser("show", help="Display a database file")
-    display_parser.add_argument(
-        "file_name", help="Name of the database file to display"
-    )
+    # display_parser = subparsers.add_parser("show", help="Display a database file")
+    # display_parser.add_argument(
+    #     "file_name", help="Name of the database file to display"
+    # )
 
     delete_parser = subparsers.add_parser("delete", help="Delete a database file")
     delete_parser.add_argument("file_name", help="Name of the database file to delete")
@@ -214,13 +219,25 @@ def set_parser(argv: Optional[Sequence[str]] = None) -> int:
         "-o", "--output-file", help="The name of the output file, default: p_file"
     )
 
+    # plugin loader
+    plugin_comamnds = {}
+
+    with suppress(KeyError):
+        eps = importlib.metadata.entry_points()["pysondb.cli"]
+        comamnds = {e.name: e.load()() for e in eps}  # intialiaze and store the plugin
+        plugin_comamnds = comamnds.copy()
+        for v in comamnds.values():
+            v.plugin_parser(subparsers)
+
+        print(comamnds)
+
     args = parser.parse_args(argv)
 
     if args.command == "create":
         return create_if_not_exist(args.file_name)
 
-    elif args.command == "show":
-        return show(args.file_name)
+    # elif args.command == "show":
+    #     return show(args.file_name)
 
     elif args.command == "delete":
         return delete(args.file_name)
@@ -233,6 +250,9 @@ def set_parser(argv: Optional[Sequence[str]] = None) -> int:
 
     elif args.command == "merge":
         return merge(args.p_file, args.m_file, args.output_file)
+
+    elif args.command in plugin_comamnds:
+        return plugin_comamnds[args.command].action(args)
 
     else:  # show help menu if the cli was started without an argument
         parser.print_help()
