@@ -196,9 +196,9 @@ def set_parser(argv: Optional[Sequence[str]] = None) -> int:
 
     with suppress(KeyError):
         eps = importlib.metadata.entry_points()["pysondb.cli"]
-        comamnds = {e.name: e.load()() for e in eps}  # intialiaze and store the plugin
-        plugin_commands = comamnds.copy()
-        for v in comamnds.values():
+        commands = {e.name: e.load()() for e in eps}  # intialiaze and store the plugin
+        plugin_commands = commands.copy()
+        for v in commands.values():
             v.plugin_parser(subparsers)
 
     args = parser.parse_args(argv)
