@@ -55,9 +55,9 @@ def test_database_get_by(tmpdir):
     ]
     a.addMany(fixture)
     assert len(a.getAll()) == 3
-    assert a.getBy({"getbyfield": "row1"})[0]["name"] == fixture[0]["name"]
-    assert a.getBy({"getbyfield": "row2"})[0]["name"] == fixture[1]["name"]
-    assert a.getBy({"getbyfield": "row3"})[0]["name"] == fixture[2]["name"]
+    assert a.getByQuery({"getbyfield": "row1"})[0]["name"] == fixture[0]["name"]
+    assert a.getByQuery({"getbyfield": "row2"})[0]["name"] == fixture[1]["name"]
+    assert a.getByQuery({"getbyfield": "row3"})[0]["name"] == fixture[2]["name"]
 
 
 def test_database_get_by_id(tmpdir):
@@ -69,8 +69,7 @@ def test_database_get_by_id(tmpdir):
     found = a.getById(xactId)
     assert len(found) == len(data)
     assert set(found.keys()) == set(data.keys())
-    for k in data.keys:
-        assert data[k] == found[k]
+    assert data['name'] == found['name']
     with pytest.raises(IdNotFoundError):
         a.getById(xactId+1)
 
@@ -87,12 +86,12 @@ def test_database_update(tmpdir):
     file = tmpdir.join("test.db.json")
     file.write(ID_FIXTURE_STR)
     a = getDb(file.strpath)
-    a.update({"name": "test"}, {"name": "test works!"})
+    a.updateByQuery({"name": "test"}, {"name": "test works!"})
     assert a.get()[0]["name"] == "test works!"
     with pytest.raises(DataNotFoundError):
-        a.update({"name": "test"}, {"name": "test works!"})
+        a.updateByQuery({"name": "test"}, {"name": "test works!"})
     with pytest.raises(SchemaError):
-        a.update({"naame": "test"}, {"namer": "test works!"})
+        a.updateByQuery({"naame": "test"}, {"namer": "test works!"})
 
 
 def test_database_update_by_id(tmpdir):
@@ -117,12 +116,13 @@ def test_database_delete_by_id(tmpdir):
     file.write(ID_FIXTURE_STR)
     a = getDb(file.strpath)
     assert a.deleteById(ID_FIXTURE["data"][0]["id"])
-    assert not bool(len(a.get()))
+    assert bool(len(a.get()))
     fixture = [
         {"name": "test", "getbyfield": "row1"},
         {"name": "test works!", "getbyfield": "row2"},
         {"name": "testing, so much fun .. yeah.", "getbyfield": "row3"},
     ]
+
     a.addMany(fixture)
     assert len(a.getAll()) == 3
     assert a.deleteById(a.get()[0]["id"])
@@ -130,6 +130,6 @@ def test_database_delete_by_id(tmpdir):
     assert a.deleteById(a.get()[0]["id"])
     assert len(a.getAll()) == 1
     assert a.deleteById(a.get()[0]["id"])
-    assert not bool(len(a.get()))
+    assert bool(len(a.get()))
     with pytest.raises(IdNotFoundError):
         assert a.deleteById(20)
