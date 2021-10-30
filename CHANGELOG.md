@@ -99,3 +99,4 @@
 - `1.5.5`
 
   - Fixed broken links & fixed typos in docs / code 
+  - Fixed broken link of code factor
