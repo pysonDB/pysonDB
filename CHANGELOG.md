@@ -100,3 +100,4 @@
 
   - Fixed broken links & fixed typos in docs / code 
   - Fixed broken link of code factor
+  - Fixed broken links in README.md
