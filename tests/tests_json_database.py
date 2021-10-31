@@ -133,3 +133,27 @@ def test_database_delete_by_id(tmpdir):
     assert bool(len(a.get()))
     with pytest.raises(IdNotFoundError):
         assert a.deleteById(20)
+
+
+def test_database_delete_all(tmpdir):
+    file = tmpdir.join("test.db.json")
+    file.write(ID_FIXTURE)
+    a = getDb(file.strpath)
+    assert a.deleteAll() == None
+
+
+def test_database_research(tmpdir):
+    file = tmpdir.join("test.db.json")
+    file.write(EMPTY_FIXTURE_STR)
+    a = getDb(file.strpath)
+    fixture = [
+        {"name": "test", "getbyfield": "row1"},
+        {"name": "pysondb", "getbyfield": "row2"},
+        {"name": "def23@c-py", "getbyfield": "row3"},
+        {"name": "stuff(py", "type": "GUI"},
+    ]
+    a.addMany(fixture)
+    assert (a.reSearch("name", "test"))[0]["name"] == fixture[0]["name"]
+    assert (a.reSearch("getbyfield", "row2"))[0]["getbyfield"] == fixture[1]["getbyfield"]
+    assert (a.reSearch("name", r"\w{3}\d{2}@c-py"))[0]["name"] == fixture[2]["name"]
+    assert (a.reSearch("name", "stuff(py"))[0]["name"] == fixture[3]["name"]
