@@ -150,10 +150,10 @@ def test_database_research(tmpdir):
         {"name": "test", "getbyfield": "row1"},
         {"name": "pysondb", "getbyfield": "row2"},
         {"name": "def23@c-py", "getbyfield": "row3"},
-        {"name": "stuff(py", "type": "GUI"}
+        {"name": "stuff(py", "getbyfield": "row4"}
     ]
     a.addMany(fixture)
     assert (a.reSearch("name", "test"))[0]["name"] == fixture[0]["name"]
     assert (a.reSearch("getbyfield", "row2"))[0]["getbyfield"] == fixture[1]["getbyfield"]
     assert (a.reSearch("name", r"\w{3}\d{2}@c-py"))[0]["name"] == fixture[2]["name"]
-    # assert (a.reSearch("name", "stuff\(py"))[0]["name"] == fixture[3]["name"]          # this is not working
+    assert (a.reSearch("name", "stuff\(py"))[0]["name"] == fixture[3]["name"]
