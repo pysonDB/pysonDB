@@ -116,7 +116,7 @@ def test_database_delete_by_id(tmpdir):
     file.write(ID_FIXTURE_STR)
     a = getDb(file.strpath)
     assert a.deleteById(ID_FIXTURE["data"][0]["id"])
-    assert bool(len(a.get()))  == True
+    assert bool(len(a.get())) is True
     fixture = [
         {"name": "test", "getbyfield": "row1"},
         {"name": "test works!", "getbyfield": "row2"},
@@ -130,7 +130,7 @@ def test_database_delete_by_id(tmpdir):
     assert a.deleteById(a.get()[0]["id"])
     assert len(a.getAll()) == 1
     assert a.deleteById(a.get()[0]["id"])
-    assert bool(len(a.get())) == True
+    assert bool(len(a.get())) is True
     with pytest.raises(IdNotFoundError):
         assert a.deleteById(20)
 
@@ -139,7 +139,7 @@ def test_database_delete_all(tmpdir):
     file = tmpdir.join("test.db.json")
     file.write(ID_FIXTURE)
     a = getDb(file.strpath)
-    assert a.deleteAll() == None
+    assert a.deleteAll() is None
 
 
 def test_database_research(tmpdir):
