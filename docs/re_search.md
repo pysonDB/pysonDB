@@ -38,6 +38,9 @@
 >> a=db.getDb("file.json")
 >> print(a.reSearch("name", r"\w{3}\d{2}@c-py"))
 >> [{'name': 'def23@c-py', 'type': 'TUI', 'id': 200151702869331613}]
+>> print(a.reSearch("name", "stuff\(py"))
+[{'name': 'stuff(py', 'type': 'GUI', 'id': 115618300909661724}]
+
 ```
 
 ***
