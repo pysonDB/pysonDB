@@ -40,7 +40,6 @@
 >> [{'name': 'def23@c-py', 'type': 'TUI', 'id': 200151702869331613}]
 >> print(a.reSearch("name", "stuff\(py"))
 [{'name': 'stuff(py', 'type': 'GUI', 'id': 115618300909661724}]
-
 ```
 
 ***
