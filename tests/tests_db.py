@@ -157,3 +157,4 @@ def test_database_research(tmpdir):
     assert (a.reSearch("getbyfield", "row2"))[0]["getbyfield"] == fixture[1]["getbyfield"]
     assert (a.reSearch("name", r"\w{3}\d{2}@c-py"))[0]["name"] == fixture[2]["name"]
     assert (a.reSearch("name", "stuff\(py"))[0]["name"] == fixture[3]["name"]
+    

@@ -7,3 +7,4 @@ def test_json_filending(tmpdir):
     file = tmpdir.join("test.json")
     db = getDb(file.strpath)
     assert isinstance(db, JsonDatabase)
+    
