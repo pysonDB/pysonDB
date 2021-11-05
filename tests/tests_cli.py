@@ -64,3 +64,4 @@ def tests_convert_db_to_csv(tmpdir):
     csv_file = tmpdir.join('test.csv')
     out = set_parser(['converttocsv', json_file.strpath, '-t', csv_file.strpath])
     assert out is 0
+    

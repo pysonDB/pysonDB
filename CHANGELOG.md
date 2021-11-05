@@ -101,5 +101,9 @@
   - Fixed broken links & fixed typos in docs / code 
   - Fixed broken link of code factor
   - Fixed broken links in README.md
-  - Update unit test tests_json_database.py
-  - Add new unit test in tests_json_database.py
+  - Update unit test tests_db.py
+  - Add new unit test in tests_db.py
+
+- `1.5.7`
+  - Update tests_getDb.py
+  - Create new test tests_cli.py
