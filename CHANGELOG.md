@@ -108,3 +108,4 @@
   - Update tests_getDb.py
   - Create new test tests_cli.py
   - Add schema error handling in addMany function
+  - Add pypi project link in pypi package badge
