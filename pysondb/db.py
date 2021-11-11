@@ -5,7 +5,7 @@ import re
 import warnings
 import uuid
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Union
+from typing import Any, Callable, Dict, List, Union, Pattern
 
 from filelock import FileLock
 
@@ -231,7 +231,7 @@ class JsonDatabase:
             )
 
     def reSearch(
-        self, key: str, _re: Union[str, re.Pattern]
+        self, key: str, _re: Union[str, Pattern[str]]
     ) -> List[Dict[str, Any]]:
 
         pattern = _re
