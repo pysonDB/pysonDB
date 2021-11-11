@@ -109,3 +109,4 @@
   - Create new test tests_cli.py
   - Add schema error handling in addMany function
   - Add pypi project link in pypi package badge
+  - Update repo url in docs and setup.cfg
