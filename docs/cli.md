@@ -1,7 +1,7 @@
 <h1 align="center"><u>PysonDB</u></h1>
 
-* [Install](https://github.com/fredysomy/pysonDB) 
-* [Example Code](https://github.com/fredysomy/pysonDB/tree/master/example) 
+* [Install](https://github.com/pysonDB/pysonDB) 
+* [Example Code](https://github.com/pysonDB/pysonDB/tree/master/example)
 * [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli) 
 * [Adding Data](https://fredysomy.me/pysonDB/docs/add) 
 * [Get data](https://fredysomy.me/pysonDB/docs/get) 
@@ -142,7 +142,7 @@ C:\Users\Admin\Desktop\pysondb>pysondb display filedb.json
 
 ***
 
-* See full examples [here](https://github.com/fredysomy/pysonDB/tree/master/example).
+* See full examples [here](https://github.com/pysonDB/pysonDB/tree/master/example).
 * If You have any queries or doubts join the discord server [here](https://discord.gg/SZyk2dCgwg)
 
 Example
