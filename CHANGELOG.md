@@ -110,3 +110,6 @@
   - Add schema error handling in addMany function
   - Add pypi project link in pypi package badge
   - Update repo url in docs and setup.cfg
+- `1.6.0`
+  - Update the tests
+  - moved the errors into a seperate folder  
