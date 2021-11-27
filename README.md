@@ -1,4 +1,4 @@
-![data](https://raw.githubusercontent.com/fredysomy/pysonDB/master/images/file2son.png?token=APXKHAH6EDEJ7RUG3QOD2OC7ZHQZG)
+![data](https://raw.githubusercontent.com/pysonDB/pysonDB/master/images/file2son.png?token=APXKHAH6EDEJ7RUG3QOD2OC7ZHQZG)
 
 
 
@@ -7,13 +7,13 @@
 
 ## A Simple, Lightweight, Efficent JSON based DataBase for Python
  
- [![PyPI version](https://badge.fury.io/py/pysondb.svg)](https://badge/pysondb)
+ [![PyPI version](https://badge.fury.io/py/pysondb.svg)](https://pypi.org/project/pysondb/)
 [![Downloads](https://pepy.tech/badge/pysondb/month)](https://pepy.tech/project/pysondb)
- ![.github/workflows/Build.yml](https://github.com/fredysomy/pysonDB/workflows/.github/workflows/Build.yml/badge.svg)
+ ![.github/workflows/Build.yml](https://github.com/pysonDB/pysonDB/workflows/.github/workflows/Build.yml/badge.svg)
  [![CodeFactor](https://www.codefactor.io/repository/github/pysondb/pysondb/badge)](https://www.codefactor.io/repository/github/pysondb/pysondb)
  [![Discord](https://img.shields.io/discord/781486602778050590)](https://discord.gg/SZyk2dCgwg)
- ![GitHub Repo stars](https://img.shields.io/github/stars/fredysomy/pysonDB?style=plastic)
- ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/fredysomy/pysonDB)
+ ![GitHub Repo stars](https://img.shields.io/github/stars/pysonDB/pysonDB?style=plastic)
+ ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/pysonDB/pysonDB)
 [![Downloads](https://static.pepy.tech/personalized-badge/pysondb?period=total&units=international_system&left_color=green&right_color=blue&left_text=Total%20Downloads)](https://pepy.tech/project/pysondb)
  
  ***
@@ -38,7 +38,7 @@ Documentation updates
 * More features and fixes (Refer here)
 * CLI/API improvements - Redoing the CLI to reduce the usage of CLI packages.
 * We are planning to reduce the project dependencies and remove other unwanted API's.
-### Checkout the active issues [here](https://github.com/fredysomy/pysonDB/issues) 
+### Checkout the active issues [here](https://github.com/pysonDB/pysonDB/issues) 
 
 ## Features
 
@@ -61,8 +61,8 @@ Documentation updates
 ## Quick Links
 
 
-* [Install](https://github.com/fredysomy/pysonDB) 
-* [Example Code](https://github.com/fredysomy/pysonDB/tree/master/example) 
+* [Install](https://github.com/pysonDB/pysonDB) 
+* [Example Code](https://github.com/pysonDB/pysonDB/tree/master/example) 
 * [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli) 
 * [Adding Data](https://fredysomy.me/pysonDB/docs/add) 
 * [Get data](https://fredysomy.me/pysonDB/docs/get) 
@@ -112,8 +112,8 @@ See more Documentation [here](https://fredysomy.me/pysonDB)
 
 ## Contributors.
 
-<a href="https://github.com/fredysomy/pysonDB/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=fredysomy/pysonDB" />
+<a href="https://github.com/pysonDB/pysonDB/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=pysonDB/pysonDB" />
 </a>
 
 

@@ -1,7 +1,7 @@
 <h1 align="center"><u>PysonDB</u></h1>
 
-* [Install](https://github.com/fredysomy/pysonDB) 
-* [Example Code](https://github.com/fredysomy/pysonDB/tree/master/example) 
+* [Install](https://github.com/pysonDB/pysonDB) 
+* [Example Code](https://github.com/pysonDB/pysonDB/tree/master/example)
 * [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli) 
 * [Adding Data](https://fredysomy.me/pysonDB/docs/add) 
 * [Get data](https://fredysomy.me/pysonDB/docs/get) 
@@ -38,9 +38,11 @@
 >> a=db.getDb("file.json")
 >> print(a.reSearch("name", r"\w{3}\d{2}@c-py"))
 >> [{'name': 'def23@c-py', 'type': 'TUI', 'id': 200151702869331613}]
+>> print(a.reSearch("name", "stuff\(py"))
+[{'name': 'stuff(py', 'type': 'GUI', 'id': 115618300909661724}]
 ```
 
 ***
 
-* See full examples [here](https://github.com/fredysomy/pysonDB/example).
+* See full examples [here](https://github.com/pysonDB/pysonDB/example).
 * If You have any queries or doubts join the discord server [here](https://discord.gg/SZyk2dCgwg)

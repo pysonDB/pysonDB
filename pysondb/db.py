@@ -172,6 +172,15 @@ class JsonDatabase:
                         d[self.id_fieldname] = self._get_id()
                         db_data["data"].append(d)
                         db_file.seek(0)
+                    else:
+                        raise SchemaError(
+                            "db_keys: "
+                            + ",".join(sorted(list(db_data["data"][0].keys()))),
+                            "new_data_keys: "
+                            + ",".join(
+                                sorted(list(d.keys()) + [self.id_fieldname])
+                            ),
+                        )
                 self._get_dump_function()(db_data, db_file, indent = 3)
 
     def getAll(self) -> List[Dict[str, Any]]:
