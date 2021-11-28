@@ -113,3 +113,4 @@
 - `1.6.0`
   - Update the tests
   - moved the errors into a seperate folder  
+
