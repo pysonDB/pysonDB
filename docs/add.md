@@ -28,6 +28,8 @@
 
 ```python
 >> from pysondb import db
+>> #from pysondb import getDb
+>> #a=getDb("test.json")
 >> a=db.getDb("pathtojson.json")
 >> a.add({"name":"pysondb","type":"DB"})
 >> # returns 1929323232 which is a ID assigned to the above data.
