@@ -19,7 +19,7 @@ def tests_show(tmpdir):
     json_data = [{"name": "test1"}, {"name": "test2"}]
     a.addMany(json_data)
     out = set_parser(['show', json_file.strpath])
-    assert out is 0
+    assert out == 0
 
 def tests_delete_empty_string(tmpdir, capsys):
     set_parser(['delete', ''])
@@ -40,7 +40,7 @@ def tests_merge(tmpdir, capsys):
     a2.add(data2)
 
     out = set_parser(['merge', file1.strpath, file2.strpath])
-    assert out is 0
+    assert out == 0
 
 def tests_convert(tmpdir):
     csv_file = tmpdir.join('test.csv')
@@ -53,7 +53,7 @@ def tests_convert(tmpdir):
 
     json_file = tmpdir.join('test.json')
     out = set_parser(['convert', csv_file.strpath, json_file.strpath])
-    assert out is 0
+    assert out == 0
 
 def tests_convert_db_to_csv(tmpdir):
     json_file = tmpdir.join('test.json')
@@ -63,5 +63,5 @@ def tests_convert_db_to_csv(tmpdir):
 
     csv_file = tmpdir.join('test.csv')
     out = set_parser(['converttocsv', json_file.strpath, '-t', csv_file.strpath])
-    assert out is 0
+    assert out == 0
     
