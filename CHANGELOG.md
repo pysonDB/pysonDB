@@ -100,3 +100,16 @@
 
   - Fixed broken links & fixed typos in docs / code 
   - Fixed broken link of code factor
+  - Fixed broken links in README.md
+  - Update unit test tests_db.py
+  - Add new unit test in tests_db.py
+
+- `1.5.7`
+  - Update tests_getDb.py
+  - Create new test tests_cli.py
+  - Add schema error handling in addMany function
+  - Add pypi project link in pypi package badge
+  - Update repo url in docs and setup.cfg
+- `1.6.0`
+  - Update the tests
+  - moved the errors into a seperate folder  

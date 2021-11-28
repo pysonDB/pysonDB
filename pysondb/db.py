@@ -7,6 +7,11 @@ import uuid
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Union, Pattern
 
+#errors
+from pysondb.errors.db_errors import IdNotFoundError
+from pysondb.errors.db_errors import DataNotFoundError
+from pysondb.errors.db_errors import SchemaError
+
 from filelock import FileLock
 
 # constants
@@ -16,46 +21,6 @@ EMPTY_DATA: Dict[str, Any] = {"data": []}
 # logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("pysondb")
 logger.setLevel(logging.DEBUG)
-
-
-# Errors
-class DataNotFoundError(Exception):
-    """Exception raised if id not found.
-
-    Attributes:
-        data
-    """
-
-    def __init__(self, data: Dict[str, Any]) -> None:
-        self.data = data
-
-    def __str__(self) -> str:
-        return f"The data {self.data!r} does not exists in JSON db"
-
-
-class IdNotFoundError(Exception):
-    """Exception raised if id not found.
-
-    Attributes:
-        pk -- primary key / id
-    """
-
-    def __init__(self, pk: int) -> None:
-        self.pk = pk
-
-    def __str__(self) -> str:
-        return f"Id {self.pk!r} does not exist in the JSON db"
-
-
-class SchemaError(Exception):
-    """Exception raised for field/key errors."""
-
-    def __init__(self, *args) -> None:
-        self.args = args
-
-    def __str__(self) -> str:
-        return str(self.args)
-
 
 # util functions
 def create_db(filename: str, create_file: bool = True) -> True:
@@ -172,6 +137,15 @@ class JsonDatabase:
                         d[self.id_fieldname] = self._get_id()
                         db_data["data"].append(d)
                         db_file.seek(0)
+                    else:
+                        raise SchemaError(
+                            "db_keys: "
+                            + ",".join(sorted(list(db_data["data"][0].keys()))),
+                            "new_data_keys: "
+                            + ",".join(
+                                sorted(list(d.keys()) + [self.id_fieldname])
+                            ),
+                        )
                 self._get_dump_function()(db_data, db_file, indent = 3)
 
     def getAll(self) -> List[Dict[str, Any]]:
