@@ -114,3 +114,6 @@
   - Update the tests
   - moved the errors into a seperate folder  
 
+- `1.6.2`
+  - Added missing __init__.py file.
+
