@@ -101,7 +101,7 @@ class JsonDatabase:
 
                         db_data["data"].append(new_data)
                         db_file.seek(0)
-                        self._get_dump_function()(db_data, db_file, indent=3)
+                        self._get_dump_function()(db_data, db_file, indent=3,ensure_ascii=False)
                         return new_data[self.id_fieldname]
                     else:
                         raise SchemaError(
@@ -117,7 +117,7 @@ class JsonDatabase:
                     db_data["data"].append(new_data)
                     logger.debug("Add first data entry; {0}".format(new_data))
                     db_file.seek(0)
-                    self._get_dump_function()(db_data, db_file, indent=3)
+                    self._get_dump_function()(db_data, db_file, indent=3,ensure_ascii=False)
                 return new_data[self.id_fieldname]
 
     def addMany(self, new_data: List[Dict[str, Any]]) -> None:
@@ -146,7 +146,7 @@ class JsonDatabase:
                                 sorted(list(d.keys()) + [self.id_fieldname])
                             ),
                         )
-                self._get_dump_function()(db_data, db_file, indent = 3)
+                self._get_dump_function()(db_data, db_file, indent = 3,ensure_ascii=False)
 
     def getAll(self) -> List[Dict[str, Any]]:
         with self.lock:
@@ -246,7 +246,7 @@ class JsonDatabase:
                     db_data["data"] = result
                     db_file.seek(0)
                     db_file.truncate()
-                    self._get_dump_function()(db_data, db_file, indent=3)
+                    self._get_dump_function()(db_data, db_file, indent=3,ensure_ascii=False)
                 else:
                     raise SchemaError(
                         "db_keys: " + ",".join(sorted(db_data.keys())),
@@ -272,7 +272,7 @@ class JsonDatabase:
                 db_data["data"] = result
                 db_file.seek(0)
                 db_file.truncate()
-                self._get_dump_function()(db_data, db_file)
+                self._get_dump_function()(db_data, db_file,ensure_ascii=False)
             return True
 
     def deleteAll(self) -> None:
@@ -306,7 +306,7 @@ class JsonDatabase:
                     db_data["data"] = result
                     db_file.seek(0)
                     db_file.truncate()
-                    self._get_dump_function()(db_data, db_file, indent=3)
+                    self._get_dump_function()(db_data, db_file, indent=3,ensure_ascii=False)
                 else:
                     raise SchemaError(
                         "db_dataset_keys: " + ",".join(sorted(list(db_dataset.keys()))),
