@@ -117,3 +117,5 @@
 - `1.6.2`
   - Added missing __init__.py file.
 
+- `1.6.3`
+  - Fixed unicode being encoded as ASCII
