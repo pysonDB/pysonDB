@@ -119,3 +119,5 @@
 
 - `1.6.3`
   - Fixed unicode being encoded as ASCII
+- `1.6.4`
+  - Updated links in documentation
