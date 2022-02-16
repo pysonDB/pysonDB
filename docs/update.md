@@ -1,13 +1,13 @@
 <h1 align="center"><u>PysonDB</u></h1>
 
-* [Install](https://github.com/pysonDB/pysonDB) 
+* [Install](https://github.com/pysonDB/pysonDB#install) 
 * [Example Code](https://github.com/pysonDB/pysonDB/tree/master/example) 
-* [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli) 
-* [Adding Data](https://fredysomy.me/pysonDB/docs/add) 
-* [Get data](https://fredysomy.me/pysonDB/docs/get) 
-* [Search data](https://fredysomy.me/pysonDB/docs/re_search) 
-* [Update Data](https://fredysomy.me/pysonDB/docs/update) 
-* [Delete Data](https://fredysomy.me/pysonDB/docs/delete)
+* [Command Line Operations](https://pysondb.github.io/pysonDB/docs/cli) 
+* [Adding Data](https://pysondb.github.io/pysonDB/docs/add) 
+* [Get data](https://pysondb.github.io/pysonDB/docs/get) 
+* [Search data](https://pysondb.github.io/pysonDB/docs/re_search) 
+* [Update Data](https://pysondb.github.io/pysonDB/docs/update) 
+* [Delete Data](https://pysondb.github.io/pysonDB/docs/delete)
 
 <h2>Update Data</h2>
 
