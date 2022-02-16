@@ -2,12 +2,12 @@
 
 * [Install](https://github.com/pysonDB/pysonDB#install) 
 * [Example Code](https://github.com/pysonDB/pysonDB/tree/master/example) 
-* [Command Line Operations](https://pysondb.github.io/pysonDB/docs/cli) 
-* [Adding Data](https://pysondb.github.io/pysonDB/docs/add) 
-* [Get data](https://pysondb.github.io/pysonDB/docs/get) 
-* [Search data](https://pysondb.github.io/pysonDB/docs/re_search) 
-* [Update Data](https://pysondb.github.io/pysonDB/docs/update) 
-* [Delete Data](https://pysondb.github.io/pysonDB/docs/delete)
+* [Command Line Operations](https://pysondb.github.io/pysonDB/cli) 
+* [Adding Data](https://pysondb.github.io/pysonDB/add) 
+* [Get data](https://pysondb.github.io/pysonDB/get) 
+* [Search data](https://pysondb.github.io/pysonDB/re_search) 
+* [Update Data](https://pysondb.github.io/pysonDB/update) 
+* [Delete Data](https://pysondb.github.io/pysonDB/delete)
 
 <h2>Delete Data</h2>
 
