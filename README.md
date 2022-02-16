@@ -61,14 +61,14 @@ Documentation updates
 ## Quick Links
 
 
-* [Install](https://github.com/pysonDB/pysonDB) 
+* [Install](https://github.com/pysonDB/pysonDB#install) 
 * [Example Code](https://github.com/pysonDB/pysonDB/tree/master/example) 
-* [Command Line Operations](https://fredysomy.me/pysonDB/docs/cli) 
-* [Adding Data](https://fredysomy.me/pysonDB/docs/add) 
-* [Get data](https://fredysomy.me/pysonDB/docs/get) 
-* [Search data](https://fredysomy.me/pysonDB/docs/re_search) 
-* [Update Data](https://fredysomy.me/pysonDB/docs/update) 
-* [Delete Data](https://fredysomy.me/pysonDB/docs/delete)
+* [Command Line Operations](https://pysondb.github.io/pysonDB/docs/cli) 
+* [Adding Data](https://pysondb.github.io/pysonDB/docs/add) 
+* [Get data](https://pysondb.github.io/pysonDB/docs/get) 
+* [Search data](https://pysondb.github.io/pysonDB/docs/re_search) 
+* [Update Data](https://pysondb.github.io/pysonDB/docs/update) 
+* [Delete Data](https://pysondb.github.io/pysonDB/docs/delete)
 
 ## Install
 
@@ -92,7 +92,7 @@ a=db.getDb("db.json")
 * The above piece of code will create a database with ``` {data:[]}``` in it.
 * Even if the json file exists there is no problem.
 
-See more Documentation [here](https://fredysomy.me/pysonDB)
+See more Documentation [here](https://pysondb.github.io/pysonDB/)
 
 ## What makes pysonDB different
 
