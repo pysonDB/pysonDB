@@ -9,11 +9,9 @@
  
  [![PyPI version](https://badge.fury.io/py/pysondb.svg)](https://pypi.org/project/pysondb/)
 [![Downloads](https://pepy.tech/badge/pysondb/month)](https://pepy.tech/project/pysondb)
- ![.github/workflows/Build.yml](https://github.com/pysonDB/pysonDB/workflows/.github/workflows/Build.yml/badge.svg)
  [![CodeFactor](https://www.codefactor.io/repository/github/pysondb/pysondb/badge)](https://www.codefactor.io/repository/github/pysondb/pysondb)
  [![Discord](https://img.shields.io/discord/781486602778050590)](https://discord.gg/SZyk2dCgwg)
  ![GitHub Repo stars](https://img.shields.io/github/stars/pysonDB/pysonDB?style=plastic)
- ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/pysonDB/pysonDB)
 [![Downloads](https://static.pepy.tech/personalized-badge/pysondb?period=total&units=international_system&left_color=green&right_color=blue&left_text=Total%20Downloads)](https://pepy.tech/project/pysondb)
  
  ***
