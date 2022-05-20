@@ -90,7 +90,6 @@ class JsonDatabase:
         with self.lock:
             with open(self.filename, "r+", encoding='utf-8') as db_file:
                 db_data = json.load(db_file)
-                print(db_file.encoding)
                 try:
                     if set(db_data["data"][0].keys()) == set(new_data.keys()).union(
                         [self.id_fieldname]
