@@ -271,7 +271,7 @@ class JsonDatabase:
                 db_data["data"] = result
                 db_file.seek(0)
                 db_file.truncate()
-                self._get_dump_function()(db_data, db_file, ensure_ascii=False)
+                self._get_dump_function()(db_data, db_file, indent=3, ensure_ascii=False)
             return True
 
     def deleteAll(self) -> None:
