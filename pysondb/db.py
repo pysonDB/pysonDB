@@ -183,7 +183,8 @@ class JsonDatabase:
                 with open(self.filename, "r", encoding='utf-8') as db_file:
                     db_data = self._get_load_function()(db_file)
                 for d in db_data["data"]:
-                    if(d[self.id_fieldname]) == self._cast_id(pk):
+                    f = common_cast = self._cast_id
+                    if(f(d[self.id_fieldname])) == f(pk):
                         return d
                 raise IdNotFoundError(pk)
 
@@ -234,7 +235,8 @@ class JsonDatabase:
                 result = []
                 if set(new_data.keys()).issubset(db_data["data"][0].keys()):
                     for d in db_data["data"]:
-                        if d[self.id_fieldname] == self._cast_id(pk):
+                        f = common_cast = self._cast_id
+                        if f(d[self.id_fieldname]) == f(pk):
                             d.update(new_data)
                             updated = True
 
@@ -260,7 +262,8 @@ class JsonDatabase:
                 found = False
 
                 for d in db_data["data"]:
-                    if d[self.id_fieldname] == self._cast_id(pk):
+                    f = common_cast = self._cast_id
+                    if f(d[self.id_fieldname]) == f(pk):
                         found = True
                     else:
                         result.append(d)
