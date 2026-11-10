@@ -30,18 +30,35 @@ def show(file_name: str) -> int:
     :param str file_name: The absolute path to the DB file
     """
     table = BeautifulTable()
-    with open(file_name) as jsondoc:
-        data = json.load(jsondoc)
+    try:
+        with open(file_name) as jsondoc:
+            data = json.load(jsondoc)
+    except FileNotFoundError:
+        print("The file does not exist")
+        return 1
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        print(f"The file {file_name} is not a valid database file")
+        return 1
+    try:
         real_data = data["data"]
-        try :
-            header = list(data["data"][0].keys())
-        except IndexError :
+    except (KeyError, TypeError):
+        print(f"The file {file_name} is not a valid database file")
+        return 1
+    if not isinstance(real_data, list):
+        print(f"The file {file_name} is not a valid database file")
+        return 1
+    try :
+        header = list(real_data[0].keys())
+    except (IndexError, AttributeError):
+        if not real_data:
             print("Database is empty.")
             return 1
-        for all_data in real_data:
-            table.rows.append(list(all_data.values()))
-        table.columns.header = header
-        print(table)
+        print(f"The file {file_name} is not a valid database file")
+        return 1
+    for all_data in real_data:
+        table.rows.append(list(all_data.values()))
+    table.columns.header = header
+    print(table)
     return 0
 
 
